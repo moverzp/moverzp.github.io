@@ -8,14 +8,22 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>推荐系统发展概览 | moverzp的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="article">
+  <meta name="description" content="搜索推荐隐藏在生活的各个角落里，比如抖音、快手的视频推荐，亚马逊的物品推荐，各种Feed推荐等等。推荐系统基于用户数据和物品数据，通过一定的架构和算法，为用户推荐符合需求的物品，以达到提高用户体验，CTR，CVR，GMV等目的。本文将从三个阶段简单介绍一下推荐系统。 1.0阶段——规则驱动严格意义上这个阶段其实是不算推荐系统的。这个阶段主要依靠运营人员制定的规则去推荐物品，比如主推高销量的物品，新">
+<meta property="og:type" content="article">
 <meta property="og:title" content="推荐系统发展概览">
 <meta property="og:url" content="http://yoursite.com/2019/04/07/推荐系统发展概览/index.html">
 <meta property="og:site_name" content="moverzp的博客">
+<meta property="og:description" content="搜索推荐隐藏在生活的各个角落里，比如抖音、快手的视频推荐，亚马逊的物品推荐，各种Feed推荐等等。推荐系统基于用户数据和物品数据，通过一定的架构和算法，为用户推荐符合需求的物品，以达到提高用户体验，CTR，CVR，GMV等目的。本文将从三个阶段简单介绍一下推荐系统。 1.0阶段——规则驱动严格意义上这个阶段其实是不算推荐系统的。这个阶段主要依靠运营人员制定的规则去推荐物品，比如主推高销量的物品，新">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-07T14:19:37.877Z">
+<meta property="og:image" content="http://markdown.moverzp.com/20190414table.png">
+<meta property="og:image" content="http://markdown.moverzp.com/img1.png">
+<meta property="og:image" content="http://markdown.moverzp.com/20190414img2.png">
+<meta property="og:image" content="http://markdown.moverzp.com/20190414img3.jpg">
+<meta property="og:updated_time" content="2019-04-15T15:20:58.116Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="推荐系统发展概览">
+<meta name="twitter:description" content="搜索推荐隐藏在生活的各个角落里，比如抖音、快手的视频推荐，亚马逊的物品推荐，各种Feed推荐等等。推荐系统基于用户数据和物品数据，通过一定的架构和算法，为用户推荐符合需求的物品，以达到提高用户体验，CTR，CVR，GMV等目的。本文将从三个阶段简单介绍一下推荐系统。 1.0阶段——规则驱动严格意义上这个阶段其实是不算推荐系统的。这个阶段主要依靠运营人员制定的规则去推荐物品，比如主推高销量的物品，新">
+<meta name="twitter:image" content="http://markdown.moverzp.com/20190414table.png">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -166,7 +174,120 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>搜索推荐隐藏在生活的各个角落里，比如抖音、快手的视频推荐，亚马逊的物品推荐，各种Feed推荐等等。推荐系统基于用户数据和物品数据，通过一定的架构和算法，为用户推荐符合需求的物品，以达到提高用户体验，CTR，CVR，GMV等目的。本文将从三个阶段简单介绍一下推荐系统。</p>
+<h2 id="1-0阶段——规则驱动"><a href="#1-0阶段——规则驱动" class="headerlink" title="1.0阶段——规则驱动"></a>1.0阶段——规则驱动</h2><p>严格意义上这个阶段其实是不算推荐系统的。这个阶段主要依靠运营人员制定的规则去推荐物品，比如主推高销量的物品，新物品。这个阶段最大的问题就是每个人看到的内容都是一样的，多样性无，转化率低下。</p>
+<p>一般在系统冷启动的时候可以短暂的使用这种方法。</p>
+<h2 id="2-0阶段——算法驱动"><a href="#2-0阶段——算法驱动" class="headerlink" title="2.0阶段——算法驱动"></a>2.0阶段——算法驱动</h2><p>2.0阶段的算法主要指<strong>协同过滤</strong>或者<strong>关联规则</strong>。协同过滤有两种，一种是基于用户的协同过滤，一种是基于物品的协同过滤，前者适合物品数量比用户多，且比较多变的场景，如新闻，后者适合物品数量比较少，且比较固定的场景，如电商。</p>
+<h3 id="UserCF和ItemCF的相似度计算公式对比"><a href="#UserCF和ItemCF的相似度计算公式对比" class="headerlink" title="UserCF和ItemCF的相似度计算公式对比"></a>UserCF和ItemCF的相似度计算公式对比</h3><p><img src="http://markdown.moverzp.com/20190414table.png" alt="公式渲染有问题，拿图来凑"></p>
+<p>备注：实际使用中，相似度公式有大量调整和变形（比如降低高销量物品的权重）。</p>
+<h3 id="UserCF和ItemCF的特点对比"><a href="#UserCF和ItemCF的特点对比" class="headerlink" title="UserCF和ItemCF的特点对比"></a>UserCF和ItemCF的特点对比</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">算法</th>
+<th>群体/个体</th>
+<th>适用业务</th>
+<th>适用场景</th>
+<th>冷启动</th>
+<th>可解释性</th>
+<th>实时性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">UserCF</td>
+<td>更依赖与当前用户相似的用户群体的社会化行为</td>
+<td>适用于用户量明显少于物品量的业务（资讯，新闻）</td>
+<td>时效性强，用户个性化兴趣不太显著的场合</td>
+<td>新加入的物品能很快的进入推荐列表中</td>
+<td>弱</td>
+<td>用户的新行为<strong>不一定</strong>导致推荐结果发生变化</td>
+</tr>
+<tr>
+<td style="text-align:left">ItemCF</td>
+<td>更侧重自身的个体行为</td>
+<td>适用于物品量明显少于用户量的业务（电商，餐饮）</td>
+<td>长尾物品丰富，用户个性化需求强烈的场合</td>
+<td>新加入的用户能很快得到推荐</td>
+<td>强</td>
+<td>用户的新行为<strong>一定</strong>导致推荐结果发生变化</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>协同过滤的优点</p>
+<ul>
+<li>利用群体智慧，无需依赖背景知识</li>
+<li>通用性较好</li>
+<li>使用很广</li>
+<li>可解释性强</li>
+</ul>
+<p>协同过滤的缺点</p>
+<ul>
+<li>强依赖用户行为数据</li>
+<li>数据稀疏</li>
+</ul>
+<p>方法与本质</p>
+<ul>
+<li>用户显式或者隐式地给物品进行评分</li>
+<li>用户在过去有什么品味，未来也会有类似的品味</li>
+</ul>
+<h3 id="使用一张图来解释UserCF和ItemCF"><a href="#使用一张图来解释UserCF和ItemCF" class="headerlink" title="使用一张图来解释UserCF和ItemCF"></a>使用一张图来解释UserCF和ItemCF</h3><p><img src="http://markdown.moverzp.com/img1.png" alt="使用一张图来解释UserCF和ItemCF"></p>
+<h3 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h3><p><img src="http://markdown.moverzp.com/20190414img2.png" alt="算法驱动架构图"></p>
+<p><strong>Match</strong>：该层又常常被称为Recall层，可以实现粗粒度的物品推荐，一般情况下Match层输出的物品在200以下</p>
+<ul>
+<li><p>实时U2I，根据实时的行为进行推荐。从log中实时地抽出用户的行为，并给不同的行为打分，按照不同的权重进行用户到物品的推荐。比如浏览的权重较低，购买的权重比较高；浏览多的类目权重调高；权重按照时间进行指数衰减。实际例子：在某乎点击了火影相关问答后，返回首页就能看到好几个火影相关的问答</p>
+</li>
+<li><p>历史U2I，根据当天0点之前的数据进行推荐，可以离线计算。实际例子：在某乎经常浏览科技相关的问答，虽然在点击动漫相关后首页出现了动漫相关的问答，但是还有科技相关的问答</p>
+</li>
+<li><p>偏好U2I，根据用户的偏好属性进行推荐。实际例子：在某乎上面关注了几个话题，首页上会有这几个话题相关的问答</p>
+</li>
+<li><p>热门物品，最近时间窗口内的热销物品。实际例子：第一张黑洞照片刚出来的时候在某乎比较火，很多人都在看，可以在首页展示相关话题</p>
+</li>
+</ul>
+<p><strong>Filter</strong>：过滤掉重复推荐，不符合当前用户需求的物品</p>
+<h2 id="3-0阶段——架构通用化"><a href="#3-0阶段——架构通用化" class="headerlink" title="3.0阶段——架构通用化"></a>3.0阶段——架构通用化</h2><p>架构通用化是可以真正做到千人千面的推荐系统，2.0的推荐系统可以说是3.0推荐系统的子集，3.0阶段具体的架构如下所示：</p>
+<p><img src="http://markdown.moverzp.com/20190414img3.jpg" alt="通用架构化架构图"><br><strong>Match</strong>：和2.0阶段基本一样，大多数都是协同过滤算法，但是也可以使用其他的算法进行Match，比如XGBoost也能做召回</p>
+<p><strong>Filter</strong>：基本和2.0阶段一样，只不过多了一个“行为负反馈”，行为负反馈指的是推荐给用户以后，用户多次看到却没有点击的物品，表示用户其实这个物品不感兴趣</p>
+<p><strong>Rank</strong>：根据不同的目标函数，有目标的建立和优化模型，Rank层是比较重要的一层，也是迭代优化的重点，大多数的推荐优化都是在Rank层做文章，因为一般用户点击的都是首页的前几个物品。Rank层结合了用户画像和物品画像，对物品进行<strong>精排序</strong>，在保证多样性的前提下，又突出了其他目标</p>
+<ul>
+<li>目标函数，CTR：点击率；CVR，转化率；GMV，客单价*CTR*CVR；其他：如客单价和上新</li>
+<li>算法模型，LR(+GBDT)，FM/FFM，Wide&amp;Deep，DeepFM等等</li>
+</ul>
+<p><strong>Merge</strong>：实时，历史，偏好，热门物品是4个独立计算的结果，需要进行融合，类似于bagging，把多模型的结果融合，提高准确率</p>
+<ul>
+<li>可以根据埋点确定先放哪一层，哪个模型的埋点效果好就把其结果放在前面</li>
+<li>可以训练模型，进行综合打分</li>
+</ul>
+<p><strong>Rerank</strong>：精排序之后的微调，如可以调高一些非偏好类目的权重，增加新奇性</p>
+<p>在3.0的推荐架构里，最大的区别是多了画像数据和Rank层，在2.0粗推荐的基础上结合了用户画像和物品画像实现了精推荐，真正地实现了千人千面</p>
+<ul>
+<li>利用埋点数据和历史数据构建了精细的用户画像，如年龄，偏好，消费能力，地域特征等等</li>
+<li>物品也有精确的画像，如品类，性价比系数，生命周期等等</li>
+<li>在画像的基础上，又进行了若干特征工程，如Item2Vector（把物品映射成向量）</li>
+<li>通过不同的算法模型和目标函数提高了业务指标</li>
+<li>对推荐的结果进行埋点收集数据，把点击的物品记为正例，行为负反馈的物品记为负例，去训练Rank层的模型。模型一般1~2周就得训练一次，因为随着时间的推移，模型的准确率会衰减</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>我们通过一些自问自答的形式进行小结。<br><strong>Q：为什么要进行Match，不能直接进行Rank吗？</strong><br>A：一般情况下，Rank层的特征和模型都比较复杂，对1个物品处理就会花费较长的时间（相对于200ms的用户体验来说），如果不进行Match层的粗筛选，直接向Rank层的模型输入上万甚至是上百万的物品，处理的时间会很长，会影响用户体验，所以到现在都没有一个端到端的推荐系统。一般都是在Match层筛选出200个以下的物品，然后在Rank层进行排序。为了避免提前过滤掉用户可能点击的物品，可以从多个维度进行Match。</p>
+<p><strong>Q：如何从零搭建一个推荐系统？</strong><br>A：从零搭建推荐系统的一个大难题是冷启动问题。因为一开始没有任何直接的用户数据，所以肯定得从1.0阶段或者2.0阶段开启</p>
+<ul>
+<li>可以让运营或者PM制作一些list并打上标签，在用户注册或者登录的时候，引导用户在list列表中选择自己喜欢的label（1.0阶段的方法）</li>
+<li>对于全新产品，可以通过爬虫获取相关的数据（有些网站会把与当前物品相似的物品列出来，可以用这些数据计算相似度矩阵，2.0阶段的方法）</li>
+<li>如果产品已经上线一段时间了，之前没有推荐功能，现在要新上推荐功能，可以通过销量 or 某个时间窗口内的点击次数进行推荐（1.0阶段的方法），亦可以通过协同过滤进行推荐（2.0阶段的方法）</li>
+<li>通过1.0阶段或者2.0阶段的推荐可以获取到用户的点击与消费行为（即可以采集到正负样本），这一段时间刚好可以建立用户画像，物品画像，然后就可以进入3.0阶段。3.0阶段rank算法上线必须经过A/B Test验证，在统计学上能够<strong>显著地</strong>提升指标的话才能推广到全量（A/B Test稍后会写一个blog）。这里想讲一个八卦，当年FB花了大半年的时间设计并开发了全新的首页，在A/B Test的时候发现各项指标都严重下滑，最后决定相信A/B Test的结果没有上线新版的首页，相当于很多人大半年的工作都白费了。结果刚好人人网看到了新版的首页，花了很短的时间就抄完然后推了全量，然后DAU就很严重的下滑，为后来的GG埋下了很大的伏笔。。</li>
+<li>在大型的推荐系统里，用户画像和物品画像需要专门的组来做，Match部分和Rank部分亦是，甚至是Rerank部分都需要单独的组（比如某个商品违规，最快的方法是在这一层惩罚）</li>
+</ul>
+<p><strong>Q：推荐系统这么多部分，重点应该放在哪里？</strong></p>
+<ul>
+<li>一般情况下，如果推荐不是主要功能，在数据不够，用户不多的情况下，不要强上推荐系统，这个时候最重要的是提高DAU，收集用户的数据。这个是从产品的角度来考虑，而不是技术的的角度，做一件事要考虑成本和收益</li>
+<li>在有一定的用户和数据以后，就可以做Match了，这一步相当于推荐系统从无到有，对用户体验影响很大，这个阶段Match比Rank重要</li>
+<li>在Match稳定之后，就可以把精力花在Rank模块</li>
+<li>如果非要给一个推荐系统划分比重的话，Match的重要性是5成，Rank的重要性是3成，Merge和Rerank各占1成，而且架构图从下到上的部分环环相扣，下面做的不好，上面大概率做不好</li>
+</ul>
+<p><strong>Q：对一个推荐算法工程师来说，最重要的壁垒能力是什么？</strong><br>A：这是一个闻者伤心，听者流泪的答案——对业务的理解能力。推荐相关的技术难度其实不是很大，业界有很多的paper可以学习，现在互联网上面的资料也很多。各种天花乱坠的模型相比于CV和NLP，真的不算难。推荐系统本来就扎根于业务场景，如果想不清楚业务目标，很可能会弄巧城拙。比如只看CTR，就可能造成标题党；只看GMV，就可能造成用户体验下降。还比如，在电商情境中，消费者买了裤子还推荐裤子就很影响体验，但是在餐饮情境中，消费者第一天吃了回锅肉盖饭，第二天再推荐回锅肉盖饭是比较合理的。</p>
+<p><strong>Q：推荐系统有没有4.0阶段？</strong><br>A：个人认为是有的（其实这3个阶段的划分也是在参考资料[2]中学来的），那就是基于知识图谱的推荐系统，现在百度等大厂都有自己的知识图谱且已经在应用中，可以将搜索推荐的结果进一步提高。但是感觉建立知识图谱真的是一个体力活，以后有机会再聊😂。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] 项亮. 推荐系统实践[M]. 人民邮电出版社, 2012.<br>[2] <a href="https://www.zhihu.com/lives/users/7dce82d1f49ea92b780a8b668b03cbfc" target="_blank" rel="noopener">姚凯飞的知乎live</a></p>
+
       
 
       
