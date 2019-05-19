@@ -6,28 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>CS 224n(2019) Assignment 2: word2vec[Written] | moverzp的博客</title>
+  <title>CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2 | moverzp的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object not found!，所以我在GitHub仓库里面又备份了一份，链接是https://github.com/m">
-<meta name="keywords" content="机器学习">
+  <meta name="description" content="Assignment 2的原始问题及完整代码已经上传GitHub仓库：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)  Written部分的解析详见CS 224n(2019) Assignment 2: word2vec[Written] Part1完成作业要求的那部分代码，详见C">
+<meta name="keywords" content="机器学习 NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CS 224n(2019) Assignment 2: word2vec[Written]">
-<meta property="og:url" content="http://yoursite.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/index.html">
+<meta property="og:title" content="CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2">
+<meta property="og:url" content="http://yoursite.com/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2/index.html">
 <meta property="og:site_name" content="moverzp的博客">
-<meta property="og:description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object not found!，所以我在GitHub仓库里面又备份了一份，链接是https://github.com/m">
+<meta property="og:description" content="Assignment 2的原始问题及完整代码已经上传GitHub仓库：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)  Written部分的解析详见CS 224n(2019) Assignment 2: word2vec[Written] Part1完成作业要求的那部分代码，详见C">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img1.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img2.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img3.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img4.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img5.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img6.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img7.png">
-<meta property="og:updated_time" content="2019-05-19T15:33:19.381Z">
+<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png">
+<meta property="og:updated_time" content="2019-05-19T16:26:52.376Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CS 224n(2019) Assignment 2: word2vec[Written]">
-<meta name="twitter:description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object not found!，所以我在GitHub仓库里面又备份了一份，链接是https://github.com/m">
-<meta name="twitter:image" content="http://markdown.moverzp.com/2019-05-19/img1.png">
+<meta name="twitter:title" content="CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2">
+<meta name="twitter:description" content="Assignment 2的原始问题及完整代码已经上传GitHub仓库：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)  Written部分的解析详见CS 224n(2019) Assignment 2: word2vec[Written] Part1完成作业要求的那部分代码，详见C">
+<meta name="twitter:image" content="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -158,81 +152,114 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-CS-224n-2019-Assignment-2-word2vec-Written" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      CS 224n(2019) Assignment 2: word2vec[Written]
+      CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2
     </h1>
   
 
         
-        <a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" class="archive-article-date">
-  	<time datetime="2019-05-19T12:15:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
+        <a href="/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2/" class="archive-article-date">
+  	<time datetime="2019-05-19T16:23:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文主要是Written部分的解答，Coding部分详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>。Assignment 2的官方链接是<a href="http://web.stanford.edu/class/cs224n/assignments/a2.pdf" target="_blank" rel="noopener">这个链接</a>，但是这个链接并没有带年份，而且之前年份的Assignment链接都是<strong>Object not found!</strong>，所以我在GitHub仓库里面又备份了一份，链接是<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code>，如果想看完整的题目和答案，也可以在仓库里面找到。</p>
-<p>Written部分主要是公式的推导，所以先定义一些共用的符号，方便公式推导。</p>
+        <p>Assignment 2的原始问题及完整代码已经上传GitHub仓库：<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code></p>
 <ul>
-<li>$d$，词向量的维度</li>
-<li>$n$，词汇数量</li>
-<li>$\boldsymbol U \in \mathbb R ^{d \times n}$，outside词向量矩阵，每一列是一个词向量，$\boldsymbol u_w \in \mathbb R^{d \times 1}$</li>
-<li>$\boldsymbol V \in \mathbb R ^{d\times n}$，center词向量矩阵，每一列是一个词向量，$\boldsymbol v_w \in \mathbb R^{d \times 1}$</li>
-<li>$\boldsymbol y$，真实值，one-hot，表示是哪个词，${\boldsymbol  y} \in \mathbb R ^{n \times 1}$</li>
-<li>$ \hat {\boldsymbol  y}$，预测值，表示属于某个词的概率，$ \hat {\boldsymbol  y} \in \mathbb R ^{n \times 1}$</li>
+<li>Written部分的解析详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Written]</a></li>
+<li>Part1完成作业要求的那部分代码，详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a></li>
+<li>Part2分析了作业之外的那代码部分，目的是搞清楚test和train的流程和原理，train的流程主要在<code>run.py</code>文件</li>
 </ul>
-<h3 id="1-a"><a href="#1-a" class="headerlink" title="1-(a)"></a>1-(a)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img1.png" alt="img1"><br><img src="http://markdown.moverzp.com/2019-05-19/img2.png" alt="img2"></p>
-<p>A:因为one-hot向量只有标记的那一维是1，其他维度都是0，所以展开左边的$\sum$自然就是右边的代数式。</p>
-<h3 id="1-b"><a href="#1-b" class="headerlink" title="1-(b)"></a>1-(b)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img3.png" alt="img3"></p>
-<p>直接对$\boldsymbol J_{naive-softmax}(\boldsymbol v_c, o, \boldsymbol U)=-\log P(O=o|C=c)$求导，</p>
-<script type="math/tex; mode=display">
-\begin {aligned}
-&\dfrac {\partial}{\partial \boldsymbol v_c}\left [ -\left (\boldsymbol u_o^T\boldsymbol v_c - \log\sum \limits_{w\in Vocab}\exp \left (\boldsymbol u_w^T \boldsymbol v_c \right) \right )\right ] \\
-&=\dfrac {\partial}{\partial \boldsymbol v_c}\left ( \log \sum \limits_{w \in Vocab} \exp \left ( \boldsymbol u_w^T \boldsymbol v_c\right )\right ) - \boldsymbol u_o \\
-&=\dfrac {\sum \limits_{x \in Vocab} \exp \left ( \boldsymbol u_x^T \boldsymbol v_c\right )\boldsymbol u_x}{\sum \limits_{w \in Vocab} \exp \left ( \boldsymbol u_w^T \boldsymbol v_c\right ) } - \boldsymbol u_o \\
-&=\sum_{x\in Vocab} \dfrac {\exp \left ( \boldsymbol u_x^T \boldsymbol v_c\right )\boldsymbol u_x}{\exp \left ( \boldsymbol u_w^T \boldsymbol v_c\right )} - \boldsymbol u_o \\
-&=\sum_{x \in Vocab}P(O=x|C=c)\boldsymbol u_x - \boldsymbol u_o
-\end {aligned}</script><p>该题要求使用$\boldsymbol y, \hat {\boldsymbol y}, \boldsymbol U$表示出结果，我们整理一下推导结果即可。推导的结果表示损失函数对于$\boldsymbol v_c$的偏导数是“outside词向量的期望减去当前outside词向量”，根据这个意思即可以整理答案为</p>
-<script type="math/tex; mode=display">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol v_c}=U(\hat {\boldsymbol y} - \boldsymbol y)</script><h3 id="1-c"><a href="#1-c" class="headerlink" title="1-(c)"></a>1-(c)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img4.png" alt="img4"></p>
-<p>该题要求计算$\boldsymbol J$对$\boldsymbol U$的偏导数，可以先求$\dfrac {\partial \boldsymbol J}{\partial \boldsymbol u_w}$，这个推导和1-(b)的推导过程非常的相似，我们此处直接写出答案，就不写详细的推导了。</p>
-<script type="math/tex; mode=display">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol u_w} = 
-\begin {cases}
-(\hat y_w - 1)\boldsymbol v_c, &w = o \\
-\hat y_w \boldsymbol v_c, &w \neq o
-\end {cases}</script><p>根据标量$f$对矩阵$X$的求导规律：$\dfrac {\partial f}{\partial X} = \left [ \dfrac {\partial f}{\partial X_{ij}} \right ]$，可以得到答案<script type="math/tex">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol U} = \boldsymbol  v_c (\hat {\boldsymbol y} - \boldsymbol y)^T</script><br><em>小技巧：如果对于向量或者矩阵的求导犯迷糊了，可以多从维度的角度去check。</em></p>
-<h3 id="1-d"><a href="#1-d" class="headerlink" title="1-(d)"></a>1-(d)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img5.png" alt="img5"></p>
-<p>标量$f$对向量$\boldsymbol x$求导，结果是$\dfrac {\partial f}{\partial \boldsymbol x} = \left [\dfrac {\partial f}{\partial x_1}, …, \dfrac {\partial f}{\partial x_m}\right]^T$，又$\sigma \prime (x) = \sigma(x) (1 - \sigma(x))$，所以有</p>
-<script type="math/tex; mode=display">\sigma '(\boldsymbol x) =
-\begin {bmatrix}
-\sigma(x_1) (1 - \sigma(x_1)) \\
-\sigma(x_2) (1 - \sigma(x_2)) \\
-...\\
-\sigma(x_m) (1 - \sigma(x_m)) 
-\end {bmatrix}</script><h3 id="1-e"><a href="#1-e" class="headerlink" title="1-(e)"></a>1-(e)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img6.png" alt="img6"></p>
-<script type="math/tex; mode=display">
-\begin {aligned}
-\dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol v_c} &= -\dfrac {\sigma(\boldsymbol u_o^T \boldsymbol v_c)(1-\sigma(\boldsymbol u_o^T \boldsymbol v_c))\boldsymbol u_o}{\sigma (\boldsymbol u_o^T \boldsymbol v_c)} -\sum_{k=1}^K \dfrac {\sigma (-\boldsymbol u_k^T \boldsymbol v_c)(1 - \sigma (-\boldsymbol u_k^T \boldsymbol v_c))(-1)\boldsymbol u_k}{\sigma (-\boldsymbol u_k^T \boldsymbol v_c)} \\
-&=(\sigma(\boldsymbol u_o^T \boldsymbol v_c)-1)\boldsymbol u_o + \sum_{k=1}^K(1-\sigma(-\boldsymbol u_k^T \boldsymbol v_c))\boldsymbol u_k
-\end {aligned}</script><p>类似的有</p>
-<script type="math/tex; mode=display">
-\dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol u_o} = (\sigma (\boldsymbol u_o^T\boldsymbol v_c)-1)\boldsymbol v_c</script><p>类似的有</p>
-<script type="math/tex; mode=display">
-\dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol u_k} = (1 -\sigma (-\boldsymbol u_k^T\boldsymbol v_c))\boldsymbol v_c</script><p>$J_{\text {neg-sample}}$比$J_{\text {naive-softmax}}$训练效率高的主要原因是前者只需要和相关的词向量进行内积，而后者的偏导数里面有$\hat y$这一项，该项使用Softmax公式得出，需要计算$\boldsymbol v_c$和所有的词向量内积，这个步骤会消耗较多的计算资源。</p>
-<h3 id="1-f"><a href="#1-f" class="headerlink" title="1-(f)"></a>1-(f)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img7.png" alt="img7"></p>
-<p>损失函数就是窗口滑动的过程中，每个窗口的损失累加，所以偏导数也容易得出（“多项和的导数”等于“多项导数的和”）。</p>
-<script type="math/tex; mode=display">
-\begin {aligned}
-\dfrac {\partial J_{\text {skip-gram}}}{\partial \boldsymbol U} &= \sum_{-m \leq j \leq m,j \neq0}\dfrac {\partial J(\boldsymbol v_c, w_{t+j}, \boldsymbol U)}{\partial \boldsymbol U} \\
-\dfrac {\partial J_{\text {skip-gram}}}{\partial \boldsymbol v_c} &= \sum_{-m \leq j \leq m,j \neq 0}\dfrac {\partial J(\boldsymbol v_c, w_{t+j}, \boldsymbol U)}{\partial \boldsymbol v_c} \\
-\dfrac {\partial J_{\text {skip-gram}}}{\partial \boldsymbol v_w} &= 0, \text {when} \ w \neq c
-\end {aligned}</script>
+<h2 id="1-gradcheck-py"><a href="#1-gradcheck-py" class="headerlink" title="1. gradcheck.py"></a>1. gradcheck.py</h2><p>该文件只定义了<code>gradcheck_naive()</code>一个函数，代码明细: <code>https://github.com/moverzp/LearningProject/blob/master/CS%20224n%20(Winter%202019)/a2_solution/utils/gradcheck.py</code>，本段只分析梯度校验的原理。</p>
+<p>传入的参数：</p>
+<ul>
+<li><code>f</code>，function，传入一个参数，返回loss和grad</li>
+<li><code>x</code>，ndarray，检测梯度所在的点</li>
+</ul>
+<p>返回的参数：无，只打印梯度校验是否通过。</p>
+<p>我们先来看看导数的定义</p>
+<script type="math/tex; mode=display">f'(x) = \mathop {\text {lim}}\limits_{\Delta x \rightarrow 0}\dfrac {f(x) - f(x + \Delta x)}{\Delta x}</script><p>导数还分为左导数和右导数，如果把导数看做某点切线的斜率，那么左导数就是切线从左边不断逼近的斜率，右导数就是切线从右边不断逼近的斜率。如果左导数和右导数相等，那么就认为该函数在这一点连续且可导，比如$f(x) = x^2$，处处连续且可导。如果左导数和右导数不相等，就说明函数在该点不可导，比如$Relu(x) = \max(x, 0)$，在0这一点就是连续但不可导。</p>
+<p>所以我们根据导数的基本定义可以验证求导函数是否正确。使用传入的函数<code>f</code>可以计算某点导数的实际值，使用导数的定义可以计算某点导数的理论值，如果相差不大，就认为传入的函数<code>f</code>确实可以正确计算导数。</p>
+<p>该函数分别计算了左右导数$f’_{-}(x)$，$f’_{+}(x)$，$\Delta x$取<code>1e-4</code>，然后对左右导数取了平均值，记为$f’(x)$，使用函数<code>f</code>计算的实际导数记为$grad(x)$，然后计算<code>reldiff</code>，</p>
+<script type="math/tex; mode=display">reldiff = \dfrac {|f'(x) - grad(x)|}{\max (1, |f'(x)|, |grad(x)|)}</script><p>如果<code>feldiff</code>大于<code>1e-5</code>，那么就判断梯度计算得不正确。</p>
+<p>程序上有些小trick，这里提示一下</p>
+<ul>
+<li>导数并不是一次计算完所有的维度进行判断，而是使用<code>np.nditer()</code>一个维度一个维度的计算并判断，只要一个维度不合理，就认为梯度计算错误</li>
+<li>程序开始时使用<code>random.getstate()</code>保存了当前的随机数其实状态，后面需要复用，保证结果可以复现，避免随机数对结果的判断产生影响</li>
+<li>本段一会说导数，一会说梯度，大家不要搞混了。导数是一个数，是标量；梯度是一个向量，是矢量，其方向上的方向导数最大，这个方向就是各个轴的偏导数组成的矢量的方向（有点绕口）。因此如果（偏）导数计算的有错误，就可以判断梯度计算一定有错误。</li>
+</ul>
+<h2 id="2-word2vec-py"><a href="#2-word2vec-py" class="headerlink" title="2. word2vec.py"></a>2. word2vec.py</h2><h3 id="2-1-naiveSoftmaxLossAndGradient"><a href="#2-1-naiveSoftmaxLossAndGradient" class="headerlink" title="2.1 naiveSoftmaxLossAndGradient()"></a>2.1 naiveSoftmaxLossAndGradient()</h3><p>这个函数在Part1部分解析过，详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>。</p>
+<p>该函数根据中心词和上下文词汇，计算softmax损失，损失函数对于对于中心词嵌入向量的梯度，损失函数对于上下文词嵌入矩阵的梯度。</p>
+<h3 id="2-2-skipgram"><a href="#2-2-skipgram" class="headerlink" title="2.2 skipgram()"></a>2.2 skipgram()</h3><p>该函数在Part1部分解析过，详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>。</p>
+<p>该方法计算了skipgram形式的loss以及loss对于中心词嵌入矩阵和上下文词嵌入矩阵的梯度。</p>
+<h3 id="2-3-word2vec-sgd-wrapper"><a href="#2-3-word2vec-sgd-wrapper" class="headerlink" title="2.3 word2vec_sgd_wrapper()"></a>2.3 word2vec_sgd_wrapper()</h3><p>该函数就是根据传入的参数训练一个batch的模型，然后返回这个batch的平均损失和梯度。</p>
+<p>传入的参数</p>
+<ul>
+<li><code>word2vecModel</code></li>
+<li><code>word2Ind</code></li>
+<li><code>wordVectors</code></li>
+<li><code>dateaset</code></li>
+<li><code>windowSize</code>，注意这个参数设定的是最大的窗口大小，在每一个batch的训练中，从<code>[1, windowSize]</code>中随机取一个值当做该次batch的窗口大小</li>
+<li><code>word2vecLossAndGradient</code></li>
+</ul>
+<p>返回的变量</p>
+<ul>
+<li><code>loss</code>，损失</li>
+<li><code>grad</code>，梯度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">word2vec_sgd_wrapper</span><span class="params">(word2vecModel, word2Ind, wordVectors, dataset, </span></span></span><br><span class="line"><span class="function"><span class="params">                         windowSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                         word2vecLossAndGradient=naiveSoftmaxLossAndGradient)</span>:</span></span><br><span class="line">    batchsize = <span class="number">50</span></span><br><span class="line">    loss = <span class="number">0.0</span></span><br><span class="line">    grad = np.zeros(wordVectors.shape)</span><br><span class="line">    N = wordVectors.shape[<span class="number">0</span>]</span><br><span class="line">    centerWordVectors = wordVectors[:int(N/<span class="number">2</span>),:]</span><br><span class="line">    outsideVectors = wordVectors[int(N/<span class="number">2</span>):,:]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(batchsize):</span><br><span class="line">        windowSize1 = random.randint(<span class="number">1</span>, windowSize)</span><br><span class="line">        centerWord, context = dataset.getRandomContext(windowSize1)</span><br><span class="line"></span><br><span class="line">        c, gin, gout = word2vecModel(</span><br><span class="line">            centerWord, windowSize1, context, word2Ind, centerWordVectors,</span><br><span class="line">            outsideVectors, dataset, word2vecLossAndGradient</span><br><span class="line">        )</span><br><span class="line">        loss += c / batchsize</span><br><span class="line">        grad[:int(N/<span class="number">2</span>), :] += gin / batchsize</span><br><span class="line">        grad[int(N/<span class="number">2</span>):, :] += gout / batchsize</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> loss, grad</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-test-word2vec"><a href="#2-4-test-word2vec" class="headerlink" title="2.4 test_word2vec()"></a>2.4 test_word2vec()</h3><p>该函数主要有以下几个操作</p>
+<ul>
+<li>生成<code>dataset</code>对象</li>
+<li>使用<code>np.random.randn()</code>生成最初的10行3列词嵌入矩阵<code>dummy_vectors</code></li>
+<li>创建单词到索引的映射字典<code>dummy_tokens</code></li>
+<li>使用<code>gradcheck_naive()</code>校验<code>naiveSoftmaxLossAndGradient()</code>和<code>negSamplingLossAndGradient()</code>梯度计算是否正确。注意这里的lambda表达式，<code>gradcheck_naive()</code>检验的函数只接受一个$x$值，而这两个待校验的函数都要传入一大堆参数，使用lambda表达式可以把其他的参数固定，这样<code>gradcheck_naive()</code>内部校验的时候只需要传入一个参数</li>
+<li>打印<code>naiveSoftmaxLossAndGradient()</code>和<code>negSamplingLossAndGradient()</code>的计算结果。因为随机状态都被固定了，所以结果应该和预设的结果是一致的。如果不一致，那就是我们填充的代码出错了。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_word2vec</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">""" Test the two word2vec implementations, before running on Stanford Sentiment Treebank """</span></span><br><span class="line">    dataset = type(<span class="string">'dummy'</span>, (), &#123;&#125;)() <span class="comment"># 创建一个名为'dummy'，没有属性和方法的类的实例</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dummySampleTokenIdx</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        在[0, 4]之间随机取1个数。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> random.randint(<span class="number">0</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getRandomContext</span><span class="params">(C)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Arguments:</span></span><br><span class="line"><span class="string">        C -- 窗口的大小。</span></span><br><span class="line"><span class="string">        Return:</span></span><br><span class="line"><span class="string">        随机抽取的centerWord及对应的随机抽取的context。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        tokens = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>]</span><br><span class="line">        <span class="keyword">return</span> tokens[random.randint(<span class="number">0</span>,<span class="number">4</span>)], \</span><br><span class="line">            [tokens[random.randint(<span class="number">0</span>,<span class="number">4</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>*C)]</span><br><span class="line">    dataset.sampleTokenIdx = dummySampleTokenIdx <span class="comment"># 声明dataset的sampleTokenIdx()方法</span></span><br><span class="line">    dataset.getRandomContext = getRandomContext <span class="comment"># 声明dataset的getRandomContext()方法</span></span><br><span class="line"></span><br><span class="line">    random.seed(<span class="number">31415</span>) <span class="comment"># 设定随机数种子，保证每次的运行结果可复现</span></span><br><span class="line">    np.random.seed(<span class="number">9265</span>)</span><br><span class="line">    dummy_vectors = normalizeRows(np.random.randn(<span class="number">10</span>,<span class="number">3</span>)) <span class="comment"># 随机生成一个10行3列的矩阵，然后把每一行处理成单位向量，即L2范数等于1</span></span><br><span class="line">    dummy_tokens = dict([(<span class="string">"a"</span>,<span class="number">0</span>), (<span class="string">"b"</span>,<span class="number">1</span>), (<span class="string">"c"</span>,<span class="number">2</span>),(<span class="string">"d"</span>,<span class="number">3</span>),(<span class="string">"e"</span>,<span class="number">4</span>)])</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"==== Gradient check for skip-gram with naiveSoftmaxLossAndGradient ===="</span>)</span><br><span class="line">    gradcheck_naive(<span class="keyword">lambda</span> vec: word2vec_sgd_wrapper(</span><br><span class="line">        skipgram, dummy_tokens, vec, dataset, <span class="number">5</span>, naiveSoftmaxLossAndGradient),</span><br><span class="line">        dummy_vectors, <span class="string">"naiveSoftmaxLossAndGradient Gradient"</span>)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"==== Gradient check for skip-gram with negSamplingLossAndGradient ===="</span>)</span><br><span class="line">    gradcheck_naive(<span class="keyword">lambda</span> vec: word2vec_sgd_wrapper(</span><br><span class="line">        skipgram, dummy_tokens, vec, dataset, <span class="number">5</span>, negSamplingLossAndGradient),</span><br><span class="line">        dummy_vectors, <span class="string">"negSamplingLossAndGradient Gradient"</span>)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"\n=== Results ==="</span>)</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Skip-Gram with naiveSoftmaxLossAndGradient"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Your Result:"</span>)</span><br><span class="line">    print(<span class="string">"Loss: &#123;&#125;\nGradient wrt Center Vectors (dJ/dV):\n &#123;&#125;\nGradient wrt Outside Vectors (dJ/dU):\n &#123;&#125;\n"</span>.format(</span><br><span class="line">            *skipgram(<span class="string">"c"</span>, <span class="number">3</span>, [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"e"</span>, <span class="string">"d"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>],</span><br><span class="line">                dummy_tokens, dummy_vectors[:<span class="number">5</span>,:], dummy_vectors[<span class="number">5</span>:,:], dataset) </span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Expected Result: Value should approximate these:"</span>)</span><br><span class="line">    print(<span class="string">"""Loss: 11.16610900153398</span></span><br><span class="line"><span class="string">Gradient wrt Center Vectors (dJ/dV):</span></span><br><span class="line"><span class="string"> [[ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [-1.26947339 -1.36873189  2.45158957]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]]</span></span><br><span class="line"><span class="string">Gradient wrt Outside Vectors (dJ/dU):</span></span><br><span class="line"><span class="string"> [[-0.41045956  0.18834851  1.43272264]</span></span><br><span class="line"><span class="string"> [ 0.38202831 -0.17530219 -1.33348241]</span></span><br><span class="line"><span class="string"> [ 0.07009355 -0.03216399 -0.24466386]</span></span><br><span class="line"><span class="string"> [ 0.09472154 -0.04346509 -0.33062865]</span></span><br><span class="line"><span class="string"> [-0.13638384  0.06258276  0.47605228]]</span></span><br><span class="line"><span class="string">    """</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Skip-Gram with negSamplingLossAndGradient"</span>)   </span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Your Result:"</span>)</span><br><span class="line">    print(<span class="string">"Loss: &#123;&#125;\nGradient wrt Center Vectors (dJ/dV):\n &#123;&#125;\n Gradient wrt Outside Vectors (dJ/dU):\n &#123;&#125;\n"</span>.format(</span><br><span class="line">        *skipgram(<span class="string">"c"</span>, <span class="number">1</span>, [<span class="string">"a"</span>, <span class="string">"b"</span>], dummy_tokens, dummy_vectors[:<span class="number">5</span>,:],</span><br><span class="line">            dummy_vectors[<span class="number">5</span>:,:], dataset, negSamplingLossAndGradient)</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Expected Result: Value should approximate these:"</span>)</span><br><span class="line">    print(<span class="string">"""Loss: 16.15119285363322</span></span><br><span class="line"><span class="string">Gradient wrt Center Vectors (dJ/dV):</span></span><br><span class="line"><span class="string"> [[ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [-4.54650789 -1.85942252  0.76397441]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]]</span></span><br><span class="line"><span class="string"> Gradient wrt Outside Vectors (dJ/dU):</span></span><br><span class="line"><span class="string"> [[-0.69148188  0.31730185  2.41364029]</span></span><br><span class="line"><span class="string"> [-0.22716495  0.10423969  0.79292674]</span></span><br><span class="line"><span class="string"> [-0.45528438  0.20891737  1.58918512]</span></span><br><span class="line"><span class="string"> [-0.31602611  0.14501561  1.10309954]</span></span><br><span class="line"><span class="string"> [-0.80620296  0.36994417  2.81407799]]</span></span><br><span class="line"><span class="string">    """</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="3-run-py"><a href="#3-run-py" class="headerlink" title="3. run.py"></a>3. run.py</h2><p>1) 检查Python的版本<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Check Python Version</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">assert</span> sys.version_info[<span class="number">0</span>] == <span class="number">3</span></span><br><span class="line"><span class="keyword">assert</span> sys.version_info[<span class="number">1</span>] &gt;= <span class="number">5</span></span><br></pre></td></tr></table></figure></p>
+<p>2) 初始化</p>
+<ul>
+<li>固定随机数种子</li>
+<li>载入数据集</li>
+<li>定义嵌入的维度</li>
+<li>定义窗口的大小</li>
+<li>初始化词嵌入矩阵，$V$和$U$在<code>axis=0</code>的方向上拼接在一起，$V$初始化为$n\times d$的均匀分布矩阵，$U$是零矩阵（个人认为这里使用随机正态矩阵初始化比较好）<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Reset the random seed to make sure that everyone gets the same results</span></span><br><span class="line">random.seed(<span class="number">314</span>)</span><br><span class="line">dataset = StanfordSentiment()</span><br><span class="line">tokens = dataset.tokens()</span><br><span class="line">nWords = len(tokens)</span><br><span class="line"></span><br><span class="line"><span class="comment"># We are going to train 10-dimensional vectors for this assignment</span></span><br><span class="line">dimVectors = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Context size</span></span><br><span class="line">C = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Reset the random seed to make sure that everyone gets the same results</span></span><br><span class="line">random.seed(<span class="number">31415</span>)</span><br><span class="line">np.random.seed(<span class="number">9265</span>)</span><br><span class="line"></span><br><span class="line">startTime=time.time()</span><br><span class="line">wordVectors = np.concatenate(</span><br><span class="line">    ((np.random.rand(nWords, dimVectors) - <span class="number">0.5</span>) /</span><br><span class="line">       dimVectors, np.zeros((nWords, dimVectors))),</span><br><span class="line">    axis=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>3) 调用<code>sgd()</code>训练模型，即使用SGD降低损失函数</p>
+<ul>
+<li>学习率<code>0.3</code></li>
+<li>迭代<code>40000</code>次</li>
+<li>每隔固定的迭代次数(默认5000），保存训练参数和状态到文件</li>
+<li>函数调用的顺序：<code>sgd()</code>, <code>word2vec_sgd_wrapper()</code>, <code>skipgram()</code>, <code>negSamplingLossAndGradient()</code></li>
+<li>使用$\boldsymbol J_{\text {neg-sample}}$训练词嵌入矩阵，而不是$\boldsymbol J_{\text {naive-softmax}}$，这样训练更快一些</li>
+<li>训练完毕的矩阵$V$就是我们想要的词嵌入矩阵</li>
+<li>博主的Ubuntu 18.04，i7 8700 CPU，16G内存台式机一共训练了5156秒<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wordVectors = sgd(</span><br><span class="line">    <span class="keyword">lambda</span> vec: word2vec_sgd_wrapper(skipgram, tokens, vec, dataset, C,</span><br><span class="line">        negSamplingLossAndGradient),</span><br><span class="line">    wordVectors, <span class="number">0.3</span>, <span class="number">40000</span>, <span class="literal">None</span>, <span class="literal">True</span>, PRINT_EVERY=<span class="number">10</span>)</span><br><span class="line"><span class="comment"># Note that normalization is not called here. This is not a bug,</span></span><br><span class="line"><span class="comment"># normalizing during training loses the notion of length.</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">"sanity check: cost at convergence should be around or below 10"</span>)</span><br><span class="line">print(<span class="string">"training took %d seconds"</span> % (time.time() - startTime))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>4) 可视化一些预设的单词</p>
+<ul>
+<li>把单词转化为索引</li>
+<li>按照索引取出词嵌入向量，结果是一个矩阵，记为<code>temp</code></li>
+<li><code>temp</code>矩阵每个维度都减去该维度的平均值</li>
+<li>计算<code>temp</code>矩阵的协方差矩阵，记为<code>covariance</code></li>
+<li>对<code>covariance</code>进行SVD分解</li>
+<li>使用SVD分解的$U$矩阵对<code>temp</code>进行降维（不是词嵌入的$U$矩阵哦）</li>
+<li>使用<code>plt.text()</code>画出降到二维的词向量</li>
+<li>可以观察到训练的效果还不错<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">visualizeIdx = [tokens[word] <span class="keyword">for</span> word <span class="keyword">in</span> visualizeWords]</span><br><span class="line">visualizeVecs = wordVectors[visualizeIdx, :]</span><br><span class="line">temp = (visualizeVecs - np.mean(visualizeVecs, axis=<span class="number">0</span>))</span><br><span class="line">covariance = <span class="number">1.0</span> / len(visualizeIdx) * temp.T.dot(temp)</span><br><span class="line">U,S,V = np.linalg.svd(covariance)</span><br><span class="line">coord = temp.dot(U[:,<span class="number">0</span>:<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(visualizeWords)):</span><br><span class="line">    plt.text(coord[i,<span class="number">0</span>], coord[i,<span class="number">1</span>], visualizeWords[i],</span><br><span class="line">        bbox=dict(facecolor=<span class="string">'green'</span>, alpha=<span class="number">0.1</span>))</span><br><span class="line"></span><br><span class="line">plt.xlim((np.min(coord[:,<span class="number">0</span>]), np.max(coord[:,<span class="number">0</span>])))</span><br><span class="line">plt.ylim((np.min(coord[:,<span class="number">1</span>]), np.max(coord[:,<span class="number">1</span>])))</span><br><span class="line"></span><br><span class="line">plt.savefig(<span class="string">'word_vectors.png'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png" alt="word_vectors"></p>
+
       
 
       
@@ -276,7 +303,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">机器学习 NLP</a>
         		</li>
       		
 		</ul>
@@ -332,7 +359,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -346,18 +373,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/04/07/推荐系统发展概览/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">推荐系统发展概览</div>
+    <a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</div>
       <i class="icon-circle-right"></i>
     </a>
   

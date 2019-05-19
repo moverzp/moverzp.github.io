@@ -147,6 +147,166 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2/">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2</a>
+    </h1>
+  
+
+        
+        <a href="/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2/" class="archive-article-date">
+  	<time datetime="2019-05-19T16:23:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Assignment 2的原始问题及完整代码已经上传GitHub仓库：<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code></p>
+<ul>
+<li>Written部分的解析详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Written]</a></li>
+<li>Part1完成作业要求的那部分代码，详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a></li>
+<li>Part2分析了作业之外的那代码部分，目的是搞清楚test和train的流程和原理，train的流程主要在<code>run.py</code>文件</li>
+</ul>
+<h2 id="1-gradcheck-py"><a href="#1-gradcheck-py" class="headerlink" title="1. gradcheck.py"></a>1. gradcheck.py</h2><p>该文件只定义了<code>gradcheck_naive()</code>一个函数，代码明细: <code>https://github.com/moverzp/LearningProject/blob/master/CS%20224n%20(Winter%202019)/a2_solution/utils/gradcheck.py</code>，本段只分析梯度校验的原理。</p>
+<p>传入的参数：</p>
+<ul>
+<li><code>f</code>，function，传入一个参数，返回loss和grad</li>
+<li><code>x</code>，ndarray，检测梯度所在的点</li>
+</ul>
+<p>返回的参数：无，只打印梯度校验是否通过。</p>
+<p>我们先来看看导数的定义</p>
+<script type="math/tex; mode=display">f'(x) = \mathop {\text {lim}}\limits_{\Delta x \rightarrow 0}\dfrac {f(x) - f(x + \Delta x)}{\Delta x}</script><p>导数还分为左导数和右导数，如果把导数看做某点切线的斜率，那么左导数就是切线从左边不断逼近的斜率，右导数就是切线从右边不断逼近的斜率。如果左导数和右导数相等，那么就认为该函数在这一点连续且可导，比如$f(x) = x^2$，处处连续且可导。如果左导数和右导数不相等，就说明函数在该点不可导，比如$Relu(x) = \max(x, 0)$，在0这一点就是连续但不可导。</p>
+<p>所以我们根据导数的基本定义可以验证求导函数是否正确。使用传入的函数<code>f</code>可以计算某点导数的实际值，使用导数的定义可以计算某点导数的理论值，如果相差不大，就认为传入的函数<code>f</code>确实可以正确计算导数。</p>
+<p>该函数分别计算了左右导数$f’_{-}(x)$，$f’_{+}(x)$，$\Delta x$取<code>1e-4</code>，然后对左右导数取了平均值，记为$f’(x)$，使用函数<code>f</code>计算的实际导数记为$grad(x)$，然后计算<code>reldiff</code>，</p>
+<script type="math/tex; mode=display">reldiff = \dfrac {|f'(x) - grad(x)|}{\max (1, |f'(x)|, |grad(x)|)}</script><p>如果<code>feldiff</code>大于<code>1e-5</code>，那么就判断梯度计算得不正确。</p>
+<p>程序上有些小trick，这里提示一下</p>
+<ul>
+<li>导数并不是一次计算完所有的维度进行判断，而是使用<code>np.nditer()</code>一个维度一个维度的计算并判断，只要一个维度不合理，就认为梯度计算错误</li>
+<li>程序开始时使用<code>random.getstate()</code>保存了当前的随机数其实状态，后面需要复用，保证结果可以复现，避免随机数对结果的判断产生影响</li>
+<li>本段一会说导数，一会说梯度，大家不要搞混了。导数是一个数，是标量；梯度是一个向量，是矢量，其方向上的方向导数最大，这个方向就是各个轴的偏导数组成的矢量的方向（有点绕口）。因此如果（偏）导数计算的有错误，就可以判断梯度计算一定有错误。</li>
+</ul>
+<h2 id="2-word2vec-py"><a href="#2-word2vec-py" class="headerlink" title="2. word2vec.py"></a>2. word2vec.py</h2><h3 id="2-1-naiveSoftmaxLossAndGradient"><a href="#2-1-naiveSoftmaxLossAndGradient" class="headerlink" title="2.1 naiveSoftmaxLossAndGradient()"></a>2.1 naiveSoftmaxLossAndGradient()</h3><p>这个函数在Part1部分解析过，详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>。</p>
+<p>该函数根据中心词和上下文词汇，计算softmax损失，损失函数对于对于中心词嵌入向量的梯度，损失函数对于上下文词嵌入矩阵的梯度。</p>
+<h3 id="2-2-skipgram"><a href="#2-2-skipgram" class="headerlink" title="2.2 skipgram()"></a>2.2 skipgram()</h3><p>该函数在Part1部分解析过，详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>。</p>
+<p>该方法计算了skipgram形式的loss以及loss对于中心词嵌入矩阵和上下文词嵌入矩阵的梯度。</p>
+<h3 id="2-3-word2vec-sgd-wrapper"><a href="#2-3-word2vec-sgd-wrapper" class="headerlink" title="2.3 word2vec_sgd_wrapper()"></a>2.3 word2vec_sgd_wrapper()</h3><p>该函数就是根据传入的参数训练一个batch的模型，然后返回这个batch的平均损失和梯度。</p>
+<p>传入的参数</p>
+<ul>
+<li><code>word2vecModel</code></li>
+<li><code>word2Ind</code></li>
+<li><code>wordVectors</code></li>
+<li><code>dateaset</code></li>
+<li><code>windowSize</code>，注意这个参数设定的是最大的窗口大小，在每一个batch的训练中，从<code>[1, windowSize]</code>中随机取一个值当做该次batch的窗口大小</li>
+<li><code>word2vecLossAndGradient</code></li>
+</ul>
+<p>返回的变量</p>
+<ul>
+<li><code>loss</code>，损失</li>
+<li><code>grad</code>，梯度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">word2vec_sgd_wrapper</span><span class="params">(word2vecModel, word2Ind, wordVectors, dataset, </span></span></span><br><span class="line"><span class="function"><span class="params">                         windowSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                         word2vecLossAndGradient=naiveSoftmaxLossAndGradient)</span>:</span></span><br><span class="line">    batchsize = <span class="number">50</span></span><br><span class="line">    loss = <span class="number">0.0</span></span><br><span class="line">    grad = np.zeros(wordVectors.shape)</span><br><span class="line">    N = wordVectors.shape[<span class="number">0</span>]</span><br><span class="line">    centerWordVectors = wordVectors[:int(N/<span class="number">2</span>),:]</span><br><span class="line">    outsideVectors = wordVectors[int(N/<span class="number">2</span>):,:]</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(batchsize):</span><br><span class="line">        windowSize1 = random.randint(<span class="number">1</span>, windowSize)</span><br><span class="line">        centerWord, context = dataset.getRandomContext(windowSize1)</span><br><span class="line"></span><br><span class="line">        c, gin, gout = word2vecModel(</span><br><span class="line">            centerWord, windowSize1, context, word2Ind, centerWordVectors,</span><br><span class="line">            outsideVectors, dataset, word2vecLossAndGradient</span><br><span class="line">        )</span><br><span class="line">        loss += c / batchsize</span><br><span class="line">        grad[:int(N/<span class="number">2</span>), :] += gin / batchsize</span><br><span class="line">        grad[int(N/<span class="number">2</span>):, :] += gout / batchsize</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> loss, grad</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-test-word2vec"><a href="#2-4-test-word2vec" class="headerlink" title="2.4 test_word2vec()"></a>2.4 test_word2vec()</h3><p>该函数主要有以下几个操作</p>
+<ul>
+<li>生成<code>dataset</code>对象</li>
+<li>使用<code>np.random.randn()</code>生成最初的10行3列词嵌入矩阵<code>dummy_vectors</code></li>
+<li>创建单词到索引的映射字典<code>dummy_tokens</code></li>
+<li>使用<code>gradcheck_naive()</code>校验<code>naiveSoftmaxLossAndGradient()</code>和<code>negSamplingLossAndGradient()</code>梯度计算是否正确。注意这里的lambda表达式，<code>gradcheck_naive()</code>检验的函数只接受一个$x$值，而这两个待校验的函数都要传入一大堆参数，使用lambda表达式可以把其他的参数固定，这样<code>gradcheck_naive()</code>内部校验的时候只需要传入一个参数</li>
+<li>打印<code>naiveSoftmaxLossAndGradient()</code>和<code>negSamplingLossAndGradient()</code>的计算结果。因为随机状态都被固定了，所以结果应该和预设的结果是一致的。如果不一致，那就是我们填充的代码出错了。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_word2vec</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="string">""" Test the two word2vec implementations, before running on Stanford Sentiment Treebank """</span></span><br><span class="line">    dataset = type(<span class="string">'dummy'</span>, (), &#123;&#125;)() <span class="comment"># 创建一个名为'dummy'，没有属性和方法的类的实例</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">dummySampleTokenIdx</span><span class="params">()</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        在[0, 4]之间随机取1个数。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        <span class="keyword">return</span> random.randint(<span class="number">0</span>, <span class="number">4</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">getRandomContext</span><span class="params">(C)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Arguments:</span></span><br><span class="line"><span class="string">        C -- 窗口的大小。</span></span><br><span class="line"><span class="string">        Return:</span></span><br><span class="line"><span class="string">        随机抽取的centerWord及对应的随机抽取的context。</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        tokens = [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>, <span class="string">"d"</span>, <span class="string">"e"</span>]</span><br><span class="line">        <span class="keyword">return</span> tokens[random.randint(<span class="number">0</span>,<span class="number">4</span>)], \</span><br><span class="line">            [tokens[random.randint(<span class="number">0</span>,<span class="number">4</span>)] <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>*C)]</span><br><span class="line">    dataset.sampleTokenIdx = dummySampleTokenIdx <span class="comment"># 声明dataset的sampleTokenIdx()方法</span></span><br><span class="line">    dataset.getRandomContext = getRandomContext <span class="comment"># 声明dataset的getRandomContext()方法</span></span><br><span class="line"></span><br><span class="line">    random.seed(<span class="number">31415</span>) <span class="comment"># 设定随机数种子，保证每次的运行结果可复现</span></span><br><span class="line">    np.random.seed(<span class="number">9265</span>)</span><br><span class="line">    dummy_vectors = normalizeRows(np.random.randn(<span class="number">10</span>,<span class="number">3</span>)) <span class="comment"># 随机生成一个10行3列的矩阵，然后把每一行处理成单位向量，即L2范数等于1</span></span><br><span class="line">    dummy_tokens = dict([(<span class="string">"a"</span>,<span class="number">0</span>), (<span class="string">"b"</span>,<span class="number">1</span>), (<span class="string">"c"</span>,<span class="number">2</span>),(<span class="string">"d"</span>,<span class="number">3</span>),(<span class="string">"e"</span>,<span class="number">4</span>)])</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"==== Gradient check for skip-gram with naiveSoftmaxLossAndGradient ===="</span>)</span><br><span class="line">    gradcheck_naive(<span class="keyword">lambda</span> vec: word2vec_sgd_wrapper(</span><br><span class="line">        skipgram, dummy_tokens, vec, dataset, <span class="number">5</span>, naiveSoftmaxLossAndGradient),</span><br><span class="line">        dummy_vectors, <span class="string">"naiveSoftmaxLossAndGradient Gradient"</span>)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"==== Gradient check for skip-gram with negSamplingLossAndGradient ===="</span>)</span><br><span class="line">    gradcheck_naive(<span class="keyword">lambda</span> vec: word2vec_sgd_wrapper(</span><br><span class="line">        skipgram, dummy_tokens, vec, dataset, <span class="number">5</span>, negSamplingLossAndGradient),</span><br><span class="line">        dummy_vectors, <span class="string">"negSamplingLossAndGradient Gradient"</span>)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">"\n=== Results ==="</span>)</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Skip-Gram with naiveSoftmaxLossAndGradient"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Your Result:"</span>)</span><br><span class="line">    print(<span class="string">"Loss: &#123;&#125;\nGradient wrt Center Vectors (dJ/dV):\n &#123;&#125;\nGradient wrt Outside Vectors (dJ/dU):\n &#123;&#125;\n"</span>.format(</span><br><span class="line">            *skipgram(<span class="string">"c"</span>, <span class="number">3</span>, [<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"e"</span>, <span class="string">"d"</span>, <span class="string">"b"</span>, <span class="string">"c"</span>],</span><br><span class="line">                dummy_tokens, dummy_vectors[:<span class="number">5</span>,:], dummy_vectors[<span class="number">5</span>:,:], dataset) </span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Expected Result: Value should approximate these:"</span>)</span><br><span class="line">    print(<span class="string">"""Loss: 11.16610900153398</span></span><br><span class="line"><span class="string">Gradient wrt Center Vectors (dJ/dV):</span></span><br><span class="line"><span class="string"> [[ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [-1.26947339 -1.36873189  2.45158957]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]]</span></span><br><span class="line"><span class="string">Gradient wrt Outside Vectors (dJ/dU):</span></span><br><span class="line"><span class="string"> [[-0.41045956  0.18834851  1.43272264]</span></span><br><span class="line"><span class="string"> [ 0.38202831 -0.17530219 -1.33348241]</span></span><br><span class="line"><span class="string"> [ 0.07009355 -0.03216399 -0.24466386]</span></span><br><span class="line"><span class="string"> [ 0.09472154 -0.04346509 -0.33062865]</span></span><br><span class="line"><span class="string"> [-0.13638384  0.06258276  0.47605228]]</span></span><br><span class="line"><span class="string">    """</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Skip-Gram with negSamplingLossAndGradient"</span>)   </span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Your Result:"</span>)</span><br><span class="line">    print(<span class="string">"Loss: &#123;&#125;\nGradient wrt Center Vectors (dJ/dV):\n &#123;&#125;\n Gradient wrt Outside Vectors (dJ/dU):\n &#123;&#125;\n"</span>.format(</span><br><span class="line">        *skipgram(<span class="string">"c"</span>, <span class="number">1</span>, [<span class="string">"a"</span>, <span class="string">"b"</span>], dummy_tokens, dummy_vectors[:<span class="number">5</span>,:],</span><br><span class="line">            dummy_vectors[<span class="number">5</span>:,:], dataset, negSamplingLossAndGradient)</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"Expected Result: Value should approximate these:"</span>)</span><br><span class="line">    print(<span class="string">"""Loss: 16.15119285363322</span></span><br><span class="line"><span class="string">Gradient wrt Center Vectors (dJ/dV):</span></span><br><span class="line"><span class="string"> [[ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [-4.54650789 -1.85942252  0.76397441]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]</span></span><br><span class="line"><span class="string"> [ 0.          0.          0.        ]]</span></span><br><span class="line"><span class="string"> Gradient wrt Outside Vectors (dJ/dU):</span></span><br><span class="line"><span class="string"> [[-0.69148188  0.31730185  2.41364029]</span></span><br><span class="line"><span class="string"> [-0.22716495  0.10423969  0.79292674]</span></span><br><span class="line"><span class="string"> [-0.45528438  0.20891737  1.58918512]</span></span><br><span class="line"><span class="string"> [-0.31602611  0.14501561  1.10309954]</span></span><br><span class="line"><span class="string"> [-0.80620296  0.36994417  2.81407799]]</span></span><br><span class="line"><span class="string">    """</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="3-run-py"><a href="#3-run-py" class="headerlink" title="3. run.py"></a>3. run.py</h2><p>1) 检查Python的版本<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Check Python Version</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">assert</span> sys.version_info[<span class="number">0</span>] == <span class="number">3</span></span><br><span class="line"><span class="keyword">assert</span> sys.version_info[<span class="number">1</span>] &gt;= <span class="number">5</span></span><br></pre></td></tr></table></figure></p>
+<p>2) 初始化</p>
+<ul>
+<li>固定随机数种子</li>
+<li>载入数据集</li>
+<li>定义嵌入的维度</li>
+<li>定义窗口的大小</li>
+<li>初始化词嵌入矩阵，$V$和$U$在<code>axis=0</code>的方向上拼接在一起，$V$初始化为$n\times d$的均匀分布矩阵，$U$是零矩阵（个人认为这里使用随机正态矩阵初始化比较好）<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Reset the random seed to make sure that everyone gets the same results</span></span><br><span class="line">random.seed(<span class="number">314</span>)</span><br><span class="line">dataset = StanfordSentiment()</span><br><span class="line">tokens = dataset.tokens()</span><br><span class="line">nWords = len(tokens)</span><br><span class="line"></span><br><span class="line"><span class="comment"># We are going to train 10-dimensional vectors for this assignment</span></span><br><span class="line">dimVectors = <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Context size</span></span><br><span class="line">C = <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Reset the random seed to make sure that everyone gets the same results</span></span><br><span class="line">random.seed(<span class="number">31415</span>)</span><br><span class="line">np.random.seed(<span class="number">9265</span>)</span><br><span class="line"></span><br><span class="line">startTime=time.time()</span><br><span class="line">wordVectors = np.concatenate(</span><br><span class="line">    ((np.random.rand(nWords, dimVectors) - <span class="number">0.5</span>) /</span><br><span class="line">       dimVectors, np.zeros((nWords, dimVectors))),</span><br><span class="line">    axis=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>3) 调用<code>sgd()</code>训练模型，即使用SGD降低损失函数</p>
+<ul>
+<li>学习率<code>0.3</code></li>
+<li>迭代<code>40000</code>次</li>
+<li>每隔固定的迭代次数(默认5000），保存训练参数和状态到文件</li>
+<li>函数调用的顺序：<code>sgd()</code>, <code>word2vec_sgd_wrapper()</code>, <code>skipgram()</code>, <code>negSamplingLossAndGradient()</code></li>
+<li>使用$\boldsymbol J_{\text {neg-sample}}$训练词嵌入矩阵，而不是$\boldsymbol J_{\text {naive-softmax}}$，这样训练更快一些</li>
+<li>训练完毕的矩阵$V$就是我们想要的词嵌入矩阵</li>
+<li>博主的Ubuntu 18.04，i7 8700 CPU，16G内存台式机一共训练了5156秒<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wordVectors = sgd(</span><br><span class="line">    <span class="keyword">lambda</span> vec: word2vec_sgd_wrapper(skipgram, tokens, vec, dataset, C,</span><br><span class="line">        negSamplingLossAndGradient),</span><br><span class="line">    wordVectors, <span class="number">0.3</span>, <span class="number">40000</span>, <span class="literal">None</span>, <span class="literal">True</span>, PRINT_EVERY=<span class="number">10</span>)</span><br><span class="line"><span class="comment"># Note that normalization is not called here. This is not a bug,</span></span><br><span class="line"><span class="comment"># normalizing during training loses the notion of length.</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">"sanity check: cost at convergence should be around or below 10"</span>)</span><br><span class="line">print(<span class="string">"training took %d seconds"</span> % (time.time() - startTime))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>4) 可视化一些预设的单词</p>
+<ul>
+<li>把单词转化为索引</li>
+<li>按照索引取出词嵌入向量，结果是一个矩阵，记为<code>temp</code></li>
+<li><code>temp</code>矩阵每个维度都减去该维度的平均值</li>
+<li>计算<code>temp</code>矩阵的协方差矩阵，记为<code>covariance</code></li>
+<li>对<code>covariance</code>进行SVD分解</li>
+<li>使用SVD分解的$U$矩阵对<code>temp</code>进行降维（不是词嵌入的$U$矩阵哦）</li>
+<li>使用<code>plt.text()</code>画出降到二维的词向量</li>
+<li>可以观察到训练的效果还不错<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">visualizeIdx = [tokens[word] <span class="keyword">for</span> word <span class="keyword">in</span> visualizeWords]</span><br><span class="line">visualizeVecs = wordVectors[visualizeIdx, :]</span><br><span class="line">temp = (visualizeVecs - np.mean(visualizeVecs, axis=<span class="number">0</span>))</span><br><span class="line">covariance = <span class="number">1.0</span> / len(visualizeIdx) * temp.T.dot(temp)</span><br><span class="line">U,S,V = np.linalg.svd(covariance)</span><br><span class="line">coord = temp.dot(U[:,<span class="number">0</span>:<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(visualizeWords)):</span><br><span class="line">    plt.text(coord[i,<span class="number">0</span>], coord[i,<span class="number">1</span>], visualizeWords[i],</span><br><span class="line">        bbox=dict(facecolor=<span class="string">'green'</span>, alpha=<span class="number">0.1</span>))</span><br><span class="line"></span><br><span class="line">plt.xlim((np.min(coord[:,<span class="number">0</span>]), np.max(coord[:,<span class="number">0</span>])))</span><br><span class="line">plt.ylim((np.min(coord[:,<span class="number">1</span>]), np.max(coord[:,<span class="number">1</span>])))</span><br><span class="line"></span><br><span class="line">plt.savefig(<span class="string">'word_vectors.png'</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><img src="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png" alt="word_vectors"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">机器学习 NLP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -339,7 +499,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文主要是Written部分的解答，Coding部分详见之后的博文。Assignment 2的官方链接是<a href="http://web.stanford.edu/class/cs224n/assignments/a2.pdf" target="_blank" rel="noopener">这个链接</a>，但是这个链接并没有带年份，而且之前年份的Assignment链接都是<strong>Object not found!</strong>，所以我在GitHub仓库里面又备份了一份，链接是<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code>，如果想看完整的题目和答案，也可以在仓库里面找到。</p>
+        <p>本文主要是Written部分的解答，Coding部分详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>。Assignment 2的官方链接是<a href="http://web.stanford.edu/class/cs224n/assignments/a2.pdf" target="_blank" rel="noopener">这个链接</a>，但是这个链接并没有带年份，而且之前年份的Assignment链接都是<strong>Object not found!</strong>，所以我在GitHub仓库里面又备份了一份，链接是<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code>，如果想看完整的题目和答案，也可以在仓库里面找到。</p>
 <p>Written部分主要是公式的推导，所以先定义一些共用的符号，方便公式推导。</p>
 <ul>
 <li>$d$，词向量的维度</li>
@@ -1238,186 +1398,6 @@ L_{total}(\vec p, \vec a, \vec x) = \alpha L_{content} + \beta L_{style}</script
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/08/10/【paper笔记】图像风格迁移/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-树模型串烧" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/树模型串烧/">树模型串烧</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/05/树模型串烧/" class="archive-article-date">
-  	<time datetime="2018-08-05T11:58:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>业界最常用的两类算法模型是树模型和神经网络模型。工作一年多来，和别的组，别的公司的同学朋友都聊了聊，只要在应用场景中能上神经网络模型，基本都会上神经网络模型，一是效果确实有较为显著的提升，二是不用再绞尽脑汁地去构造特征。但是由于树模型有较强的可解释性，而且对于数据量的要求没有神经网络模型那么高，因此树模型虽然日渐式微，但是也无法被完全取代。在kaggle等竞赛中，由于数据量比较小，XGBoost和LightGBM仍旧是比赛的首选模型。在某次交流分享中，阿里的双十一推荐负责人说他们推荐主要是神经网络模型，但是为了应付产品和运营总是问为什么，所以又搞了一套树模型（逃……</p>
-<p>树模型相对于神经网络模型确实要简单一些，因此花了一些时间，总结了一些常见树模型（ID3\C4.5\CART决策树，GBDT，RF，XGBoost，LightGBM）的要点，采用问答的方式，写一个串烧博文。</p>
-<h3 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h3><p><strong>决策树有哪些种类，如何区分？</strong><br>ID3决策树使用<strong>信息增益</strong>进行特征选择，C4.5决策树先使用信息增益选择平均值以上的特征，然后使用<strong>信息增益率</strong>进行特征选择，CART使用<strong>Gini指数</strong>进行分类时的特征选择，回归使用<strong>平方误差最小化</strong>。</p>
-<p><strong>决策树中都有哪些信息论的概念？</strong><br>熵，熵越大表示信息越多</p>
-<script type="math/tex; mode=display">H(p)=-\sum _{i=1}^n p_i \log _2p_i</script><p>信息增益/互信息</p>
-<script type="math/tex; mode=display">gain(D,A)=H(D)-H(D|A)</script><p>数据集D的经验熵</p>
-<script type="math/tex; mode=display">H(D)=-\sum _{k=1}^K \dfrac {|D_k|}{|D|} \log _2 \dfrac {|D_k|}{|D|}</script><p>数据集D关于A的经验条件熵</p>
-<script type="math/tex; mode=display">H(D|A)=\sum _{i=1}^n \dfrac {|D_i|}{|D|}H(D_i)=-\sum _{i=1}^n \dfrac {|D_i|}{|D|}\sum _{k=1}^K\dfrac {|D_{ik}|}{|D_i|}\log _2 \dfrac {|D_{ik}|}{|D_i|}</script><p>信息增益比</p>
-<script type="math/tex; mode=display">gain_R(D,A)=\dfrac {gain(D, A)}{H_A(D)}</script><p>数据集D关于特征A的熵</p>
-<script type="math/tex; mode=display">H_A(D)=-\sum_{i=1}^n \dfrac {|D_i|} {|D|} \log_2 \dfrac {|D_i|}{|D|}</script><p>基尼指数</p>
-<script type="math/tex; mode=display">Gini(p)=1-\sum _{i=1}^np_i^2</script><p>在特征A的条件下，集合D的基尼指数定义为(CART是二叉树)</p>
-<script type="math/tex; mode=display">Gini(D,A)=\dfrac {|D_1|}{|D|} Gini(D_1)+\dfrac {|D_2|}{|D|} Gini(D_2)</script><p><strong>决策树的损失函数是什么？</strong><br>设树$T$的叶节点个数是$|T|$，$t$是$T$的叶节点，该叶节点有$N_t$个样本点，其中$k$类的样本点有$N_{tk}$个，$H_t(T)$是叶节点$t$上的经验熵，损失函数如下所示</p>
-<script type="math/tex; mode=display">C_\alpha(T)=\sum _{t=1}^{|T|}N_tH_t(T)+\alpha |T|</script><p>常常简单表示为</p>
-<script type="math/tex; mode=display">C_\alpha(T) = C(T)+\alpha |T|</script><p>ID3，C4.5中$\alpha$是手动输入的，CART中$\alpha$是自动选择的。</p>
-<p><strong>决策树损失函数各项的意义是什么？</strong><br>$C(T)$描述的是模型训练的误差，$\alpha |T|$描述的是模型的复杂度。决策树生成只考虑了对训练集进行更好的拟合，即尽可能的降低$C(T)$，决策树的剪枝则降低了模型的复杂度，换一句话说，决策树的生成学习局部模型，决策树的剪枝学习整体模型。</p>
-<p><strong>决策树如何处理连续值？</strong><br>主要处理方法是连续属性离散化。对于连续属性$a$，从小到大排序，然后取分界点$t$将数据集$D$分成$D_t^+, D_t^-$，分界点公式如下所示</p>
-<script type="math/tex; mode=display">T_a=\left\{  \dfrac {a_i + a_{i+1}} {2} | 1 \leq i \leq n-1  \right \}</script><p>然后根据二分后的信息增益确定最佳边界。</p>
-<script type="math/tex; mode=display">\begin{aligned}
-Gain(D,a)&=\max _{t \in {T_a}} Gain(D, a, t)\\
-&=\max _{t \in {T_a}} \left (H(D) - \sum _{\lambda \in \{-,+\} } \dfrac {|D_t^{\lambda }|}{|D|} H(D_t^{\lambda })\right )
-\end{aligned}</script><p>连续值属性在后代结点划分中可以继续使用，因为后代结点划分并不和父结点冲突。</p>
-<p><strong>决策树如何处理缺失值？</strong><br>设有数据集$D$，属性$a$，令$\tilde D$表示属性$a$上无缺失值，设$a$有$V$个值，$\tilde {D^v}$表示$a$上取值为$a^v$的样本子集，$\tilde {D_k}$表示$\tilde D$中属于第$k$类的样本子集，显然有$\tilde D=U_{k=1}^K \tilde {D_k}=U_{v=1}^V \tilde {D^v}$，每个样本都有一个权重$w_{\vec x}$，初始化为1，且定义</p>
-<script type="math/tex; mode=display">\begin {aligned}
-\rho &=\dfrac {\sum _{x \in \tilde D}w_{\vec x}} {\sum _{x \in D}w_{\vec x}}\\
-\tilde p_k &= \dfrac {\sum_{x \in \tilde {D_k}} w_{\vec x}} {\sum_{x \in \tilde {D}} w_{\vec x}}\\
-\tilde {r}_v &= \dfrac {\sum _{x \in \tilde {D^v}} w_{\vec x}} {\sum _{x \in \tilde {D}} w_{\vec x}}
-\end {aligned}</script><p>对信息增益公式进行推广</p>
-<script type="math/tex; mode=display">Gain(D, a) = \rho \cdot Gain(\tilde D, a) = \rho [H(\tilde D) - \sum _{v=1}^V \tilde {r_v}H(\tilde D^v)]</script><p>又</p>
-<script type="math/tex; mode=display">H(\tilde D) = -\sum _{k=1}^K \tilde {p_k} \log \tilde {p_k}</script><p>若样本$x$在属性$a$上有缺失值，则将$x$划入所有的子节点中，不过每个$a^v$子节点中$x$相应的权重系数$w_{\vec x}$变化为$\tilde r_v w_{\vec x}$，即表示样本$x$以不同的概率值划分到不同的子节点中。</p>
-<p><strong>如何防止决策树过拟合？</strong><br>预剪枝或者后剪枝，一般情况下，后剪枝会保留更多的分支，欠拟合风险更小，泛化性能更优，不过训练开销会更大一些。在剪枝的时候，采取奥卡姆剃刀原则，即剪枝和不剪枝损失函数相等的时候，进行剪枝。</p>
-<h3 id="提升树"><a href="#提升树" class="headerlink" title="提升树"></a>提升树</h3><p><strong>什么是提升树模型？</strong><br>提升树模型可以理解为基于前向分步算法的决策树加法模型：</p>
-<script type="math/tex; mode=display">f_M(x) = \sum _{m=1}^M T(x;\theta _m)</script><p>前向分步算法：</p>
-<script type="math/tex; mode=display">f_m(x) = f_{m-1}(x) + T(x;\theta_m)</script><p>在前向分步算法第m步中，需求解</p>
-<script type="math/tex; mode=display">\hat \theta _m = \arg \min _{\theta _m} \sum _{i=1}^N L(y_i, f_{m-1}(x)+T(x_i;\theta _m))</script><p><strong>如何理解提升树中的残差概念？</strong><br>如果定义损失函数是平方误差损失函数，则有</p>
-<script type="math/tex; mode=display">\begin {aligned}
-&L(y, f_{m-1}(x) + T(x;\theta _m))\\
-&=[y-f_{m-1}(x) - T(x;\theta _m)]^2\\
-&=[r - T(x;\theta _m)]^2
-\end {aligned}</script><p>$r=y-f_{m-1}(x) $即为残差，提升树模型不断地去拟合残差生成下一个树模型。</p>
-<p><strong>梯度提升树(GBDT)和提升树的异同？</strong><br>不断地拟合残差生成下一个树模型非常的方便，但是大部分的损失函数都不好优化，因此使用<strong>损失函数的负梯度</strong>作为残差的近似值</p>
-<script type="math/tex; mode=display">\hat r=-\left [  \dfrac {\partial L(y, f(x_i))}{\partial f(x_i)}  \right ]_{f(x)=f_{m-1}(x)}</script><p>不断地去拟合残差近似值生成下一个树模型。如果误差损失函数依旧是平方误差损失函数，那么损失函数的负梯度就是残差。</p>
-<h3 id="RF"><a href="#RF" class="headerlink" title="RF"></a>RF</h3><p><strong>什么是随机森林？</strong><br>随机森林(Random Forest)是一种典型的bagging模型。在随机森林中，只随机选择一部分特征来构建树（而不是子采样实例），以减少了树之间的相关性，即减少模型的方差。假设数据集在某次分裂之前的特征数为$d$，随机抽取的特征数为$k$，则一般情况下$k = \log _2 d$，如果取$k = d$，那么生成的每一颗树都会一模一样。</p>
-<p>在RF训练的时候，使用<code>min_samples_leaf</code>（叶节点的样本的最小数量）来控制树大小和过拟合程度。</p>
-<p><strong>随机森林可以用来筛选特征吗？为什么？</strong><br>可以。在决策树中，更重要的特征可能更接近树的顶部。通过计算它在森林中所有树上出现的平均深度，我们可以得到一个特征对于随机森林的重要性。（不过现在很少这么做了）</p>
-<h3 id="XGBoost"><a href="#XGBoost" class="headerlink" title="XGBoost"></a>XGBoost</h3><p><strong>XGBoost和GBDT有什么区别</strong></p>
-<ul>
-<li>XGBoost是在GBDT的基础上发展出来的，GBDT使用Taylor的一阶展开去拟合下一个树，XGBoost使用Taylor二阶展开去拟合下一个树</li>
-<li>XGBoost在代价函数里加入了正则项，用于控制模型的复杂度，降低了过拟合风险，效果优于GBDT</li>
-<li>XGBoost在特征选择时进行了并行处理</li>
-</ul>
-<p><strong>XGBoost的目标函数是什么？</strong><br>由于xgb也是前向加法模型，即$\hat y_i^{(t)} = \hat y_i^{(t-1)} + f_t(x_i)$，$f_t(x_i)$就是在第t轮训练中需要训练的模型。所以第t轮的目标函数是</p>
-<script type="math/tex; mode=display">\begin {aligned}
-Obj^{(t)} &= \sum _{i=1}^n l(y_i, \hat y_i^{(t)}) + \sum _{i=1}^t\Omega (f_i)\\
-&= \sum _{i=1}^n l(y_i, \hat y_i^{(t-1)} + f_t(x_i)) + \Omega (f_t) + constant
-\end {aligned}</script><p>但是这样的目标函数不好优化，所以在$\hat y^t$维度上进行Taylor二阶展开</p>
-<script type="math/tex; mode=display">\begin {aligned}
-f(x+\delta x) &= f(x) + f'(x)\delta x + \frac {1}{2} f''(x) \delta x^2 \\
-g_i &= \partial _{\hat y ^{t-1}} l(y_i, \hat y_i^{(t-1)}) \\
-h_i &= \partial ^2_{\hat y^{(t-1)}} l(y_i, \hat y_i^{(t-1)}) \\
-\end {aligned}</script><p>则有</p>
-<script type="math/tex; mode=display">
-Obj^{(t)} = \sum _{i=1}^n [l(y_i, \hat y_i^{(t-1)}) + g_if_t(x_i) + \frac {1}{2} h_if_t^2(x_i)  ] + \Omega (f_t) + constant</script><p>代入$\Omega (f_t)$并去除$constant$</p>
-<script type="math/tex; mode=display">\begin {aligned}
-Obj^{(t)} &= \sum _{i=1}^n [g_if_t(x_i) + \frac {1}{2} h_if_t^2(x_i) ] + \Omega (f_t) \\
-&=  \sum _{j=1}^T [G_jw_j + \frac {1}{2}(H_j + \lambda )w_j^2] + \gamma T
-\end {aligned}</script><p><strong>XGB的复杂度项是什么？</strong><br>并不唯一，陈天奇的PPT中定义为</p>
-<script type="math/tex; mode=display">\Omega (f_t)=\gamma T + \dfrac {1}{2} \lambda \sum _{j=1}^Tw_j^2</script><p>第一项是叶节点的数目，第二项是叶节点分数的L2正则。</p>
-<p><strong>XGB中子节点是如何分裂的？</strong><br>利用目标函数去计算增益，如果目标函数值降低了，则进行划分，叶节点的最佳分数及其对应的目标函数都可以通过公式直接求出</p>
-<script type="math/tex; mode=display">
-argmin_x Gx + \frac {1}{2}Hx^2 = -\frac {G}{H}, H>0\quad min_x  Gx + \frac {1}{2}Hx^2 = -\frac {1}{2} \frac {G^2}{H}</script><p>所以叶节点的分数及其目标函数如下所示</p>
-<script type="math/tex; mode=display">
-w_j = -\frac {G_j}{H_j + \lambda }, \quad Obj = -\frac {1}{2} \sum _{j=1}^T \frac {G_j^2}{H_j + \lambda} + \gamma T</script><p>定义增益为分类前的目标函数减去分类后的目标函数，遍历所有特征，然后选择增益最大的特征分割点</p>
-<script type="math/tex; mode=display">
-Gain = \frac {1}{2} [\frac {G_L^2}{H_L + \lambda} + \frac {G_R^2}{H_L + \lambda} - \frac {(G_L + G_R)^2}{H_L+H_R+\lambda}] - \gamma</script><p><strong>XGB训练算法的复杂度是多少？</strong><br>在特征选择前首先要进行排序，如果要生成深度为$K$，特征数为$d$的树，则时间复杂度为$O(Kdn\log n)$.</p>
-<p><strong>为什么说XGB是并行的？</strong><br>XGB在树粒度上依旧是串行的，并行是在分裂节点的时候进行，同时计算多个属性的分裂特征点，然后选择收益最大的特征及其分裂特征点。</p>
-<p><strong>XGB有什么缺点？</strong></p>
-<ul>
-<li>level-wise 建树方式对当前层的所有叶子节点一视同仁，有些叶子节点分裂收益非常小，对结果没影响，但还是要分裂，加重了计算代价</li>
-<li>预排序方法空间消耗比较大，不仅要保存特征值，也要保存特征的排序索引</li>
-</ul>
-<h3 id="LGBM"><a href="#LGBM" class="headerlink" title="LGBM"></a>LGBM</h3><p><strong>LGBM在速度和内存上进行了哪些优化？</strong><br>LGBM使用了histogram算法，通过将连续特征分段为discrete bins来加快训练的速度并减少内存的使用。</p>
-<ul>
-<li>减少分割增益的计算量<ul>
-<li>pre-sorted算法需要<code>#data</code>次的计算</li>
-<li>histogram算法需要<code>#bins</code>次的计算，且<code>#bins</code>远小于<code>#data</code><ul>
-<li>构建直方图时仍需要<code>#data</code>次计算</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>通过直方图的相减来进行进一步的加速<ul>
-<li>在二叉树中，可以通过叶节点的父结点和相邻结点的直方图相减来获得该叶节点的直方图，且代价很小</li>
-</ul>
-</li>
-<li>减少内存的使用<ul>
-<li>因为将连续值替换为discrete bins，如果<code>#bins</code>较小，可以利用较小的数据类型来存储数据，如uint8</li>
-<li>无需为 pre-sorted 特征值存储额外的信息</li>
-</ul>
-</li>
-<li>减少并行学习的通信代价</li>
-<li>带有深度限制的Leaf-wise的叶子生长策略，每次从当前所有的叶子中，找到分裂增益最大的一个叶子，然后分裂。因此同Level-wise相比，在分裂次数相同的情况下，Leaf-wise可以降低更多的误差，得到更好的精度<ul>
-<li>这么做的缺点是容易过拟合，因此一般会加上一个最大深度限制，防止过拟合</li>
-</ul>
-</li>
-</ul>
-<p><strong>LGBM有什么缺点？</strong><br>LGBM使用histogram算法，histogram算法不能找到很精确的分界点，训练误差理论上应该比pre-sorted差，但是实际上效果差不多，甚至效果更佳，有可能决策树对于分割点的精确程度并不太敏感，而且较“粗”的分割点也自带正则化的效果。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] 李航. 统计学习方法[M]. 清华大学出版社, 2012.<br>[2]周志华. 机器学习 : = Machine learning[M]. 清华大学出版社, 2016.<br>[3] Introduction to Boosted Trees[EB/OL]. <a href="http://xgboost.readthedocs.io/en/latest/tutorials/model.html" target="_blank" rel="noopener">http://xgboost.readthedocs.io/en/latest/tutorials/model.html</a>.</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/05/树模型串烧/">展开全文 >></a>
         </p>
       
 
