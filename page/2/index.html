@@ -147,6 +147,336 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Pandas和PySpark中的DataFrame比较" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/17/Pandas和PySpark中的DataFrame比较/">Pandas和PySpark中的DataFrame比较</a>
+    </h1>
+  
+
+        
+        <a href="/2018/03/17/Pandas和PySpark中的DataFrame比较/" class="archive-article-date">
+  	<time datetime="2018-03-17T13:47:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在数据清洗时，常常使用DataFrame类型的对象来装载结构化数据，单机操作使用Pandas就够了，分布式操作常常使用PySpark，这两种情况下都有DataFrame类型，为了更好的掌握这两个包中的DataFrame，很有必要做一次对比分析。</p>
+<p>Pandas和PySpark中DataFrame类型常见操作的异同均列在下表中。<br><em>说明：表格中的引号在后台都是半角，前端都变成了全角，可能是博客框架的问题</em></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">项目</th>
+<th>Pandas</th>
+<th>PySpark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">基本操作</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">创建DataFrame</td>
+<td>pd.DataFrame()</td>
+<td>SparkSession.createDataFrame()</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>pd.read_sql()</td>
+<td>SparkSession.sql()</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>pd.read_csv()</td>
+<td>SparkSession.read.json()</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>spark_df.toPandas()</td>
+<td>SparkSession.createDataFrame(pandas_df)</td>
+</tr>
+<tr>
+<td style="text-align:left">查看数据类型</td>
+<td>pandas_df.dtypes</td>
+<td>spark_df.dtypes</td>
+</tr>
+<tr>
+<td style="text-align:left">统计</td>
+<td>统计每一列或行的非空数目，pandas_df.count(), axis=0统计列(default)，axis=1统计行</td>
+<td>统计总行数，spark_df.count()</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>统计学描述，pandas_df.describe()</td>
+<td>统计学描述，spark_df.describe()</td>
+</tr>
+<tr>
+<td style="text-align:left">列选取</td>
+<td>pandas_df[‘col’]，返回Series</td>
+<td>spark_df[‘col’]，返回Column</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>pandas_df[[‘col1’, ‘col2’]]返回DataFrame</td>
+<td>spark_df.select(‘col1’, ‘col2’)，返回DataFrame</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td></td>
+<td>应用SQL函数并选取列，spark_df.selectExpr(‘col1 * 2’, ‘abs(col2)’)</td>
+</tr>
+<tr>
+<td style="text-align:left">选取列并行简单运算</td>
+<td>pandas_df[‘age’]+1</td>
+<td>spark_df.select(spark_df[‘name’], spark_df[‘age’]+1)</td>
+</tr>
+<tr>
+<td style="text-align:left">行选取</td>
+<td>使用切片，pandas_df[:2]</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>使用bool数组，pandas_df[pandas_df[‘age’] &gt;20]</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>选取首/尾行，pandas_df.head(), pandas_df.tail()</td>
+<td>选取首行，spark_df.head(), spark_df.take()</td>
+</tr>
+<tr>
+<td style="text-align:left">选取多行多列</td>
+<td>pandas_df.ix[:2, 0:2]</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">数据规整化</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">添加列</td>
+<td>添加简单的列，pandas_df[‘new_col’]=1</td>
+<td>添加简单的列，spark_df.withColumn(‘new_col’, functions.lit(1))，如果是新列名就是添加列，如果是旧列名就是替换列</td>
+</tr>
+<tr>
+<td style="text-align:left">函数应用于列</td>
+<td>使用函数处理某列，结果作为新的列，pandas_df[‘new_col’] = pandas_df[‘old_col’].apply(f)，也可以一次处理多列并添加多列，pandas_df[[‘new_col1’, ‘new_col2’]] = pandas_df[[‘old_col1’, ‘old_col2’]].apply(f)，可以使用lambda表达式定义f</td>
+<td>使用函数处理某列，结果作为新的列，需要包装一下Python函数，udf_upper = F.udf(str.upper, StringType()), spark_df= spark_df.withColumn(‘upper_name’, udf_upper(spark_df[‘name’])</td>
+</tr>
+<tr>
+<td style="text-align:left">应用函数于行</td>
+<td>pandas_df.apply(f, axis=1)</td>
+<td>spark_df.foreach(f)</td>
+</tr>
+<tr>
+<td style="text-align:left">删除列</td>
+<td>pandas_df.drop(‘col’, axis=1)</td>
+<td>spark_df.drop(‘col’)，返回一个新的删除列的对象</td>
+</tr>
+<tr>
+<td style="text-align:left">过滤</td>
+<td>使用bool数组选取需要的行，pandas_df1 = pandas_df[pandas_df[‘age’] &gt; 20 &amp; pandas[‘age’] &lt; 22]</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>使用query()方法选取需要的行，pandas_df.query(‘age &gt; 20 &amp; age &lt; 22’)</td>
+<td>使用where()方法选取需要的行，参数就是SQL的WHERE语句，filter()是where()的同名函数，spark_df.where(‘age &gt; 20 and age &lt; 22’)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>pandas_df.isin(values)，values可以是列表，词典和pandas.DataFrame对象</td>
+<td>spark_df[‘col’].isin([‘Tom’, ‘Jack’])，返回一个Column</td>
+</tr>
+<tr>
+<td style="text-align:left">排序</td>
+<td>按照索引排序，pandas_df.sort_index()</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>按照某列排序，pandas_df.sort_values(by=’col’)，也可以按照多列排序，pandas_df.sort_values(by=[‘col1’, ‘col2’], ascending=[0, 1])，ascending默认为True</td>
+<td>按照某列排序，spark_df.orderBy(‘col’)，也可以按照多列排序，spark_df.orderBy([‘col1’, ‘col2’], ascending=[0, 1])，ascending默认为True</td>
+</tr>
+<tr>
+<td style="text-align:left">缺失值处理</td>
+<td>检测缺失值，Series.isnull()</td>
+<td>检测缺失值，spark_df.select(F.isnull(‘col1’).alias(‘r1’))</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>过滤缺失值，pandas_df.dropna()，默认滤除所有含有缺失值的行，传入how=’all’丢弃所有值为nan的行，传入axis=1，过滤列</td>
+<td>过滤缺失值，spark_df.dropna()，默认滤除所有含有缺失值的行，传入how=’all’丢弃所有值为nan的行</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>填充缺失值，pandas_df.fillna(value)，将所有缺失值填充为value，可以传入一个字典，实现对不同的列填充不同的值，pandas_df.fillna({1: 0.5, 3: -1})，fillna()默认返回新对象，可以设置inplace参数</td>
+<td>填充缺失值，spark_df.fillna(value)，将所有缺失值填充为value，可以传入一个字典，实现对不同的列填充不同的值，pandas_df.fillna({‘col1’: 0.5, ‘col3’: -1})</td>
+</tr>
+<tr>
+<td style="text-align:left">拼接</td>
+<td>在轴方向上拼接DataFrame，pd.concat([pandas_df1, pandas_df2])，可以通过ignore_index=True重置轴名称</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>在行方向上拼接DataFrame，pandas_df1.append(pandas_df2, ignore_index=True)，可以传入字典只添加一行，但是效率较低</td>
+<td>在行方向上拼接DataFrame，spark_df1.union(spark_df2)，version 2.0之前是unionAll()</td>
+</tr>
+<tr>
+<td style="text-align:left">联结</td>
+<td>pandas_df1.merge(pandas_df2)，默认how=’inner’，默认按照同名列联结，可以明确指出联结列，也可以按照索引联结</td>
+<td>spark_df1.join(spark_df2, ‘name’)，默认how=’inner’，联结条件可以是字符串或者Column表达式(列表)，如果是字符串，则两边的df必须有该列。使用字符串会合并联结列，使用Column表达式不会合并联结列。常常搭配select()使用。</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>pandas_df1.join(pandas_df2)，始终按照pandas_df2的索引联结，pandas_df1可以指定联结列，不如pd.merge()好用</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">数据聚合和分组运算</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">分组</td>
+<td>pandas_df.groupby(pandas_df[‘key’])，常常会分组后选取特定列去分析，pandas_df.groupby([‘key1’, ‘key2’])[[‘data1’, ‘data2’]]，也可以根据字典，数组，Series和函数进行分组</td>
+<td>spark_df.groupBy(‘key’)</td>
+</tr>
+<tr>
+<td style="text-align:left">聚合</td>
+<td>分组后的GroupBy对象可以直接调用mean(), count(), max(), min()等函数，也可以自定义聚合函数，通过agg()调用</td>
+<td>分组后的GroupedData可以直接调用mean(), count()等函数，也可以通过agg()调用聚合函数作用于某列</td>
+</tr>
+<tr>
+<td style="text-align:left">分组级运算</td>
+<td>pandas_df.groupby(‘key’).transform(np.mean)，会将一个函数应用到各分组，如果各分组产生的是标量值，则该值就会被广播出去。该函数要求计算结果要么是标量值，要么是大小一样的向量。</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td>pandas_df.groupby(‘key’).apply(f, arg1=arg1)，apply()是分组级运算的一般化函数，会将待处理的对象拆分成多个片段，然后对各个片段调用传入的函数，最后尝试将各个片段组合起来。</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">其他</td>
+<td></td>
+<td>注册SQL函数sqlContext.registerFunction(“stringLengthString”, lambda x: len(x))</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td></td>
+<td>实现类似于hive中的row_number()功能，spark_df.withColumn(‘row_number’, F.row_number().over(Window.partitionBy([‘col1’, ‘col2’]).orderBy(F.desc(‘col3’))))</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>有一些十分重要的操作在下面通过实例的方式进行说明。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>先导入一些需要的包，并做一些必要的初始化。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> pyspark <span class="keyword">import</span> SparkContext</span><br><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> HiveContext, Window</span><br><span class="line"><span class="keyword">import</span> pyspark.sql.functions <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> pyspark.sql.types <span class="keyword">import</span> StringType, IntegerType, BooleanType, StructType, StructField</span><br><span class="line"></span><br><span class="line">sc = SparkContext()</span><br><span class="line">sqlContext = HiveContext(sc)</span><br></pre></td></tr></table></figure></p>
+<h4 id="创建DataFrame"><a href="#创建DataFrame" class="headerlink" title="创建DataFrame"></a>创建DataFrame</h4><h5 id="pandas"><a href="#pandas" class="headerlink" title="pandas"></a>pandas</h5><p>在pandas中创建DataFrame常见的方式是通过<code>.csv</code>文件读取，有时候为了测试程序写得是否正确，需要自己“造”一点数据，这种情况下一般通过字典来创建DataFrame。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过文件读取</span></span><br><span class="line">pandas_df = pd.read_csv(<span class="string">'data.csv'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过字典创建</span></span><br><span class="line">data = &#123;<span class="string">'name'</span>:[<span class="string">'Jack'</span>, <span class="string">'Tom'</span>, <span class="string">'Alice'</span>], <span class="string">'age'</span>:[<span class="number">20</span>, <span class="number">23</span>, <span class="number">21</span>], <span class="string">'weight'</span>:[<span class="number">150</span>, <span class="number">180</span>, <span class="number">98</span>]&#125;</span><br><span class="line">pandas_df = pd.DataFrame(data=data, columns=[<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'weight'</span>], index=[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>])</span><br></pre></td></tr></table></figure></p>
+<p>创建的DataFrame对象如下表所示。<br><img src="http://markdown.moverzp.com/18-3-18/19929362.jpg" alt></p>
+<h5 id="pyspark"><a href="#pyspark" class="headerlink" title="pyspark"></a>pyspark</h5><p>在pyspark中创建DataFrame常见的方式是写SQL从Hive中读取数据，偶尔也会把RDD转为DataFrame，也可以自己“造”一点数据测试用。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过SQL查询语句创建</span></span><br><span class="line">spark_df = sqlContext.sql(<span class="string">"SELECT name, age, weight FROM people"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过元素为tuple的list创建</span></span><br><span class="line">data = [(<span class="string">'Jack'</span>, <span class="number">20</span>, <span class="number">150</span>), (<span class="string">'Tom'</span>, <span class="number">23</span>, <span class="number">180</span>), (<span class="string">'Alice'</span>, <span class="number">21</span>, <span class="number">98</span>)]</span><br><span class="line">spark_df = sqlContext.createDataFrame(data, schema=[<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'weight'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过RDD创建</span></span><br><span class="line">rdd = sc.parallelize(data)</span><br><span class="line">spark_df = sqlContext.createDataFrame(rdd, schema=[<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'weight'</span>])</span><br><span class="line"><span class="comment"># 明确指定schema的类型，不用去从data中推断</span></span><br><span class="line">schema = StructType([StructField(<span class="string">"name"</span>, StringType(), <span class="literal">True</span>), StructField(<span class="string">"age"</span>, IntegerType(), <span class="literal">True</span>), StructField(<span class="string">"weight"</span>, IntegerType(), <span class="literal">True</span>)])</span><br><span class="line">spark_df = sqlContext.createDataFrame(data=rdd, schema=schema)</span><br></pre></td></tr></table></figure></p>
+<p>创建的DataFrame对象如下表所示，显而易见spark中的DataFrame中没有索引的概念。<br><img src="http://markdown.moverzp.com/18-3-18/96330612.jpg" alt></p>
+<h4 id="函数应用于列"><a href="#函数应用于列" class="headerlink" title="函数应用于列"></a>函数应用于列</h4><p>数据处理的过程中，最常见的操作之一就是处理某列的数据，然后将结果作为新的一列添加到DataFrame对象中。下面就以计算name列的长度为例子演示，先定义一个处理函数，<code>get_name_length()</code>。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_name_length</span><span class="params">(name)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> len(name)</span><br></pre></td></tr></table></figure></p>
+<h5 id="pandas-1"><a href="#pandas-1" class="headerlink" title="pandas"></a>pandas</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pandas_df[<span class="string">'name_length'</span>] = pandas_df[<span class="string">'name'</span>].apply(get_name_length)</span><br></pre></td></tr></table></figure>
+<p><img src="http://markdown.moverzp.com/18-3-18/92151214.jpg" alt></p>
+<h5 id="pyspark-1"><a href="#pyspark-1" class="headerlink" title="pyspark"></a>pyspark</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">udf_get_name_length = F.udf(get_name_length, IntegerType())</span><br><span class="line">spark_df = spark_df.withColumn(<span class="string">'name_length'</span>, udf_get_name_length(spark_df[<span class="string">'name'</span>]))</span><br><span class="line">spark_df.show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://markdown.moverzp.com/18-3-18/59604596.jpg" alt></p>
+<h4 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h4><h5 id="pandas-2"><a href="#pandas-2" class="headerlink" title="pandas"></a>pandas</h5><p>在pandas中常见的过滤方式有两种，一种是使用bool数组过滤，一种是使用<code>query()</code>函数过滤。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pandas_df[(pandas_df[<span class="string">'age'</span>] &gt; <span class="number">20</span>) &amp; (pandas_df[<span class="string">'age'</span>] &lt; <span class="number">22</span>)]</span><br><span class="line">pandas_df.query(<span class="string">'age &gt; 20 &amp; age &lt; 22'</span>)</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://markdown.moverzp.com/18-3-18/17576071.jpg" alt></p>
+<h5 id="pyspark-2"><a href="#pyspark-2" class="headerlink" title="pyspark"></a>pyspark</h5><p><code>where()</code>函数的参数和SQL一样，对大小写不敏感。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark_df.where(<span class="string">'age &gt; 20 and AGE &lt; 22'</span>).show()</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://markdown.moverzp.com/18-3-18/57788362.jpg" alt></p>
+<h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><h5 id="pandas-3"><a href="#pandas-3" class="headerlink" title="pandas"></a>pandas</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pandas_df.sort_values(by=<span class="string">'name'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="http://markdown.moverzp.com/18-3-18/10476834.jpg" alt></p>
+<h5 id="pyspark-3"><a href="#pyspark-3" class="headerlink" title="pyspark"></a>pyspark</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spark_df.orderBy(<span class="string">'name'</span>).show()</span><br></pre></td></tr></table></figure>
+<p><img src="http://markdown.moverzp.com/18-3-18/95729731.jpg" alt></p>
+<h4 id="拼接"><a href="#拼接" class="headerlink" title="拼接"></a>拼接</h4><p>拼接操作是把多个DataFrame对象在行或者列方向上连在一起。</p>
+<h5 id="pandas-4"><a href="#pandas-4" class="headerlink" title="pandas"></a>pandas</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先创建两个小的DataFrame对象</span></span><br><span class="line">data1 = &#123;<span class="string">'name'</span>:[<span class="string">'Jack'</span>, <span class="string">'Tom'</span>], <span class="string">'age'</span>:[<span class="number">20</span>, <span class="number">23</span>]&#125;</span><br><span class="line">pandas_df1 = pd.DataFrame(data1)</span><br><span class="line">data2 = &#123;<span class="string">'name'</span>:[<span class="string">'Alice'</span>], <span class="string">'age'</span>:[<span class="number">21</span>]&#125;</span><br><span class="line">pandas_df2 = pd.DataFrame(data2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 行拼接</span></span><br><span class="line">pandas_df_concat1 = pd.concat([pandas_df1, pandas_df2], axis=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 列拼接</span></span><br><span class="line">pandas_df_concat2 = pd.concat([pandas_df1, pandas_df2], axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>行拼接结果如下表所示，根据列名拼接，索引并不会重置。<br><img src="http://markdown.moverzp.com/18-3-18/34950694.jpg" alt><br>列拼接结果如下表所示，根据索引拼接，拼接不上的填充为<code>NaN</code>。<br><img src="http://markdown.moverzp.com/18-3-18/92631852.jpg" alt></p>
+<h5 id="pyspark-4"><a href="#pyspark-4" class="headerlink" title="pyspark"></a>pyspark</h5><p>pyspark如果想进行列拼接，可以通过联结实现。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data1 = [(<span class="string">'Jack'</span>, <span class="number">20</span>), (<span class="string">'Tom'</span>, <span class="number">23</span>)]</span><br><span class="line">spark_df1 = sqlContext.createDataFrame(data1, schema=[<span class="string">'name'</span>, <span class="string">'age'</span>])</span><br><span class="line">data2 = [(<span class="string">'Alice'</span>, <span class="number">21</span>)]</span><br><span class="line">spark_df2 = sqlContext.createDataFrame(data2, schema=[<span class="string">'name'</span>, <span class="string">'age'</span>])</span><br><span class="line"></span><br><span class="line">spark_df_union = spark_df1.union(spark_df2)</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://markdown.moverzp.com/18-3-18/62251280.jpg" alt></p>
+<h4 id="联结"><a href="#联结" class="headerlink" title="联结"></a>联结</h4><p>联结就是SQL中的JOIN操作，同样也有内联结，左联结，右联结和外联结。本节实例是通过name联结上gender.</p>
+<h5 id="pandas-5"><a href="#pandas-5" class="headerlink" title="pandas"></a>pandas</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data1 = &#123;<span class="string">'name'</span>:[<span class="string">'Jack'</span>, <span class="string">'Alice'</span>], <span class="string">'age'</span>:[<span class="number">20</span>, <span class="number">23</span>]&#125;</span><br><span class="line">pandas_df1 = pd.DataFrame(data1)</span><br><span class="line">data2 = &#123;<span class="string">'name'</span>:[<span class="string">'Jack'</span>, <span class="string">'Alice'</span>], <span class="string">'gender'</span>:[<span class="string">'male'</span>, <span class="string">'female'</span>]&#125;</span><br><span class="line">pandas_df2 = pd.DataFrame(data2)</span><br><span class="line"></span><br><span class="line">pandas_df_merged = pd.merge(pandas_df1, pandas_df2)</span><br></pre></td></tr></table></figure>
+<p><img src="http://markdown.moverzp.com/18-3-18/87526834.jpg" alt></p>
+<h5 id="pyspark-5"><a href="#pyspark-5" class="headerlink" title="pyspark"></a>pyspark</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">data1 = [(<span class="string">'Jack'</span>, <span class="number">20</span>), (<span class="string">'Alice'</span>, <span class="number">23</span>)]</span><br><span class="line">spark_df1 = sqlContext.createDataFrame(data1, schema=[<span class="string">'name'</span>, <span class="string">'age'</span>])</span><br><span class="line">data2 = [(<span class="string">'Jack'</span>, <span class="string">'male'</span>), (<span class="string">'Alice'</span>, <span class="string">'female'</span>)]</span><br><span class="line">spark_df2 = sqlContext.createDataFrame(data2, schema=[<span class="string">'name'</span>, <span class="string">'gender'</span>])</span><br><span class="line"></span><br><span class="line">spark_df_joined1 = spark_df1.join(spark_df2, <span class="string">'name'</span>)</span><br><span class="line">spark_df_joined2 = spark_df1.join(spark_df2, spark_df1.name==spark_df2.name)</span><br></pre></td></tr></table></figure>
+<p>使用列名字符串联结的结果如下表所示，自动合并了联结的列。<br><img src="http://markdown.moverzp.com/18-3-18/60490940.jpg" alt><br>使用Column表达式联结的结果如下表所示，联结的列保留。<br><img src="http://markdown.moverzp.com/18-3-18/95283347.jpg" alt></p>
+<h4 id="分组聚合"><a href="#分组聚合" class="headerlink" title="分组聚合"></a>分组聚合</h4><p>分组聚合就是根据某些条件，将一个DataFrame对象分成各个小组，然后在各个小组内进行一些运算，再将每个组运算的结果拼成一个新的DataFrame对象，常常用来求最值，求平均值，组内排序等。下面的例子是求每个性别的年龄平均值。</p>
+<h5 id="pandas-6"><a href="#pandas-6" class="headerlink" title="pandas"></a>pandas</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data = &#123;<span class="string">'name'</span>:[<span class="string">'Jack'</span>, <span class="string">'Tom'</span>, <span class="string">'Alice'</span>], <span class="string">'age'</span>:[<span class="number">20</span>, <span class="number">23</span>, <span class="number">21</span>], <span class="string">'gender'</span>:[<span class="string">'male'</span>, <span class="string">'male'</span>, <span class="string">'female'</span>]&#125;</span><br><span class="line">pandas_df = pd.DataFrame(data)</span><br><span class="line"></span><br><span class="line">mean_age = pandas_df.groupby(<span class="string">'gender'</span>)[<span class="string">'age'</span>].mean()</span><br></pre></td></tr></table></figure>
+<p><img src="http://markdown.moverzp.com/18-3-18/62030336.jpg" alt></p>
+<h5 id="pyspark-6"><a href="#pyspark-6" class="headerlink" title="pyspark"></a>pyspark</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">data = [(<span class="string">'Jack'</span>, <span class="number">20</span>, <span class="string">'male'</span>), (<span class="string">'Tom'</span>, <span class="number">23</span>, <span class="string">'male'</span>), (<span class="string">'Alice'</span>, <span class="number">21</span>, <span class="string">'female'</span>)]</span><br><span class="line">spark_df = sqlContext.createDataFrame(data, schema=[<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'gender'</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 以下两种求均值结果一样</span></span><br><span class="line">spark_df.groupBy(<span class="string">'gender'</span>).agg(&#123;<span class="string">'age'</span>:<span class="string">'mean'</span>&#125;)</span><br><span class="line">spark_df.groupBy(<span class="string">'gender'</span>).mean(<span class="string">'age'</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="http://markdown.moverzp.com/18-3-18/51957176.jpg" alt></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><h5 id="pyspark中实现类似于hive中的row-number"><a href="#pyspark中实现类似于hive中的row-number" class="headerlink" title="pyspark中实现类似于hive中的row_number()"></a>pyspark中实现类似于hive中的row_number()</h5><p>按照性别分组，然后根据name进行降序排序，组内顺序作为新的一列添加到DataFrame对象中。pandas中这种操作比较容易实现，就不展示了。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data = [(<span class="string">'Jack'</span>, <span class="number">20</span>, <span class="string">'male'</span>), (<span class="string">'Tom'</span>, <span class="number">23</span>, <span class="string">'male'</span>), (<span class="string">'Alice'</span>, <span class="number">21</span>, <span class="string">'female'</span>)]</span><br><span class="line">spark_df = sqlContext.createDataFrame(data, schema=[<span class="string">'name'</span>, <span class="string">'age'</span>, <span class="string">'gender'</span>])</span><br><span class="line"></span><br><span class="line">spark_df.withColumn(<span class="string">'row_number'</span>, F.row_number().over(Window.partitionBy([<span class="string">'gender'</span>]).orderBy(F.desc(<span class="string">'name'</span>)))).show()</span><br></pre></td></tr></table></figure></p>
+<p><img src="http://markdown.moverzp.com/18-3-18/51648129.jpg" alt></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>pandas和spark中都有DataFrame类型，一般情况下互相都有类似的操作，都是结构化数据处理的利器</li>
+<li>pandas常常用于单机，小数据集和demo的应用，一般情况下数据集只要能在单机的内存中放下，就可以使用pandas</li>
+<li>spark适合离线大数据集分布式应用，凡是单机内存放不下的，或者计算时间过长的，最好都用spark</li>
+<li>虽然pandas和spark的DataFrame操作基本一致，但是要牢记pandas是单机处理，spark是分布式处理，spark中有driver和executer的概念，因此有时候仿照pandas中DataFrame的处理代码，直接去写spark，结果可能会和预期的不符</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据清洗</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/03/17/Pandas和PySpark中的DataFrame比较/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-kaggle猫狗大战手记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
