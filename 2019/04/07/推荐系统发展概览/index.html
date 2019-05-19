@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://markdown.moverzp.com/img1.png">
 <meta property="og:image" content="http://markdown.moverzp.com/20190414img2.png">
 <meta property="og:image" content="http://markdown.moverzp.com/20190414img3.jpg">
-<meta property="og:updated_time" content="2019-04-15T15:20:58.116Z">
+<meta property="og:updated_time" content="2019-05-19T17:31:07.247Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="推荐系统发展概览">
 <meta name="twitter:description" content="搜索推荐隐藏在生活的各个角落里，比如抖音、快手的视频推荐，亚马逊的物品推荐，各种Feed推荐等等。推荐系统基于用户数据和物品数据，通过一定的架构和算法，为用户推荐符合需求的物品，以达到提高用户体验，CTR，CVR，GMV等目的。本文将从三个阶段简单介绍一下推荐系统。 1.0阶段——规则驱动严格意义上这个阶段其实是不算推荐系统的。这个阶段主要依靠运营人员制定的规则去推荐物品，比如主推高销量的物品，新">
@@ -178,6 +178,7 @@
 <h2 id="1-0阶段——规则驱动"><a href="#1-0阶段——规则驱动" class="headerlink" title="1.0阶段——规则驱动"></a>1.0阶段——规则驱动</h2><p>严格意义上这个阶段其实是不算推荐系统的。这个阶段主要依靠运营人员制定的规则去推荐物品，比如主推高销量的物品，新物品。这个阶段最大的问题就是每个人看到的内容都是一样的，多样性无，转化率低下。</p>
 <p>一般在系统冷启动的时候可以短暂的使用这种方法。</p>
 <h2 id="2-0阶段——算法驱动"><a href="#2-0阶段——算法驱动" class="headerlink" title="2.0阶段——算法驱动"></a>2.0阶段——算法驱动</h2><p>2.0阶段的算法主要指<strong>协同过滤</strong>或者<strong>关联规则</strong>。协同过滤有两种，一种是基于用户的协同过滤，一种是基于物品的协同过滤，前者适合物品数量比用户多，且比较多变的场景，如新闻，后者适合物品数量比较少，且比较固定的场景，如电商。</p>
+<a id="more"></a>
 <h3 id="UserCF和ItemCF的相似度计算公式对比"><a href="#UserCF和ItemCF的相似度计算公式对比" class="headerlink" title="UserCF和ItemCF的相似度计算公式对比"></a>UserCF和ItemCF的相似度计算公式对比</h3><p><img src="http://markdown.moverzp.com/20190414table.png" alt="公式渲染有问题，拿图来凑"></p>
 <p>备注：实际使用中，相似度公式有大量调整和变形（比如降低高销量物品的权重）。</p>
 <h3 id="UserCF和ItemCF的特点对比"><a href="#UserCF和ItemCF的特点对比" class="headerlink" title="UserCF和ItemCF的特点对比"></a>UserCF和ItemCF的特点对比</h3><div class="table-container">

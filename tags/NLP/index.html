@@ -6,24 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>快速图像风格迁移（四）——对一张图像进行风格迁移 | moverzp的博客</title>
+  <title>Tag: NLP | moverzp的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="训练完模型之后，就可以使用训练好的图像生成网络进行快速风格迁移。 1. eval模块编写eval.py文件，实现快速风格迁移的功能。 首先导入必要的package.1234import tensorflow as tffrom preprocessing import preprocessing_factoryimport reader, modelimport os, time  reader模">
-<meta name="keywords" content="机器学习">
-<meta property="og:type" content="article">
-<meta property="og:title" content="快速图像风格迁移（四）——对一张图像进行风格迁移">
-<meta property="og:url" content="http://yoursite.com/2018/11/07/快速图像风格迁移（四）——对一张图像进行风格迁移/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="moverzp的博客">
+<meta property="og:url" content="http://yoursite.com/tags/NLP/index.html">
 <meta property="og:site_name" content="moverzp的博客">
-<meta property="og:description" content="训练完模型之后，就可以使用训练好的图像生成网络进行快速风格迁移。 1. eval模块编写eval.py文件，实现快速风格迁移的功能。 首先导入必要的package.1234import tensorflow as tffrom preprocessing import preprocessing_factoryimport reader, modelimport os, time  reader模">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://markdown.moverzp.com/wave.jpg">
-<meta property="og:image" content="http://markdown.moverzp.com/timg.jpg">
-<meta property="og:image" content="http://markdown.moverzp.com/res.jpg">
-<meta property="og:updated_time" content="2019-05-19T17:34:44.074Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="快速图像风格迁移（四）——对一张图像进行风格迁移">
-<meta name="twitter:description" content="训练完模型之后，就可以使用训练好的图像生成网络进行快速风格迁移。 1. eval模块编写eval.py文件，实现快速风格迁移的功能。 首先导入必要的package.1234import tensorflow as tffrom preprocessing import preprocessing_factoryimport reader, modelimport os, time  reader模">
-<meta name="twitter:image" content="http://markdown.moverzp.com/wave.jpg">
+<meta name="twitter:title" content="moverzp的博客">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -154,95 +145,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-快速图像风格迁移（四）——对一张图像进行风格迁移" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      快速图像风格迁移（四）——对一张图像进行风格迁移
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2/" class="archive-article-date">
+  	<time datetime="2019-05-19T16:23:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-20</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-2/">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2</a>
     </h1>
   
 
-        
-        <a href="/2018/11/07/快速图像风格迁移（四）——对一张图像进行风格迁移/" class="archive-article-date">
-  	<time datetime="2018-11-06T17:57:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>训练完模型之后，就可以使用训练好的图像生成网络进行快速风格迁移。</p>
-<h2 id="1-eval模块"><a href="#1-eval模块" class="headerlink" title="1. eval模块"></a>1. eval模块</h2><p>编写<code>eval.py</code>文件，实现快速风格迁移的功能。</p>
-<p>首先导入必要的package.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">from</span> preprocessing <span class="keyword">import</span> preprocessing_factory</span><br><span class="line"><span class="keyword">import</span> reader, model</span><br><span class="line"><span class="keyword">import</span> os, time</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><code>reader</code>模块的具体内容详见参考资料[5]</li>
-</ul>
-<p>使用命令行传入训练好的模型路径和待转换的图像路径等参数。tf中的<code>tf.app.flags</code>用于接受命令行传入的参数，使用的时候会定义参数的类型，参数名，参数默认值和参数的描述。这里我们传入4个参数：</p>
-<a id="more"></a>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tf.app.flags.DEFINE_string(<span class="string">'loss_model'</span>, <span class="string">'vgg_16'</span>, <span class="string">'The name of the architecture to evaluate. '</span></span><br><span class="line">                           <span class="string">'You can view all the support models in nets/nets_factory.py'</span>)</span><br><span class="line">tf.app.flags.DEFINE_integer(<span class="string">'image_size'</span>, <span class="number">256</span>, <span class="string">'Image size to train.'</span>)</span><br><span class="line">tf.app.flags.DEFINE_string(<span class="string">"model_file"</span>, <span class="string">"models.ckpt"</span>, <span class="string">""</span>)</span><br><span class="line">tf.app.flags.DEFINE_string(<span class="string">"image_file"</span>, <span class="string">"a.jpg"</span>, <span class="string">""</span>)</span><br><span class="line"></span><br><span class="line">FLAGS = tf.app.flags.FLAGS</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>tf.app.flags.DEFINE_XXX</code>中的<code>XXX</code>就是参数类型，括号中的三个参数分别表示传入的参数名，参数默认值和参数描述</li>
-<li>第一个参数是string类型的参数，参数名是<code>&#39;loss_model&#39;</code>, 默认值是<code>&#39;vgg_16&#39;</code></li>
-<li>第二个参数是int类型的参数，参数名是<code>&#39;image_size&#39;</code>，默认值是<code>&#39;256&#39;</code></li>
-<li>第三个参数是string类型的参数，参数名是<code>&#39;model_file&#39;</code>，默认值是<code>&#39;models.ckpt&#39;</code></li>
-<li>第四个参数是string类型的参数，参数名是<code>&#39;image_file&#39;</code>，默认值是<code>&#39;a.jpg&#39;</code></li>
-</ul>
-<p>定义直接运行<code>eval.py</code>函数，该函数的主要作用就两个</p>
-<ul>
-<li>设置记录日志的等级</li>
-<li>运行<code>main()</code>函数，<code>tf.app.run()</code>会自动的运行当前文件的<code>main()</code>函数<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    tf.logging.set_verbosity(tf.logging.INFO)</span><br><span class="line">    tf.app.run()</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>最后来编写<code>main()</code>函数，主要在注释中讲解。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(_)</span>:</span></span><br><span class="line">    <span class="comment"># 获取图片尺寸</span></span><br><span class="line">    height = <span class="number">0</span></span><br><span class="line">    width = <span class="number">0</span></span><br><span class="line">    <span class="keyword">with</span> open(FLAGS.image_file, <span class="string">'rb'</span>) <span class="keyword">as</span> img:</span><br><span class="line">        <span class="keyword">with</span> tf.Session().as_default() <span class="keyword">as</span> sess:</span><br><span class="line">            <span class="keyword">if</span> FLAGS.image_file.lower().endswith(<span class="string">'png'</span>):</span><br><span class="line">                image = sess.run(tf.image.decode_png(img.read()))</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                image = sess.run(tf.image.decode_jpeg(img.read()))</span><br><span class="line">            height = image.shape[<span class="number">0</span>]</span><br><span class="line">            width = image.shape[<span class="number">1</span>]</span><br><span class="line">    tf.logging.info(<span class="string">'Image size: %dx%d'</span> % (height, width))</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 载入图片</span></span><br><span class="line">    <span class="keyword">with</span> tf.Graph().as_default():</span><br><span class="line">        <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">            image_preprocessing_fn = preprocessing_factory.get_preprocessing(</span><br><span class="line">                FLAGS.loss_model,</span><br><span class="line">                is_training=<span class="literal">False</span>)</span><br><span class="line">            image = reader.get_image(FLAGS.image_file, height, width, image_preprocessing_fn)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 得到生成网络的生成图片，注意此时并未发生计算</span></span><br><span class="line">            image = tf.expand_dims(image, <span class="number">0</span>)</span><br><span class="line">            generated = model.net(image, training=<span class="literal">False</span>)</span><br><span class="line">            generated = tf.cast(generated, tf.uint8)</span><br><span class="line">            generated = tf.squeeze(generated, [<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 从checkpoint文件中载入训练好的模型</span></span><br><span class="line">            saver = tf.train.Saver(tf.global_variables(), write_version=tf.train.SaverDef.V1)</span><br><span class="line">            sess.run([tf.global_variables_initializer(), tf.local_variables_initializer()])</span><br><span class="line"></span><br><span class="line">            FLAGS.model_file = os.path.abspath(FLAGS.model_file)</span><br><span class="line">            saver.restore(sess, FLAGS.model_file)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 检查文件路径</span></span><br><span class="line">            generated_file = <span class="string">'generated/res.jpg'</span></span><br><span class="line">            <span class="keyword">if</span> os.path.exists(<span class="string">'generated'</span>) <span class="keyword">is</span> <span class="literal">False</span>:</span><br><span class="line">                os.makedirs(<span class="string">'generated'</span>)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># 开始计算</span></span><br><span class="line">            <span class="keyword">with</span> open(generated_file, <span class="string">'wb'</span>) <span class="keyword">as</span> img:</span><br><span class="line">                start_time = time.time()</span><br><span class="line">                img.write(sess.run(tf.image.encode_jpeg(generated)))</span><br><span class="line">                end_time = time.time()</span><br><span class="line"></span><br><span class="line">                tf.logging.info(<span class="string">'Elapsed time: %fs'</span> %(end_time - start_time))</span><br><span class="line">                tf.logging.info(<span class="string">'Done. Please check %s.'</span> % generated_file)</span><br></pre></td></tr></table></figure></p>
-<p>在命令行中输入以下命令：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python eval.py --model_file models/wave/fast-style_model.ckpt<span class="number">-17000</span> --image_file img/test.jpg</span><br></pre></td></tr></table></figure></p>
-<p>然后就可以在<code>generated/res.jpg</code>中查看风格迁移之后的图像了。<br>本文中提供风格的图像是《神奈川冲浪里》。<br><img src="http://markdown.moverzp.com/wave.jpg" alt="神奈川冲浪里"><br>本文中提供内容的图像是北京西站的一张图像。<br><img src="http://markdown.moverzp.com/timg.jpg" alt="北京西站原图"><br>经过风格转换后的图像如下所示。<br><img src="http://markdown.moverzp.com/res.jpg" alt="经过风格转换后的北京西站"><br>对示例图片进行快速风格迁移，一共耗时10秒钟，比基础版的图像风格迁移快了很多倍，实际应用中会使用GPU进行风格迁移，耗时会更少。</p>
-<h2 id="2-小结"><a href="#2-小结" class="headerlink" title="2.小结"></a>2.小结</h2><ul>
-<li>快速风格迁移之所以能做到快速，是因为训练了图像生成网络，风格迁移的时候进行一次前向计算即可；而原版的风格迁移，每进行一张图像的风格迁移就相当于训练一次模型</li>
-<li>一个图像生成网络只能迁移一种风格</li>
-</ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>[1] 何之源. 21个项目玩转深度学习[M]. 北京:电子工业出版社, 2018.<br>[2] <a href="http://moverzp.com/2018/08/10/%E3%80%90paper%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%BE%E5%83%8F%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB/." target="_blank" rel="noopener">moverzp. 【paper笔记】图像风格迁移[EB/OL].</a><br>[3] <a href="http://moverzp.com/2018/08/19/%E5%BF%AB%E9%80%9F%E5%9B%BE%E5%83%8F%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB%EF%BC%88%E4%B8%80%EF%BC%89%E2%80%94%E2%80%94%E5%9B%BE%E5%83%8F%E7%94%9F%E6%88%90%E7%BD%91%E7%BB%9C/." target="_blank" rel="noopener">moverzp. 快速图像风格迁移（一）——图像生成网络[EB/OL].</a><br>[4] <a href="http://moverzp.com/2018/08/30/%E5%BF%AB%E9%80%9F%E5%9B%BE%E5%83%8F%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB%EF%BC%88%E4%BA%8C%EF%BC%89%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener">moverzp. 快速图像风格迁移（二）——损失函数[EB/OL].</a><br>[5] <a href="http://moverzp.com/2018/11/04/%E5%BF%AB%E9%80%9F%E5%9B%BE%E5%83%8F%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB%EF%BC%88%E4%B8%89%EF%BC%89%E2%80%94%E2%80%94%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83/" target="_blank" rel="noopener">moverzp. 快速图像风格迁移（三）——模型训练[EB/OL].</a><br>[6] Gatys L A, Ecker A S, Bethge M. A Neural Algorithm of Artistic Style[J]. Computer Science, 2016.<br>[7] Johnson J, Alahi A, Li F F. Perceptual Losses for Real-Time Style Transfer and Super-Resolution[C]// European Conference on Computer Vision. Springer, Cham, 2016:694-711.<br>[8] <a href="https://tensorflow.google.cn/tutorials/" target="_blank" rel="noopener">https://tensorflow.google.cn/tutorials/</a></p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>非常感谢~<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="http://markdown.moverzp.com/17-8-24/7846791.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="http://markdown.moverzp.com/wx.jpeg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -250,117 +182,111 @@
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
         		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">NLP</a>
+        		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/11/07/快速图像风格迁移（四）——对一张图像进行风格迁移/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
   
-<nav id="article-nav">
-  
-    <a href="/2018/11/23/工作一年半的碎碎念/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          工作一年半的碎碎念
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2018/11/04/快速图像风格迁移（三）——模型训练/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">快速图像风格迁移（三）——模型训练</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/" class="archive-article-date">
+  	<time datetime="2019-05-19T15:05:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
+</a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
+    	 
   
-  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>
+    </h1>
   
 
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">NLP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" class="archive-article-date">
+  	<time datetime="2019-05-19T12:15:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/">CS 224n(2019) Assignment 2: word2vec[Written]</a>
+    </h1>
   
 
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">NLP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
   
+  
+    </div></section>
+  
+
+    
 
 
           </div>
@@ -383,9 +309,9 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: true,

@@ -17,7 +17,7 @@
 <meta property="og:description" content="之前在【paper笔记】图像风格迁移博文中介绍了图像风格迁移的原理，在快速图像风格迁移（一）——图像生成网络博文中搭建了图像生成网络。 今天要实现的是损失函数，损失函数通过损失网络（论文中是VGG16）提取图像的content representation和style representation，然后使用content representation计算$L_{content}$，使用style">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://markdown.moverzp.com/18-8-29/56652752.jpg">
-<meta property="og:updated_time" content="2018-11-04T14:51:36.000Z">
+<meta property="og:updated_time" content="2019-05-19T17:36:02.912Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="快速图像风格迁移（二）——损失函数">
 <meta name="twitter:description" content="之前在【paper笔记】图像风格迁移博文中介绍了图像风格迁移的原理，在快速图像风格迁移（一）——图像生成网络博文中搭建了图像生成网络。 今天要实现的是损失函数，损失函数通过损失网络（论文中是VGG16）提取图像的content representation和style representation，然后使用content representation计算$L_{content}$，使用style">
@@ -176,6 +176,7 @@
 <p>今天要实现的是损失函数，损失函数通过损失网络（论文中是VGG16）提取图像的content representation和style representation，然后使用content representation计算$L_{content}$，使用style representation计算$L_{style}$<br>，最后根据$L_{content}$和$L_{style}$得到$L_{total}$，使用的深度学习框架是TensorFlow（具体的损失函数公式详见<a href="http://moverzp.com/2018/08/10/%E3%80%90paper%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%BE%E5%83%8F%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB/" target="_blank" rel="noopener">【paper笔记】图像风格迁移</a>）。</p>
 <h2 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1. 准备工作"></a>1. 准备工作</h2><p>TensorFlow提供预训练好的模型，比如VGG16，ResNet和MobileNet，但是这些模型并没有随着TensorFlow的安装而被下载，还需要我们自己去GitHub上下载模型。</p>
 <p>首先使用下面的git命令clone代码到本地<code>git clone https://github.com/tensorflow/models.git</code>. Clone到本地之后，会发现文件夹里还有多个子文件夹，其中比较重要的文件夹及其功能如下所示</p>
+<a id="more"></a>
 <ul>
 <li><code>/research/slim/nets</code>，定义了常见的网络结构，如VGG16，ResNet和MobileNet</li>
 <li><code>/research/slim/preprocessing</code>，定义常见网络结构的预处理函数</li>

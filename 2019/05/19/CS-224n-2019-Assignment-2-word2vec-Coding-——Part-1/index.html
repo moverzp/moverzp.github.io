@@ -9,7 +9,7 @@
   <title>CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1 | moverzp的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="原始题目以及完整的答案已经上传到GitHub仓库中：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019) 本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见CS 224n(2019) Assignment 2: word2vec[Written]。 题">
-<meta name="keywords" content="机器学习 NLP">
+<meta name="keywords" content="机器学习,NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1">
 <meta property="og:url" content="http://yoursite.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/index.html">
@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/img1.png">
 <meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/img2.jpg">
 <meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png">
-<meta property="og:updated_time" content="2019-05-19T16:33:15.128Z">
+<meta property="og:updated_time" content="2019-05-19T17:32:54.804Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1">
 <meta name="twitter:description" content="原始题目以及完整的答案已经上传到GitHub仓库中：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019) 本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见CS 224n(2019) Assignment 2: word2vec[Written]。 题">
@@ -176,7 +176,8 @@
       
         <p>原始题目以及完整的答案已经上传到GitHub仓库中：<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code></p>
 <p>本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Written]</a>。</p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="http://markdown.moverzp.com/2019-05-19/2/img1.png" alt="img1"></p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><a id="more"></a>
+<p><img src="http://markdown.moverzp.com/2019-05-19/2/img1.png" alt="img1"></p>
 <p>先看一下<code>env.yml</code>中配置的package，需要的package有<code>jupyter</code>, <code>matplotlib</code>, <code>numpy</code>, <code>python37</code>, <code>sklearn</code>，如果我们的环境已经安装了这些package，就不需要创建新的环境并下载，否则使用<code>conda env create -f env.yml</code>命令创建新的环境并安装这些package，使用<code>conda activate a2</code>激活该环境。</p>
 <p>有一点需要注意，公式推导的时候，词向量是<strong>列向量</strong>，矩阵也是一个个列向量组成的，但是在程序实现的时候，词向量是<strong>行向量</strong>，矩阵也是一个个行向量组成的，因此编码实现的公式其实是Written部分推导的公式的转置。</p>
 <p>下面我们来填充<code>.py</code>文件需要填充的部分。</p>
@@ -317,7 +318,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">机器学习 NLP</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">NLP</a>
         		</li>
       		
 		</ul>
