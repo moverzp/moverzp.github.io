@@ -147,6 +147,314 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-Kaggle-DonorsChoose-org-Application-Screening【Top-10-】" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/13/Kaggle-DonorsChoose-org-Application-Screening【Top-10-】/">Kaggle DonorsChoose.org Application Screening【Top 10%】</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/13/Kaggle-DonorsChoose-org-Application-Screening【Top-10-】/" class="archive-article-date">
+  	<time datetime="2018-07-12T16:46:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="0-习惯的碎碎念"><a href="#0-习惯的碎碎念" class="headerlink" title="0. 习惯的碎碎念"></a>0. 习惯的碎碎念</h2><p>距离上一篇博文已经过去4个月，闯斯还在微信上问我为何不写博客了（囧）。一方面是自从开年以来，感觉时间特别得紧，主R了一个项目，倒也不难，但是特别的费精力，改了好几次需求，所以下班以后只有input的时间和精力，没时间output，笔记里面攒了好多好多的想法和实践；另一方面也是学得越多，越觉得自己水，不太愿意写博文。现在时间稍微多了一些，而且觉得写博文主要就是自我总结，然后说不定能帮助到其他人，所以把写博文又提上了Todo List.</p>
+<p>工作一年多了，现在还处在每天大量吸收知识的状态，也不知道是好还是不好😂。</p>
+<p>今天想要分享的是在2018-04~2018-05利用业余时间参加的一个kaggle比赛，取得的成绩是Public Leaderboard Top 4%, Private Leaderboard Top 10%.</p>
+<h2 id="1-题目解析"><a href="#1-题目解析" class="headerlink" title="1. 题目解析"></a>1. 题目解析</h2><p>原题地址：<a href="https://www.kaggle.com/c/donorschoose-application-screening" target="_blank" rel="noopener">DonorsChoose.org Application Screening</a></p>
+<p>DonorsChoose.org是一个教学资助机构，美国的教师可以向该机构申请教学基金和物品。越来越多的教师向该机构发起申请，现在每年大概有50W+的申请数量，过多的申请数量导致了3个问题</p>
+<ul>
+<li>如何调整当前人工审核的流程，才能高效且快速地得出基金是否发放的结果</li>
+<li>如何统一不同审核人员对于同一个项目的看法</li>
+<li>如何让审核人员的精力花费在有意义的项目审核上</li>
+</ul>
+<p>本次比赛的目标就是预测一个申请被批准的概率，审核人员会优先审核预测通过率较高的项目。</p>
+<p><strong>评价函数：AUC</strong></p>
+<h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><p><code>train.csv</code>和<code>test.csv</code>文件字段及说明如下表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">id</td>
+<td>申请id</td>
+</tr>
+<tr>
+<td style="text-align:left">teacher_id</td>
+<td>申请教师id</td>
+</tr>
+<tr>
+<td style="text-align:left">teacher_prefix</td>
+<td>教师名称前缀(Ms., Mr., etc.)</td>
+</tr>
+<tr>
+<td style="text-align:left">school_state</td>
+<td>学校所在州</td>
+</tr>
+<tr>
+<td style="text-align:left">project_submitted_datetime</td>
+<td>申请时间戳</td>
+</tr>
+<tr>
+<td style="text-align:left">project_grade_category</td>
+<td>所在年级(PreK-2, 3-5, 6-8, and 9-12)</td>
+</tr>
+<tr>
+<td style="text-align:left">project_subject_categories</td>
+<td>主题(e.g., “Music &amp; The Arts”)</td>
+</tr>
+<tr>
+<td style="text-align:left">project_subject_subcategories</td>
+<td>子主题(e.g., “Visual Arts”)</td>
+</tr>
+<tr>
+<td style="text-align:left">project_title</td>
+<td>申请题目</td>
+</tr>
+<tr>
+<td style="text-align:left">project_essay_1</td>
+<td>第1份材料，主要讲述学生</td>
+</tr>
+<tr>
+<td style="text-align:left">project_essay_2</td>
+<td>第2份材料，主要讲述资金和物品用途</td>
+</tr>
+<tr>
+<td style="text-align:left">project_resource_summary</td>
+<td>所需资金和物品总结</td>
+</tr>
+<tr>
+<td style="text-align:left">teacher_number_of_previously_posted_projects</td>
+<td>该教师之前提交过的次数</td>
+</tr>
+<tr>
+<td style="text-align:left">project_is_approved</td>
+<td>申请是否通过</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>注</strong>：<em>其实还有project_essay_3和project_essay_4，经过处理后可以和project_essay_1和project_essay_2合并，为了书写方便，直接就从合并后开始讲</em></p>
+<p><code>resource.csv</code>文件字段及说明如下表所示：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">id</td>
+<td>申请id</td>
+</tr>
+<tr>
+<td style="text-align:left">description</td>
+<td>申请物品描述</td>
+</tr>
+<tr>
+<td style="text-align:left">quantity</td>
+<td>申请物品数量</td>
+</tr>
+<tr>
+<td style="text-align:left">price</td>
+<td>申请物品价格</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="2-数据清洗和特征工程"><a href="#2-数据清洗和特征工程" class="headerlink" title="2. 数据清洗和特征工程"></a>2. 数据清洗和特征工程</h2><p>本次比赛提供了诸多特征，有数值特征，类别特征和文本特征。</p>
+<h3 id="2-1-resource-csv特征处理"><a href="#2-1-resource-csv特征处理" class="headerlink" title="2.1 resource.csv特征处理"></a>2.1 resource.csv特征处理</h3><ul>
+<li>根据<code>quantity</code>和<code>price</code>计算每一项物品的申请总价<code>price_all</code></li>
+<li>根据<code>id</code>进行groupby操作，计算本次申请所需要的物品种类数<code>items</code>，物品总申请数<code>quantity</code>，单价和<code>price_sum</code>，总价和<code>price_all_sum</code>，平均价<code>price_avg</code>，产出5个统计特征</li>
+<li>把max(), min(), mean()作用于<code>quantity</code>, <code>price</code>, <code>price_all</code>，产出9个统计特征</li>
+<li>根据<code>id</code>进行groupby操作，把属于同一个<code>id</code>的所有申请物品描述使用空格连接起来，特征类型是文本</li>
+</ul>
+<p>把处理后的resource数据通过<code>id</code>特征与train/test进行join.</p>
+<h3 id="2-2-统计特征处理"><a href="#2-2-统计特征处理" class="headerlink" title="2.2 统计特征处理"></a>2.2 统计特征处理</h3><ul>
+<li>根据<code>teacher_prefix</code>推断申请教师的性别<code>teacher_gender</code></li>
+<li>统计<code>teacher_id</code>，<code>teacher_gender</code>，<code>school_state</code>，<code>project_grade_category</code>，<code>project_grade_category</code>，<code>project_subject_categories</code>，<code>teacher_number_of_previously_posted_projects</code>特征每一个数值的占比</li>
+</ul>
+<p>举个例子，一个list=[‘a’, ‘a’, ‘b’, ‘c’]，则’a’的衍生特征为0.50，’b’的衍生特征为0.25，’c’的衍生特征为0.25</p>
+<h3 id="2-3-情感特征处理"><a href="#2-3-情感特征处理" class="headerlink" title="2.3 情感特征处理"></a>2.3 情感特征处理</h3><h4 id="2-3-1-情感分析知识补充"><a href="#2-3-1-情感分析知识补充" class="headerlink" title="2.3.1 情感分析知识补充"></a>2.3.1 情感分析知识补充</h4><p>文本一般情况下都有自己的情感倾向，一般分为褒义和贬义两种。使用<code>textblob</code>可以进行简单的情感分析，<code>TextBlob(string).sentiment</code>返回一个元组<code>(polarity, subjectivity)</code></p>
+<ul>
+<li>第一个元素<code>polarity</code>是区间[-1, 1]内的一个浮点数，表示消极情感（负数）或积极情感（正数）的程度</li>
+<li>第二个元素<code>subjectivity</code>是区间[0, 1]内的一个浮点数，表示主客观程度，0表示客观，1表示主观</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> textblob <span class="keyword">import</span> TextBlob</span><br><span class="line"></span><br><span class="line">sent1 = TextBlob(<span class="string">'There is nothing more enjoyable than reading.'</span>).sentiment</span><br><span class="line">sent2 = TextBlob(<span class="string">"Can you stop watching such a boring movie?"</span>).sentiment</span><br><span class="line">print(sent1)</span><br><span class="line">print(sent2)</span><br><span class="line"><span class="comment"># output:</span></span><br><span class="line"><span class="comment"># Sentiment(polarity=0.5, subjectivity=0.55)</span></span><br><span class="line"><span class="comment"># Sentiment(polarity=-0.5, subjectivity=0.75)</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-3-2-情感特征处理"><a href="#2-3-2-情感特征处理" class="headerlink" title="2.3.2 情感特征处理"></a>2.3.2 情感特征处理</h4><p>一般情况下，文本的情感倾向是一个较为重要的特征。文本特征中的标点符号，另类表达方式，I或者we，甚至是段落的划分都有可能影响阅读者的情感，具体怎么划分褒贬现在并没有一个统一的方法。</p>
+<ul>
+<li>本文使用textblob包进行情感分析，调用该包提供的情感分析方法去判断每一个文本特征(<code>project_title</code>, <code>project_essay_1</code>, <code>project_essay_2</code>, <code>project_resource_summary</code>, <code>description</code>)的情感倾向，并将其作为新特征，表示对应特征的褒贬特性及可信度</li>
+<li>由于符号和常用表达短语也可能影响阅读者的体验，所以还需要统计这些符号和常用表达短语在每一个文本特征中出现的次数，作为新的特征</li>
+<li>文本的长度也会影响阅读者的体验，所以每个文本特征又可以衍生出其长度的特征</li>
+<li>重复出现的词汇数量也会影响阅读者的体验，所以两两文本特征之间可以衍生出共有词汇数量的特征</li>
+</ul>
+<p>统计的特殊字符如下列所示：<br>KeyChars = [‘!’, ‘\?’, ‘@’, ‘#’, ‘$‘, ‘%’, ‘&amp;’, ‘*‘, ‘(‘, ‘[‘, ‘\{‘, ‘|‘, ‘-‘, ‘_’, ‘=’, ‘+‘,  ‘.‘, ‘:’, ‘;’, ‘,’, ‘/‘, ‘\\\\r’, ‘\\\\t’, ‘\\”‘, ‘...‘, ‘etc’, ‘http’, ‘poor’, ‘military’, ‘traditional’, ‘charter’, ‘head start’, ‘magnet’, ‘year-round’, ‘alternative’, ‘art’, ‘book’, ‘basics’, ‘computer’, ‘laptop’, ‘tablet’, ‘kit’, ‘game’, ‘seat’, ‘food’, ‘cloth’, ‘hygiene’, ‘instraction’, ‘technolog’, ‘lab’, ‘equipment’, ‘music’, ‘instrument’, ‘nook’, ‘desk’, ‘storage’, ‘sport’, ‘exercise’, ‘trip’, ‘visitor’, ‘my students’, ‘our students’, ‘my class’, ‘our class’]</p>
+<p>经过以上特征处理之后，可以明显的发现感叹号较多的申请被拒绝的次数更多。<br><img src="http://markdown.moverzp.com/18-7-11/33748016.jpg" alt></p>
+<h3 id="2-4-时间特征"><a href="#2-4-时间特征" class="headerlink" title="2.4 时间特征"></a>2.4 时间特征</h3><ul>
+<li>根据申请时间戳<code>project_submitted_datetime</code>生成<code>year</code>, <code>month</code>, <code>day</code>, <code>dayofweek</code>, <code>hour</code>, <code>days</code>等特征</li>
+<li>生成时间特征的统计特征</li>
+</ul>
+<h3 id="2-5-组合特征"><a href="#2-5-组合特征" class="headerlink" title="2.5 组合特征"></a>2.5 组合特征</h3><ul>
+<li>类似于FM，两两数值特征之间进行相乘组合，有可能会产生更有用的特征，使用pearson相关系数筛选组合后的特征，保留与目标值相似性较高的组合特征。</li>
+</ul>
+<p>比如<code>max_price</code>与<code>mean_price</code>组合的特征和目标值相似度就比单独的特征高<br><img src="http://markdown.moverzp.com/18-7-11/32251762.jpg" alt><br><img src="http://markdown.moverzp.com/18-7-11/6735806.jpg" alt><br><img src="http://markdown.moverzp.com/18-7-11/67700094.jpg" alt></p>
+<h3 id="2-6-类别特征"><a href="#2-6-类别特征" class="headerlink" title="2.6 类别特征"></a>2.6 类别特征</h3><p>由于类别特征多为文本类特征，因此使用词向量的方式。</p>
+<h4 id="2-6-1-词向量知识补充"><a href="#2-6-1-词向量知识补充" class="headerlink" title="2.6.1 词向量知识补充"></a>2.6.1 词向量知识补充</h4><p>词向量是处理文本一种常见的方式。词向量的<strong>维度数</strong>等于<strong>所有文本中不重复的单词数</strong>，每个位置对应一个单词，单词对应位置的数值表示单词在该文本中出现的频数。在sklearn中可以使用<code>CountVectorizer</code>进行词向量转化。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"></span><br><span class="line">corpus = [</span><br><span class="line">    <span class="string">'This is the first document.'</span>,</span><br><span class="line">    <span class="string">'This is the second second document.'</span>,</span><br><span class="line">    <span class="string">'And the third one.'</span>,</span><br><span class="line">    <span class="string">'Is this the first document?'</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">count_vectorizer = CountVectorizer()</span><br><span class="line">X = count_vectorizer.fit_transform(corpus)</span><br><span class="line">print(count_vectorizer.get_feature_names())</span><br><span class="line">print(X.toarray())</span><br><span class="line"><span class="comment"># output:</span></span><br><span class="line"><span class="comment"># ['and', 'document', 'first', 'is', 'one', 'second', 'the', 'third', 'this']</span></span><br><span class="line"><span class="comment"># [[0 1 1 1 0 0 1 0 1]</span></span><br><span class="line"><span class="comment">#  [0 1 0 1 0 2 1 0 1]</span></span><br><span class="line"><span class="comment">#  [1 0 0 0 1 0 1 1 0]</span></span><br><span class="line"><span class="comment">#  [0 1 1 1 0 0 1 0 1]]</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="2-6-2-类别特征转化为词向量"><a href="#2-6-2-类别特征转化为词向量" class="headerlink" title="2.6.2 类别特征转化为词向量"></a>2.6.2 类别特征转化为词向量</h4><ul>
+<li>使用原始特征<code>teacher_prefix</code>, <code>school_state</code>, <code>project_grade_category</code>, <code>project_subject_categories</code>, <code>project_subject_subcategories</code>计算词向量</li>
+</ul>
+<h3 id="2-7-文本特征"><a href="#2-7-文本特征" class="headerlink" title="2.7 文本特征"></a>2.7 文本特征</h3><p>这一部分的文本特征主要是指长文本特征，即<code>project_title</code>，<code>project_essay_1</code>，<code>project_essay_2</code>，<code>project_resource_summary</code>，<code>description</code></p>
+<ul>
+<li>清除单词时态，单复数变化等</li>
+<li>使用词向量的方式处理长文本特征</li>
+<li>使用TF-IDF的方式处理长文本特征</li>
+<li>使用word2vec的方式处理长文本特征</li>
+</ul>
+<h4 id="2-7-1-TF-IDF知识补充"><a href="#2-7-1-TF-IDF知识补充" class="headerlink" title="2.7.1 TF-IDF知识补充"></a>2.7.1 TF-IDF知识补充</h4><p>TF-IDF(term frequency–inverse document frequency)是一种用于信息检索与文本挖掘的常用加权技术。tf-idf是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。<a href="https://zh.wikipedia.org/wiki/Tf-idf" target="_blank" rel="noopener">维基百科TF-IDF</a>中的定义较为常见</p>
+<p><img src="http://markdown.moverzp.com/18-7-13/92759988.jpg" alt><br><em>此处公式总是渲染不对，所以直接用截图代替了</em></p>
+<p>维基百科举了一个很通俗易懂的例子，具体如下图所示<br><img src="http://markdown.moverzp.com/18-7-11/74757990.jpg" alt></p>
+<p>在sklearn中可以使用<code>TfidfVectorizer</code>进行词向量转化，不过sklearn中的算法进行了些许改动，<a href="http://scikit-learn.org/stable/modules/feature_extraction.html#tfidf-term-weighting" target="_blank" rel="noopener">具体可以看文档</a></p>
+<ul>
+<li>使用频数作为分子，而不是频率</li>
+<li>计算idf的时候，分子分母同时加1</li>
+<li>计算idf的时候，取对数以e为底，并且最后加1</li>
+<li>为了避免某文档中某个词的频数过高，计算出所有次的tf-idf后，进行了L2标准化</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> TfidfVectorizer</span><br><span class="line"></span><br><span class="line">corpus = [</span><br><span class="line">    <span class="string">'This is the first document.'</span>,</span><br><span class="line">    <span class="string">'This is the second second document.'</span>,</span><br><span class="line">    <span class="string">'And the third one.'</span>,</span><br><span class="line">    <span class="string">'Is this the first document?'</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">tfidf_vectorizer = TfidfVectorizer()</span><br><span class="line">X = tfidf_vectorizer.fit_transform(corpus)</span><br><span class="line"></span><br><span class="line">print(tfidf_vectorizer.get_feature_names())</span><br><span class="line"><span class="comment"># ['and', 'document', 'first', 'is', 'one', 'second', 'the', 'third', 'this']</span></span><br><span class="line">print(X)<span class="comment"># 此处X是稀疏矩阵</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-7-2-word2vec知识补充"><a href="#2-7-2-word2vec知识补充" class="headerlink" title="2.7.2 word2vec知识补充"></a>2.7.2 word2vec知识补充</h4><p>word2vec也是常见的文本处理方式，可以使用固定维数的向量表示文本，具体可以参考<a href="https://zhuanlan.zhihu.com/p/26306795" target="_blank" rel="noopener">[NLP] 秒懂词向量Word2vec的本质</a>. </p>
+<p>词向量的训练需要花费大量的时间，所以一般情况下，如果不是特别专业的方向，都是使用各大研究所或者互联网公司训练好的词向量。本文使用的是Facebook公开的fastText预训练词向量数据集，fastText词向量的语料是维基百科或者网络上爬取的文本，一共有三个版本，本文使用的是最大的预训练词向量数据集<a href="https://fasttext.cc/docs/en/english-vectors.html" target="_blank" rel="noopener">crawl-300d-2M.vec.zip</a>.</p>
+<h2 id="3-单模型训练"><a href="#3-单模型训练" class="headerlink" title="3. 单模型训练"></a>3. 单模型训练</h2><h3 id="3-1-XGBoost"><a href="#3-1-XGBoost" class="headerlink" title="3.1 XGBoost"></a>3.1 XGBoost</h3><p>XGBoost自从被天奇大佬发明以后，风靡各个数据挖掘竞赛，相比于传统的机器学习算法，准确率高，速度快，但是在微软亚研院的LightGBM出现以后，风头开始降低。</p>
+<p>XGBoost主要的调整参数有：</p>
+<ul>
+<li>objective，训练目标</li>
+<li>eta，更新权重的步长，越小训练越慢</li>
+<li>num_round，迭代次数</li>
+<li>subsample，训练数据的抽样比例</li>
+<li>colsample_bytree，训练特征的抽样比例</li>
+<li>max_depth，最大树深</li>
+<li>eval_metric，评价标准</li>
+<li>early_stopping_rounds，及早停止的训练次数</li>
+</ul>
+<p>调参的基本套路：</p>
+<ul>
+<li>根据实际情况设置正确的objective和eval_metric</li>
+<li>eta设置的大一些，如0.1~0.2，num_round设置的小一些，如300~500，使用GridSearch方法对其他参数进行搜索</li>
+<li>逐步降低eta，找到最佳值，这个时候训练时间会越来越长</li>
+<li>如果出现了过拟合现象，调低max_depth，early_stoppoing_rounds</li>
+</ul>
+<p><strong>XGBoost单模型的提交分数是0.81005.</strong></p>
+<h3 id="3-2-LightGBM"><a href="#3-2-LightGBM" class="headerlink" title="3.2 LightGBM"></a>3.2 LightGBM</h3><p>LightGBM是微软亚洲研究院在2016年10开源的boosting模型，相比于XGBoost，<strong>内存占用减小至1/6~1/5，训练速度提升至5~10倍，但是精度没有影响</strong>，甚至还略有提升，所以在各大数据挖掘竞赛中露脸的频率越来越多，毕竟时间就是生命。LightGBM相比于传统的GBDT算法，主要是使用了直方图算法，大大减少了训练的时间。</p>
+<p>主要的调整参数有：</p>
+<ul>
+<li>boosting_type, 决策树类型，缺省值为gbdt</li>
+<li>objective, 训练目标</li>
+<li>metric, 评价函数</li>
+<li>max_depth, 最大深度</li>
+<li>learning_rate, 学习率</li>
+<li>feature_fraction, 随机选择特征数，[0,1]之间</li>
+<li>bagging_fraction, 类似于 feature_fraction, 但是它将在不进行重采样的情况下随机选择部分数据</li>
+</ul>
+<p>调参的套路和XGBoost差不多。<strong>LightGBM单模型的提交得分是0.81322.</strong></p>
+<h3 id="3-3-Capsule-Network"><a href="#3-3-Capsule-Network" class="headerlink" title="3.3 Capsule Network"></a>3.3 Capsule Network</h3><p>Capsule Network是Hinton大佬在2017年10月提出的新型神经网络结构。Capsule Network和以往的神经网络最大的不同就是每一个节点不再是标量，而是矢量，即<strong>vector in vector out</strong>。Capsule在论文中就是最基本的向量单元。</p>
+<p>Capsule Network的提出主要是为了解决CNN忽略结构信息的问题，如下图所示，更改了眼睛和嘴唇的位置，CNN还是把图像识别为人类，如果把图片旋转180度，CNN就不能识别出人类了，因此为了避免这种情况，训练CNN之前需要进行数据增强等操作。<br><img src="http://markdown.moverzp.com/18-7-12/15315353.jpg" alt></p>
+<p>Capsule Network论文关键词主要有动态路由算法，压缩函数，耦合系数，Capsule Network具体内容详见参考资料[4]和[5]。</p>
+<p><strong>Capsule Network单模型的提交得分是0.81800.</strong></p>
+<h2 id="4-模型融合"><a href="#4-模型融合" class="headerlink" title="4. 模型融合"></a>4. 模型融合</h2><p>模型融合就是把之前的单模型进行堆叠，或者说是组合，是一种bagging的思想。最简单的模型融合就是直接取平均数（回归）或者投票（分类）。当然，简单的代价就是精度的牺牲，kaggle比赛到后期千分位级别分数的提升都能前进好几名，因此大家一般都是使用稍微复杂一点的stacking方法进行模型融合，即<strong>使用模型去进行模型融合</strong>。</p>
+<h3 id="4-1-有CV的stacking"><a href="#4-1-有CV的stacking" class="headerlink" title="4.1 有CV的stacking"></a>4.1 有CV的stacking</h3><p><img src="http://markdown.moverzp.com/18-7-12/1540463.jpg" alt><br>一般情况下都是5折交叉验证，使用训练集其中的4份数据训练模型，然后将剩下的1份数据和测试集代入模型，得到对应的预测值，这样最终可以得到某个模型在整个训练集上的预测值和5份测试集的预测值，将训练集上的预测值拼接在一起，作为第二层训练集的一列特征；将5份测试集的预测值求一个平均数，作为第二层测试集的一列特征。</p>
+<p>对于所有单模型进行这样的操作，每个单模型都可以产出一列数据，将各个列的数据拼接起来，最终可以得到第二层的训练集和测试集。</p>
+<p>这里使用交叉验证的方式训练模型并得到第二层的数据集是非常关键的一步，这么做的目的是避免数据集污染。</p>
+<p><img src="http://markdown.moverzp.com/18-7-12/83081258.jpg" alt><br>以上图为例，是一个2层的stacking，第1层一共训练了3个模型，然后将这3个模型预测的结果在水平方向进行堆叠，得到第二层的数据集，第二层使用XGB进行5折交叉验证训练，得到最终的预测结果。</p>
+<p><strong>使用该方法堆叠本文训练的3个模型，提交得分为0.82278.</strong></p>
+<h3 id="4-2-无CV的stacking"><a href="#4-2-无CV的stacking" class="headerlink" title="4.2 无CV的stacking"></a>4.2 无CV的stacking</h3><p>无CV的stacking其实有点无聊，并且有刷公榜的嫌疑（笔者无聊至极，靠着这个方法刷到过公榜Top 2%）。Kaggle参赛者分享的kernel中都有模型预测的测试集结果，可以直接下载。这个时候没有训练集对应的标签，可以做一个简易版的stacking，不过一般精度都不如有CV的stacking。</p>
+<p>以本文为例，Kaggle上有众多kernel，挑选得分0.78以上预测结果下载，作为融合的准备数据（选取别的模型预测结果的时候，可以使用pearson相关系数来筛选）</p>
+<ul>
+<li>载入若干个模型预测的结果y[i]及其分数score[i]，均为矢量</li>
+<li>设置参数power，多为4，8，16，32，64等</li>
+<li>计算权重weight[i] = score[i] ** power</li>
+<li>使用logit函数将y[i]展开到[-∞, +∞]</li>
+<li>根据weight[i]求加权平均数</li>
+<li>将求得平均数再使用sigmoid函数压缩到[0, 1]之间，得到最终结果</li>
+</ul>
+<p><img src="http://markdown.moverzp.com/18-7-12/93055165.jpg" alt><br>logit函数</p>
+<p><img src="http://markdown.moverzp.com/18-7-12/72013636.jpg" alt><br>sigmoid函数</p>
+<p>本质就是一种bagging的思想，得分越高，占的权重就越大，<strong>提交得分为0.82633</strong>，该方法由于没有CV验证，所以很容易过拟合，private score也证实确实发生了过拟合。</p>
+<h2 id="5-经验和心得"><a href="#5-经验和心得" class="headerlink" title="5. 经验和心得"></a>5. 经验和心得</h2><ul>
+<li>留出1~2月的业余时间比较合理，尤其是比赛截止最后几天，会杀出很多程咬金，public leaderboard变化非常频繁，我最后就掉以轻心了从12th掉到22th</li>
+<li>一个有效的CV非常重要，一般情况下，CV比public leaderboard上面的分数更加接近private score，尤其是public score和CV score相差较大时，以CV score为准</li>
+<li>特征非常的重要，大概需要花费整个比赛的2/3~3/4的时间与精力</li>
+<li>大概在public leaderboard排到Top 10%的位置的时候，就可以进行模型融合了，现在的比赛异常激烈，基本上到最后就是疯狂地stacking，进行若干层stacking，即stacking of stacking of stacking of stacking…</li>
+<li>多看看比赛的kernel和评论区，即使是边边角角的评论也不要放过，很可能就有大神的讨论</li>
+</ul>
+<h2 id="6-参考资料"><a href="#6-参考资料" class="headerlink" title="6.参考资料"></a>6.参考资料</h2><p>[1].<a href="https://www.kaggle.com/safavieh/ultimate-feature-engineering-xgb-lgb-nn/notebook" target="_blank" rel="noopener">https://www.kaggle.com/safavieh/ultimate-feature-engineering-xgb-lgb-nn/notebook</a><br>[2].<a href="http://xgboost.readthedocs.io/en/latest/parameter.html#general-parameters" target="_blank" rel="noopener">http://xgboost.readthedocs.io/en/latest/parameter.html#general-parameters</a><br>[3].<a href="http://lightgbm.apachecn.org/cn/latest/Parameters.html" target="_blank" rel="noopener">http://lightgbm.apachecn.org/cn/latest/Parameters.html</a><br>[4].<a href="https://arxiv.org/abs/1710.09829" target="_blank" rel="noopener">DSabour S, Frosst N, Hinton G E. Dynamic Routing Between Capsules[J]. 2017.</a><br>[5].<a href="https://kexue.fm/archives/4819" target="_blank" rel="noopener">https://kexue.fm/archives/4819</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/13/Kaggle-DonorsChoose-org-Application-Screening【Top-10-】/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-Pandas和PySpark中的DataFrame比较" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     

@@ -6,15 +6,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | moverzp的博客</title>
+  <title>CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1 | moverzp的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="moverzp的博客">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="原始题目以及完整的答案已经上传到GitHub仓库中：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019) 本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见CS 224n(2019) Assignment 2: word2vec[Written]。 题">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1">
+<meta property="og:url" content="http://yoursite.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/index.html">
 <meta property="og:site_name" content="moverzp的博客">
+<meta property="og:description" content="原始题目以及完整的答案已经上传到GitHub仓库中：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019) 本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见CS 224n(2019) Assignment 2: word2vec[Written]。 题">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/img1.png">
+<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/img2.jpg">
+<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png">
+<meta property="og:updated_time" content="2019-05-19T15:25:07.080Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="moverzp的博客">
+<meta name="twitter:title" content="CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1">
+<meta name="twitter:description" content="原始题目以及完整的答案已经上传到GitHub仓库中：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019) 本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见CS 224n(2019) Assignment 2: word2vec[Written]。 题">
+<meta name="twitter:image" content="http://markdown.moverzp.com/2019-05-19/2/img1.png">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -145,187 +154,164 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/" class="archive-article-date">
+
+        
+        <a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/" class="archive-article-date">
   	<time datetime="2019-05-19T15:05:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+        
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" class="archive-article-date">
-  	<time datetime="2019-05-19T12:15:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/">CS 224n(2019) Assignment 2: word2vec[Written]</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/04/07/推荐系统发展概览/" class="archive-article-date">
-  	<time datetime="2019-04-07T14:19:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/04/07/推荐系统发展概览/">推荐系统发展概览</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
+    <div class="article-entry" itemprop="articleBody">
       
-        </div></section>
+        <p>原始题目以及完整的答案已经上传到GitHub仓库中：<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code></p>
+<p>本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Written]</a>。</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p><img src="http://markdown.moverzp.com/2019-05-19/2/img1.png" alt="img1"></p>
+<p>先看一下<code>env.yml</code>中配置的package，需要的package有<code>jupyter</code>, <code>matplotlib</code>, <code>numpy</code>, <code>python37</code>, <code>sklearn</code>，如果我们的环境已经安装了这些package，就不需要创建新的环境并下载，否则使用<code>conda env create -f env.yml</code>命令创建新的环境并安装这些package，使用<code>conda activate a2</code>激活该环境。</p>
+<p>有一点需要注意，公式推导的时候，词向量是<strong>列向量</strong>，矩阵也是一个个列向量组成的，但是在程序实现的时候，词向量是<strong>行向量</strong>，矩阵也是一个个行向量组成的，因此编码实现的公式其实是Written部分推导的公式的转置。</p>
+<p>下面我们来填充<code>.py</code>文件需要填充的部分。</p>
+<h2 id="a"><a href="#a" class="headerlink" title="(a)"></a>(a)</h2><h3 id="a-1-实现sigmoid"><a href="#a-1-实现sigmoid" class="headerlink" title="a.1 实现sigmoid()"></a>a.1 实现sigmoid()</h3><p>根据公式$\sigma (x) = \frac {1}{1 + \exp (-x)}$直接调用<code>np.exp()</code>完成。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### YOUR CODE HERE</span></span><br><span class="line">s = <span class="number">1.</span> / (<span class="number">1</span> + np.exp(-x))</span><br><span class="line"><span class="comment">### END YOUR CODE</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="a-2-实现naiveSoftmaxLossAndGradient"><a href="#a-2-实现naiveSoftmaxLossAndGradient" class="headerlink" title="a.2 实现naiveSoftmaxLossAndGradient()"></a>a.2 实现naiveSoftmaxLossAndGradient()</h3><p>先列出naiveSoftMax的损失函数$\boldsymbol J$对于$\boldsymbol v_c$和$\boldsymbol U$偏导数表达式，</p>
+<script type="math/tex; mode=display">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol v_c}=U(\hat {\boldsymbol y} - \boldsymbol y)</script><script type="math/tex; mode=display">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol U} = \boldsymbol  v_c (\hat {\boldsymbol y} - \boldsymbol y)^T</script><p>实现上面公式的转置即可。</p>
+<p>传入的参数有：</p>
+<ul>
+<li><code>centerWordVec</code>，ndarray，中心词的词嵌入，即$\boldsymbol  v_c$</li>
+<li><code>outsideWordIdx</code>，int，上下文中某个词的索引</li>
+<li><code>outsideVectors</code>，ndarray，上下文的词嵌入矩阵，即$\boldsymbol U$</li>
+<li><code>dataset</code>，数据集</li>
+</ul>
+<p>返回的变量有</p>
+<ul>
+<li><code>loss</code>，softmax损失值</li>
+<li><code>gradCenterVec</code>，softmax损失函数对中心词的词嵌入偏导数，即梯度</li>
+<li><code>gradOutsideVecs</code>，softmax损失函数对上下文的词嵌入矩阵的偏导数，即梯度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### YOUR CODE HERE</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### Please use the provided softmax function (imported earlier in this file)</span></span><br><span class="line"><span class="comment">### This numerically stable implementation helps you avoid issues pertaining</span></span><br><span class="line"><span class="comment">### to integer overflow. </span></span><br><span class="line">y_hat = softmax(np.dot(centerWordVec.reshape(<span class="number">1</span>, <span class="number">-1</span>), outsideVectors.T)) <span class="comment">#1行n列</span></span><br><span class="line">loss = -np.log(y_hat[<span class="number">0</span>][outsideWordIdx])</span><br><span class="line">delta = y_hat.copy() <span class="comment"># delta表示y_hat - y，是1行n列的矢量</span></span><br><span class="line">delta[<span class="number">0</span>][outsideWordIdx] = delta[<span class="number">0</span>][outsideWordIdx] - <span class="number">1</span></span><br><span class="line">gradCenterVec = np.dot(delta, outsideVectors) <span class="comment">#1行d列</span></span><br><span class="line">gradOutsideVecs = np.dot(delta.T, centerWordVec.reshape(<span class="number">1</span>, <span class="number">-1</span>))</span><br><span class="line"><span class="comment">### END YOUR CODE</span></span><br></pre></td></tr></table></figure>
+<p>这里有一点需要提醒一下，就是计算<code>delta</code>的时候，两个偏导数里面都有$(\hat {\boldsymbol y} - \boldsymbol y)$这个操作，而$\boldsymbol y$其实只在<code>outsideWordIdx</code>那一维是1，其余都是0，所以需要单独在这个维度上减1，之所以要先<code>copy()</code>一次，是要保留向量的形式，博主第一次写的是<code>delta = y_hat[0][outsideWordIdx] - 1</code>，这是个标量，显然是错误的。</p>
+<h3 id="a-3-实现negSamplingLossAndGradient"><a href="#a-3-实现negSamplingLossAndGradient" class="headerlink" title="a.3 实现negSamplingLossAndGradient()"></a>a.3 实现negSamplingLossAndGradient()</h3><p>先列出neg-sample的损失函数$\boldsymbol J$对于$\boldsymbol v_c$和$\boldsymbol U$偏导数表达式，</p>
+<script type="math/tex; mode=display">\dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol v_c} = (\sigma(\boldsymbol u_o^T \boldsymbol v_c)-1)\boldsymbol u_o + \sum_{k=1}^K(1-\sigma(-\boldsymbol u_k^T \boldsymbol v_c))\boldsymbol u_k</script><p>类似的有，</p>
+<script type="math/tex; mode=display">\dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol u_o} = (\sigma (\boldsymbol u_o^T\boldsymbol v_c)-1)\boldsymbol v_c</script><p>类似的有，</p>
+<script type="math/tex; mode=display">\dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol u_k} = (1 -\sigma (-\boldsymbol u_k^T\boldsymbol v_c))\boldsymbol v_c</script><p>实现上面公式的转置即可（求对$\boldsymbol U$的偏导数，先求出对$\boldsymbol u_o$，$\boldsymbol u_k$的偏导数，再创建一个和$\boldsymbol U$等shape的矩阵，然后把对应的行替换成$\boldsymbol u_o$，$\boldsymbol u_k$的偏导数即可）。</p>
+<p>传入的参数有：</p>
+<ul>
+<li><code>centerWordVec</code>，ndarray，中心词的词嵌入，即$\boldsymbol  v_c$</li>
+<li><code>outsideWordIdx</code>，int，上下文中某个词的索引</li>
+<li><code>outsideVectors</code>，ndarray，上下文的词嵌入矩阵，即$\boldsymbol U$</li>
+<li><code>dataset</code>，数据集</li>
+<li><code>K</code>，int，负采样的样本数量</li>
+</ul>
+<p>返回的变量有</p>
+<ul>
+<li><code>loss</code>，neg-sample损失</li>
+<li><code>gradCenterVec</code>，neg-sample损失函数对中心词的词嵌入偏导数，即梯度</li>
+<li><code>gradOutsideVecs</code>，neg-sample损失函数对上下文的词嵌入矩阵的偏导数，即梯度</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### YOUR CODE HERE</span></span><br><span class="line"><span class="comment">### Please use your implementation of sigmoid in here.</span></span><br><span class="line">center_sigmoid = sigmoid(</span><br><span class="line">    np.dot(outsideVectors[outsideWordIdx].reshape(<span class="number">1</span>, <span class="number">-1</span>),</span><br><span class="line">    centerWordVec.reshape(<span class="number">-1</span>, <span class="number">1</span>)))[<span class="number">0</span>][<span class="number">0</span>] <span class="comment">#1行1列的矢量，[0][0]取其值</span></span><br><span class="line">outside_sigmoid = sigmoid(</span><br><span class="line">    -np.dot(centerWordVec.reshape(<span class="number">1</span>, <span class="number">-1</span>), outsideVectors[negSampleWordIndices].T)) <span class="comment">#1行K列</span></span><br><span class="line"></span><br><span class="line">loss = -np.log(center_sigmoid) - np.sum(np.log(outside_sigmoid))</span><br><span class="line"></span><br><span class="line">gradCenterVec = (center_sigmoid - <span class="number">1</span>) * outsideVectors[outsideWordIdx].reshape(<span class="number">1</span>, <span class="number">-1</span>) \</span><br><span class="line">    + np.sum((<span class="number">1</span> - outside_sigmoid).T * outsideVectors[negSampleWordIndices], axis=<span class="number">0</span>) <span class="comment">#1行d列，注意dot和broadcast的区别</span></span><br><span class="line"></span><br><span class="line">gradOutsideVecs = np.zeros(shape=outsideVectors.shape, dtype=outsideVectors.dtype)</span><br><span class="line">gradOutsideVecs[outsideWordIdx] = (center_sigmoid - <span class="number">1</span>) * centerWordVec <span class="comment">#1行d列，此处是broadcast</span></span><br><span class="line">grad_negative_samples = np.dot((<span class="number">1</span> - outside_sigmoid).T, centerWordVec.reshape(<span class="number">1</span>, <span class="number">-1</span>)) <span class="comment">#k行d列，可能有重复negative word的梯度</span></span><br><span class="line"><span class="keyword">for</span> i, idx <span class="keyword">in</span> enumerate(negSampleWordIndices): <span class="comment"># 处理重复negative word的梯度</span></span><br><span class="line">    gradOutsideVecs[idx] += grad_negative_samples[i]    </span><br><span class="line"><span class="comment">### END YOUR CODE</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>损失函数的表达式有两项，为了减少重复计算，把第1项和第2项的$\sigma ()$部分使用变量保存下来</li>
+<li>如果负采样的时候有单词被采集了多次，那么对应的梯度需要累加</li>
+<li>broadcast在向量的计算时很有用，要和内积(<code>dot</code>)区分，并熟练使用</li>
+</ul>
+<h3 id="a-4-skipgram"><a href="#a-4-skipgram" class="headerlink" title="a.4 skipgram()"></a>a.4 skipgram()</h3><p>实现word2vec的skip-gram模型。</p>
+<p>传入的参数有：</p>
+<ul>
+<li><code>currentCenterWord</code>，string，中心词</li>
+<li><code>WindowSize</code>，int，采集上下文词汇的窗口大小</li>
+<li><code>OutsideWords</code>，list<string>，上下文单词的列表，长度不会超过2倍的窗口大小</string></li>
+<li><code>word2Ind</code>，dict，key是单词，value是单词的索引</li>
+<li><code>centerWordVectors</code>，ndarray，中心词的嵌入矩阵，即矩阵$\boldsymbol V$</li>
+<li><code>outsideVectors</code>，ndarray，上下文词的嵌入矩阵，即矩阵$\boldsymbol U$</li>
+<li><code>word2vecLossAndGradient</code>，function，传入预定的参数，可以计算返回loss，loss对中心词的偏导数，loss对上下文词的嵌入矩阵的偏导数</li>
+</ul>
+<p>返回的变量有</p>
+<ul>
+<li><code>loss</code>，skip-gram损失</li>
+<li><code>gradCenterVecs</code>，skip-gram损失函数对中心词的嵌入矩阵的偏导数，即$\frac {\partial \boldsymbol J}{\partial \boldsymbol V}$</li>
+<li><code>gradOutsideVecs</code>，skip-gram损失函数对上下文的词嵌入矩阵的偏导数，即$\frac {\partial \boldsymbol J}{\partial \boldsymbol U}$</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### YOUR CODE HERE</span></span><br><span class="line"><span class="keyword">for</span> outside_word <span class="keyword">in</span> outsideWords:</span><br><span class="line">    current_loss, current_gradCenterVec, current_gradOutsideVecs = word2vecLossAndGradient(</span><br><span class="line">        centerWordVec=centerWordVectors[word2Ind[currentCenterWord]],</span><br><span class="line">        outsideWordIdx=word2Ind[outside_word],</span><br><span class="line">        outsideVectors=outsideVectors,</span><br><span class="line">        dataset=dataset)</span><br><span class="line">    loss += current_loss</span><br><span class="line">    gradCenterVecs[word2Ind[currentCenterWord]] += current_gradCenterVec.reshape(<span class="number">-1</span>)</span><br><span class="line">    gradOutsideVectors += current_gradOutsideVecs</span><br><span class="line"><span class="comment">### END YOUR CODE</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>通过下标在词嵌入矩阵中取词向量，和one-hot词向量乘以词嵌入矩阵效果一样</li>
+<li>针对每一个context word，都要算一次loss和grad</li>
+<li>每算一次loss和grad，都要累加新的loss和grad</li>
+</ul>
+<h2 id="b"><a href="#b" class="headerlink" title="(b)"></a>(b)</h2><h3 id="b-1-sgd-py"><a href="#b-1-sgd-py" class="headerlink" title="b.1 sgd.py"></a>b.1 sgd.py</h3><p>梯度下降比较简单，实现$w := w - \alpha\nabla$即可。</p>
+<p>传入的参数有：</p>
+<ul>
+<li><code>f</code>，function，需要优化的参数，即损失函数</li>
+<li><code>x0</code>，ndarray，参数的初始值</li>
+<li><code>step</code>，float，学习率/学习步长</li>
+<li><code>iterations</code>，int，迭代次数</li>
+<li><code>postprocessing</code>，function，后处理函数，比如在skip-gram模型中，向量需要单位化</li>
+<li><code>PRINT_EVERY</code>，int，每隔PRINT_EVERY次迭代，就打印一次loss</li>
+</ul>
+<p>返回的变量有：</p>
+<ul>
+<li><code>x</code>，完成SGD后的参数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### YOUR CODE HERE</span></span><br><span class="line">loss, grad = f(x)</span><br><span class="line">x -= step * grad</span><br><span class="line"><span class="comment">### END YOUR CODE</span></span><br></pre></td></tr></table></figure>
+<h2 id="c"><a href="#c" class="headerlink" title="(c)"></a>(c)</h2><ul>
+<li>在终端输入<code>sh get_datasets.sh</code>下载数据集，输入<code>python run.py</code>训练模型，并查看词向量训练的结果</li>
+<li>博主的电脑是Ubuntu 18.04，CPU是i7 8700，内存16G，SSD<br><img src="http://markdown.moverzp.com/2019-05-19/2/img2.jpg" alt="img2"></li>
+</ul>
+<p>训练结果<br><img src="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png" alt="word_vectors"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li>coding部分最主要的就是计算loss和grad，通常情况下，计算loss和grad也是训练模型的关键<ul>
+<li>能计算出loss，需要确定模型结构，根据具体的目标设计损失函数；能计算出grad，说明loss function可导，而且可以使用SGD求极小值</li>
+</ul>
+</li>
+<li>训练结束后，矩阵$V$就是词嵌入矩阵，通过单词的下标或者one-hot向量相乘，就可以得到单词的词向量</li>
+<li>只是输入了<code>python run.py</code>，然后模型就开始训练了，不清楚从头到尾训练的细节，只知道怎么计算loss和grad，始终有种意犹未尽的感觉，所以如果想消除这种意犹未尽的感觉，请看<a href>Part2</a></li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>非常感谢~<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://markdown.moverzp.com/17-8-24/7846791.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://markdown.moverzp.com/wx.jpeg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/23/工作一年半的碎碎念/" class="archive-article-date">
-  	<time datetime="2018-11-22T17:56:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-23</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/23/工作一年半的碎碎念/">工作一年半的碎碎念</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/07/快速图像风格迁移（四）——对一张图像进行风格迁移/" class="archive-article-date">
-  	<time datetime="2018-11-06T17:57:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-07</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/07/快速图像风格迁移（四）——对一张图像进行风格迁移/">快速图像风格迁移（四）——对一张图像进行风格迁移</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -337,212 +323,103 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-——Part-1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/04/快速图像风格迁移（三）——模型训练/" class="archive-article-date">
-  	<time datetime="2018-11-04T15:09:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-04</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">CS 224n(2019) Assignment 2: word2vec[Written]</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/04/快速图像风格迁移（三）——模型训练/">快速图像风格迁移（三）——模型训练</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/30/快速图像风格迁移（二）——损失函数/" class="archive-article-date">
-  	<time datetime="2018-08-29T16:40:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/30/快速图像风格迁移（二）——损失函数/">快速图像风格迁移（二）——损失函数</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/19/快速图像风格迁移（一）——图像生成网络/" class="archive-article-date">
-  	<time datetime="2018-08-18T18:12:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/19/快速图像风格迁移（一）——图像生成网络/">快速图像风格迁移（一）——图像生成网络</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/10/【paper笔记】图像风格迁移/" class="archive-article-date">
-  	<time datetime="2018-08-09T16:56:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/10/【paper笔记】图像风格迁移/">【paper笔记】图像风格迁移</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">paper</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/08/05/树模型串烧/" class="archive-article-date">
-  	<time datetime="2018-08-05T11:58:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/08/05/树模型串烧/">树模型串烧</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -566,8 +443,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
