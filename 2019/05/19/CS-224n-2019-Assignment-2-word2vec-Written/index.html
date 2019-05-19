@@ -8,13 +8,13 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>CS 224n(2019) Assignment 2: word2vec[Written] | moverzp的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object not found!，所以我在GitHub仓库里面又备份了一份，链接是https://github.com/m">
+  <meta name="description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1和CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object no">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CS 224n(2019) Assignment 2: word2vec[Written]">
 <meta property="og:url" content="http://yoursite.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/index.html">
 <meta property="og:site_name" content="moverzp的博客">
-<meta property="og:description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object not found!，所以我在GitHub仓库里面又备份了一份，链接是https://github.com/m">
+<meta property="og:description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1和CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object no">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img1.png">
 <meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img2.png">
@@ -23,10 +23,10 @@
 <meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img5.png">
 <meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img6.png">
 <meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img7.png">
-<meta property="og:updated_time" content="2019-05-19T15:33:19.381Z">
+<meta property="og:updated_time" content="2019-05-19T16:32:46.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS 224n(2019) Assignment 2: word2vec[Written]">
-<meta name="twitter:description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object not found!，所以我在GitHub仓库里面又备份了一份，链接是https://github.com/m">
+<meta name="twitter:description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1和CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object no">
 <meta name="twitter:image" content="http://markdown.moverzp.com/2019-05-19/img1.png">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
@@ -178,7 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>本文主要是Written部分的解答，Coding部分详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>。Assignment 2的官方链接是<a href="http://web.stanford.edu/class/cs224n/assignments/a2.pdf" target="_blank" rel="noopener">这个链接</a>，但是这个链接并没有带年份，而且之前年份的Assignment链接都是<strong>Object not found!</strong>，所以我在GitHub仓库里面又备份了一份，链接是<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code>，如果想看完整的题目和答案，也可以在仓库里面找到。</p>
+        <p>本文主要是Written部分的解答，Coding部分详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-1/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1</a>和<a href="http://moverzp.com/2019/05/20/CS-224n-2019-Assignment-2-word2vec-Coding-%E2%80%94%E2%80%94Part-2/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2</a>。Assignment 2的官方链接是<a href="http://web.stanford.edu/class/cs224n/assignments/a2.pdf" target="_blank" rel="noopener">这个链接</a>，但是这个链接并没有带年份，而且之前年份的Assignment链接都是<strong>Object not found!</strong>，所以我在GitHub仓库里面又备份了一份，链接是<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code>，如果想看完整的题目和答案，也可以在仓库里面找到。</p>
 <p>Written部分主要是公式的推导，所以先定义一些共用的符号，方便公式推导。</p>
 <ul>
 <li>$d$，词向量的维度</li>
