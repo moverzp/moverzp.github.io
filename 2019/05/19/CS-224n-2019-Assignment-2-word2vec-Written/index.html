@@ -16,18 +16,18 @@
 <meta property="og:site_name" content="moverzp的博客">
 <meta property="og:description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1和CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object no">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img1.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img2.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img3.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img4.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img5.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img6.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/img7.png">
-<meta property="og:updated_time" content="2019-05-19T17:28:15.605Z">
+<meta property="og:image" content="http://yoursite.com/images/20190519-a1.png">
+<meta property="og:image" content="http://yoursite.com/images/20190519-a2.png">
+<meta property="og:image" content="http://yoursite.com/images/20190519-b.png">
+<meta property="og:image" content="http://yoursite.com/images/20190519-c.png">
+<meta property="og:image" content="http://yoursite.com/images/20190519-d.png">
+<meta property="og:image" content="http://yoursite.com/images/20190519-e.png">
+<meta property="og:image" content="http://yoursite.com/images/20190519-f.png">
+<meta property="og:updated_time" content="2021-03-17T16:35:21.279Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS 224n(2019) Assignment 2: word2vec[Written]">
 <meta name="twitter:description" content="本文主要是Written部分的解答，Coding部分详见CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1和CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2。Assignment 2的官方链接是这个链接，但是这个链接并没有带年份，而且之前年份的Assignment链接都是Object no">
-<meta name="twitter:image" content="http://markdown.moverzp.com/2019-05-19/img1.png">
+<meta name="twitter:image" content="http://yoursite.com/images/20190519-a1.png">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -64,9 +64,6 @@
 		
 		<p class="header-subtitle">Inner Peace, Keep Moving</p>
 		
-
-		<p class="header-subtitle">访问次数</p>
-		<a href="http://www.reliablecounter.com" target="_blank"><img src="https://www.reliablecounter.com/count.php?page=moverzp.com&digit=style/plain/31/&reloads=0" alt="reliablecounter.com" title="reliablecounter.com" border="0"></a><br><a href="http://https://www.reliablecounter.com/blog" target="_blank" style="font-family: Geneva, Arial; font-size: 9px; color: #330010; text-decoration: none;">reliablecounter.com</a>
 
 		<nav class="header-menu">
 			<ul>
@@ -189,9 +186,9 @@
 <li>$ \hat {\boldsymbol  y}$，预测值，表示属于某个词的概率，$ \hat {\boldsymbol  y} \in \mathbb R ^{n \times 1}$</li>
 </ul>
 <a id="more"></a>
-<h3 id="1-a"><a href="#1-a" class="headerlink" title="1-(a)"></a>1-(a)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img1.png" alt="img1"><br><img src="http://markdown.moverzp.com/2019-05-19/img2.png" alt="img2"></p>
+<h3 id="1-a"><a href="#1-a" class="headerlink" title="1-(a)"></a>1-(a)</h3><p><img src="/images/20190519-a1.png" alt="img1"><br><img src="/images/20190519-a2.png" alt="img2"></p>
 <p>A:因为one-hot向量只有标记的那一维是1，其他维度都是0，所以展开左边的$\sum$自然就是右边的代数式。</p>
-<h3 id="1-b"><a href="#1-b" class="headerlink" title="1-(b)"></a>1-(b)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img3.png" alt="img3"></p>
+<h3 id="1-b"><a href="#1-b" class="headerlink" title="1-(b)"></a>1-(b)</h3><p><img src="/images/20190519-b.png" alt="img3"></p>
 <p>直接对$\boldsymbol J_{naive-softmax}(\boldsymbol v_c, o, \boldsymbol U)=-\log P(O=o|C=c)$求导，</p>
 <script type="math/tex; mode=display">
 \begin {aligned}
@@ -201,14 +198,14 @@
 &=\sum_{x\in Vocab} \dfrac {\exp \left ( \boldsymbol u_x^T \boldsymbol v_c\right )\boldsymbol u_x}{\exp \left ( \boldsymbol u_w^T \boldsymbol v_c\right )} - \boldsymbol u_o \\
 &=\sum_{x \in Vocab}P(O=x|C=c)\boldsymbol u_x - \boldsymbol u_o
 \end {aligned}</script><p>该题要求使用$\boldsymbol y, \hat {\boldsymbol y}, \boldsymbol U$表示出结果，我们整理一下推导结果即可。推导的结果表示损失函数对于$\boldsymbol v_c$的偏导数是“outside词向量的期望减去当前outside词向量”，根据这个意思即可以整理答案为</p>
-<script type="math/tex; mode=display">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol v_c}=U(\hat {\boldsymbol y} - \boldsymbol y)</script><h3 id="1-c"><a href="#1-c" class="headerlink" title="1-(c)"></a>1-(c)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img4.png" alt="img4"></p>
+<script type="math/tex; mode=display">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol v_c}=U(\hat {\boldsymbol y} - \boldsymbol y)</script><h3 id="1-c"><a href="#1-c" class="headerlink" title="1-(c)"></a>1-(c)</h3><p><img src="/images/20190519-c.png" alt="img4"></p>
 <p>该题要求计算$\boldsymbol J$对$\boldsymbol U$的偏导数，可以先求$\dfrac {\partial \boldsymbol J}{\partial \boldsymbol u_w}$，这个推导和1-(b)的推导过程非常的相似，我们此处直接写出答案，就不写详细的推导了。</p>
 <script type="math/tex; mode=display">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol u_w} = 
 \begin {cases}
 (\hat y_w - 1)\boldsymbol v_c, &w = o \\
 \hat y_w \boldsymbol v_c, &w \neq o
 \end {cases}</script><p>根据标量$f$对矩阵$X$的求导规律：$\dfrac {\partial f}{\partial X} = \left [ \dfrac {\partial f}{\partial X_{ij}} \right ]$，可以得到答案<script type="math/tex">\dfrac {\partial \boldsymbol J}{\partial \boldsymbol U} = \boldsymbol  v_c (\hat {\boldsymbol y} - \boldsymbol y)^T</script><br><em>小技巧：如果对于向量或者矩阵的求导犯迷糊了，可以多从维度的角度去check。</em></p>
-<h3 id="1-d"><a href="#1-d" class="headerlink" title="1-(d)"></a>1-(d)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img5.png" alt="img5"></p>
+<h3 id="1-d"><a href="#1-d" class="headerlink" title="1-(d)"></a>1-(d)</h3><p><img src="/images/20190519-d.png" alt="img5"></p>
 <p>标量$f$对向量$\boldsymbol x$求导，结果是$\dfrac {\partial f}{\partial \boldsymbol x} = \left [\dfrac {\partial f}{\partial x_1}, …, \dfrac {\partial f}{\partial x_m}\right]^T$，又$\sigma \prime (x) = \sigma(x) (1 - \sigma(x))$，所以有</p>
 <script type="math/tex; mode=display">\sigma '(\boldsymbol x) =
 \begin {bmatrix}
@@ -216,7 +213,7 @@
 \sigma(x_2) (1 - \sigma(x_2)) \\
 ...\\
 \sigma(x_m) (1 - \sigma(x_m)) 
-\end {bmatrix}</script><h3 id="1-e"><a href="#1-e" class="headerlink" title="1-(e)"></a>1-(e)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img6.png" alt="img6"></p>
+\end {bmatrix}</script><h3 id="1-e"><a href="#1-e" class="headerlink" title="1-(e)"></a>1-(e)</h3><p><img src="/images/20190519-e.png" alt="img6"></p>
 <script type="math/tex; mode=display">
 \begin {aligned}
 \dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol v_c} &= -\dfrac {\sigma(\boldsymbol u_o^T \boldsymbol v_c)(1-\sigma(\boldsymbol u_o^T \boldsymbol v_c))\boldsymbol u_o}{\sigma (\boldsymbol u_o^T \boldsymbol v_c)} -\sum_{k=1}^K \dfrac {\sigma (-\boldsymbol u_k^T \boldsymbol v_c)(1 - \sigma (-\boldsymbol u_k^T \boldsymbol v_c))(-1)\boldsymbol u_k}{\sigma (-\boldsymbol u_k^T \boldsymbol v_c)} \\
@@ -226,7 +223,7 @@
 \dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol u_o} = (\sigma (\boldsymbol u_o^T\boldsymbol v_c)-1)\boldsymbol v_c</script><p>类似的有</p>
 <script type="math/tex; mode=display">
 \dfrac {\partial J_{\text {neg-sample}}}{\partial \boldsymbol u_k} = (1 -\sigma (-\boldsymbol u_k^T\boldsymbol v_c))\boldsymbol v_c</script><p>$J_{\text {neg-sample}}$比$J_{\text {naive-softmax}}$训练效率高的主要原因是前者只需要和相关的词向量进行内积，而后者的偏导数里面有$\hat y$这一项，该项使用Softmax公式得出，需要计算$\boldsymbol v_c$和所有的词向量内积，这个步骤会消耗较多的计算资源。</p>
-<h3 id="1-f"><a href="#1-f" class="headerlink" title="1-(f)"></a>1-(f)</h3><p><img src="http://markdown.moverzp.com/2019-05-19/img7.png" alt="img7"></p>
+<h3 id="1-f"><a href="#1-f" class="headerlink" title="1-(f)"></a>1-(f)</h3><p><img src="/images/20190519-f.png" alt="img7"></p>
 <p>损失函数就是窗口滑动的过程中，每个窗口的损失累加，所以偏导数也容易得出（“多项和的导数”等于“多项导数的和”）。</p>
 <script type="math/tex; mode=display">
 \begin {aligned}
@@ -403,7 +400,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 moverzp
+    		&copy; 2021 moverzp
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

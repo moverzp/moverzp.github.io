@@ -15,15 +15,15 @@
 <meta property="og:site_name" content="moverzp的博客">
 <meta property="og:description" content="搜索推荐隐藏在生活的各个角落里，比如抖音、快手的视频推荐，亚马逊的物品推荐，各种Feed推荐等等。推荐系统基于用户数据和物品数据，通过一定的架构和算法，为用户推荐符合需求的物品，以达到提高用户体验，CTR，CVR，GMV等目的。本文将从三个阶段简单介绍一下推荐系统。 1.0阶段——规则驱动严格意义上这个阶段其实是不算推荐系统的。这个阶段主要依靠运营人员制定的规则去推荐物品，比如主推高销量的物品，新">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://markdown.moverzp.com/20190414table.png">
-<meta property="og:image" content="http://markdown.moverzp.com/img1.png">
-<meta property="og:image" content="http://markdown.moverzp.com/20190414img2.png">
-<meta property="og:image" content="http://markdown.moverzp.com/20190414img3.jpg">
-<meta property="og:updated_time" content="2019-05-19T17:31:07.247Z">
+<meta property="og:image" content="http://yoursite.com/images/20190417-公式对比.png">
+<meta property="og:image" content="http://yoursite.com/images/20190417-解释UserCF和ItemCF.png">
+<meta property="og:image" content="http://yoursite.com/images/20190417-架构图.png">
+<meta property="og:image" content="http://yoursite.com/images/20190417-架构通用化.jpg">
+<meta property="og:updated_time" content="2021-03-17T16:42:20.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="推荐系统发展概览">
 <meta name="twitter:description" content="搜索推荐隐藏在生活的各个角落里，比如抖音、快手的视频推荐，亚马逊的物品推荐，各种Feed推荐等等。推荐系统基于用户数据和物品数据，通过一定的架构和算法，为用户推荐符合需求的物品，以达到提高用户体验，CTR，CVR，GMV等目的。本文将从三个阶段简单介绍一下推荐系统。 1.0阶段——规则驱动严格意义上这个阶段其实是不算推荐系统的。这个阶段主要依靠运营人员制定的规则去推荐物品，比如主推高销量的物品，新">
-<meta name="twitter:image" content="http://markdown.moverzp.com/20190414table.png">
+<meta name="twitter:image" content="http://yoursite.com/images/20190417-公式对比.png">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -60,9 +60,6 @@
 		
 		<p class="header-subtitle">Inner Peace, Keep Moving</p>
 		
-
-		<p class="header-subtitle">访问次数</p>
-		<a href="http://www.reliablecounter.com" target="_blank"><img src="https://www.reliablecounter.com/count.php?page=moverzp.com&digit=style/plain/31/&reloads=0" alt="reliablecounter.com" title="reliablecounter.com" border="0"></a><br><a href="http://https://www.reliablecounter.com/blog" target="_blank" style="font-family: Geneva, Arial; font-size: 9px; color: #330010; text-decoration: none;">reliablecounter.com</a>
 
 		<nav class="header-menu">
 			<ul>
@@ -179,7 +176,7 @@
 <p>一般在系统冷启动的时候可以短暂的使用这种方法。</p>
 <h2 id="2-0阶段——算法驱动"><a href="#2-0阶段——算法驱动" class="headerlink" title="2.0阶段——算法驱动"></a>2.0阶段——算法驱动</h2><p>2.0阶段的算法主要指<strong>协同过滤</strong>或者<strong>关联规则</strong>。协同过滤有两种，一种是基于用户的协同过滤，一种是基于物品的协同过滤，前者适合物品数量比用户多，且比较多变的场景，如新闻，后者适合物品数量比较少，且比较固定的场景，如电商。</p>
 <a id="more"></a>
-<h3 id="UserCF和ItemCF的相似度计算公式对比"><a href="#UserCF和ItemCF的相似度计算公式对比" class="headerlink" title="UserCF和ItemCF的相似度计算公式对比"></a>UserCF和ItemCF的相似度计算公式对比</h3><p><img src="http://markdown.moverzp.com/20190414table.png" alt="公式渲染有问题，拿图来凑"></p>
+<h3 id="UserCF和ItemCF的相似度计算公式对比"><a href="#UserCF和ItemCF的相似度计算公式对比" class="headerlink" title="UserCF和ItemCF的相似度计算公式对比"></a>UserCF和ItemCF的相似度计算公式对比</h3><p><img src="/images/20190417-公式对比.png" alt="公式渲染有问题，拿图来凑"></p>
 <p>备注：实际使用中，相似度公式有大量调整和变形（比如降低高销量物品的权重）。</p>
 <h3 id="UserCF和ItemCF的特点对比"><a href="#UserCF和ItemCF的特点对比" class="headerlink" title="UserCF和ItemCF的特点对比"></a>UserCF和ItemCF的特点对比</h3><div class="table-container">
 <table>
@@ -233,8 +230,8 @@
 <li>用户显式或者隐式地给物品进行评分</li>
 <li>用户在过去有什么品味，未来也会有类似的品味</li>
 </ul>
-<h3 id="使用一张图来解释UserCF和ItemCF"><a href="#使用一张图来解释UserCF和ItemCF" class="headerlink" title="使用一张图来解释UserCF和ItemCF"></a>使用一张图来解释UserCF和ItemCF</h3><p><img src="http://markdown.moverzp.com/img1.png" alt="使用一张图来解释UserCF和ItemCF"></p>
-<h3 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h3><p><img src="http://markdown.moverzp.com/20190414img2.png" alt="算法驱动架构图"></p>
+<h3 id="使用一张图来解释UserCF和ItemCF"><a href="#使用一张图来解释UserCF和ItemCF" class="headerlink" title="使用一张图来解释UserCF和ItemCF"></a>使用一张图来解释UserCF和ItemCF</h3><p><img src="/images/20190417-解释UserCF和ItemCF.png" alt="使用一张图来解释UserCF和ItemCF"></p>
+<h3 id="架构图"><a href="#架构图" class="headerlink" title="架构图"></a>架构图</h3><p><img src="/images/20190417-架构图.png" alt="算法驱动架构图"></p>
 <p><strong>Match</strong>：该层又常常被称为Recall层，可以实现粗粒度的物品推荐，一般情况下Match层输出的物品在200以下</p>
 <ul>
 <li><p>实时U2I，根据实时的行为进行推荐。从log中实时地抽出用户的行为，并给不同的行为打分，按照不同的权重进行用户到物品的推荐。比如浏览的权重较低，购买的权重比较高；浏览多的类目权重调高；权重按照时间进行指数衰减。实际例子：在某乎点击了火影相关问答后，返回首页就能看到好几个火影相关的问答</p>
@@ -248,7 +245,7 @@
 </ul>
 <p><strong>Filter</strong>：过滤掉重复推荐，不符合当前用户需求的物品</p>
 <h2 id="3-0阶段——架构通用化"><a href="#3-0阶段——架构通用化" class="headerlink" title="3.0阶段——架构通用化"></a>3.0阶段——架构通用化</h2><p>架构通用化是可以真正做到千人千面的推荐系统，2.0的推荐系统可以说是3.0推荐系统的子集，3.0阶段具体的架构如下所示：</p>
-<p><img src="http://markdown.moverzp.com/20190414img3.jpg" alt="通用架构化架构图"><br><strong>Match</strong>：和2.0阶段基本一样，大多数都是协同过滤算法，但是也可以使用其他的算法进行Match，比如XGBoost也能做召回</p>
+<p><img src="/images/20190417-架构通用化.jpg" alt="通用架构化架构图"><br><strong>Match</strong>：和2.0阶段基本一样，大多数都是协同过滤算法，但是也可以使用其他的算法进行Match，比如XGBoost也能做召回</p>
 <p><strong>Filter</strong>：基本和2.0阶段一样，只不过多了一个“行为负反馈”，行为负反馈指的是推荐给用户以后，用户多次看到却没有点击的物品，表示用户其实这个物品不感兴趣</p>
 <p><strong>Rank</strong>：根据不同的目标函数，有目标的建立和优化模型，Rank层是比较重要的一层，也是迭代优化的重点，大多数的推荐优化都是在Rank层做文章，因为一般用户点击的都是首页的前几个物品。Rank层结合了用户画像和物品画像，对物品进行<strong>精排序</strong>，在保证多样性的前提下，又突出了其他目标</p>
 <ul>
@@ -443,7 +440,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 moverzp
+    		&copy; 2021 moverzp
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

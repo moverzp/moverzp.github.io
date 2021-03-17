@@ -16,12 +16,12 @@
 <meta property="og:site_name" content="moverzp的博客">
 <meta property="og:description" content="Assignment 2的原始问题及完整代码已经上传GitHub仓库：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)  Written部分的解析详见CS 224n(2019) Assignment 2: word2vec[Written] Part1完成作业要求的那部分代码，详见C">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png">
-<meta property="og:updated_time" content="2019-05-19T17:33:42.227Z">
+<meta property="og:image" content="http://yoursite.com/images/word_vectors.png">
+<meta property="og:updated_time" content="2021-03-17T16:02:35.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS 224n(2019) Assignment 2: word2vec[Coding]——Part 2">
 <meta name="twitter:description" content="Assignment 2的原始问题及完整代码已经上传GitHub仓库：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)  Written部分的解析详见CS 224n(2019) Assignment 2: word2vec[Written] Part1完成作业要求的那部分代码，详见C">
-<meta name="twitter:image" content="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png">
+<meta name="twitter:image" content="http://yoursite.com/images/word_vectors.png">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -58,9 +58,6 @@
 		
 		<p class="header-subtitle">Inner Peace, Keep Moving</p>
 		
-
-		<p class="header-subtitle">访问次数</p>
-		<a href="http://www.reliablecounter.com" target="_blank"><img src="https://www.reliablecounter.com/count.php?page=moverzp.com&digit=style/plain/31/&reloads=0" alt="reliablecounter.com" title="reliablecounter.com" border="0"></a><br><a href="http://https://www.reliablecounter.com/blog" target="_blank" style="font-family: Geneva, Arial; font-size: 9px; color: #330010; text-decoration: none;">reliablecounter.com</a>
 
 		<nav class="header-menu">
 			<ul>
@@ -259,7 +256,7 @@
 <li>可以观察到训练的效果还不错<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">visualizeIdx = [tokens[word] <span class="keyword">for</span> word <span class="keyword">in</span> visualizeWords]</span><br><span class="line">visualizeVecs = wordVectors[visualizeIdx, :]</span><br><span class="line">temp = (visualizeVecs - np.mean(visualizeVecs, axis=<span class="number">0</span>))</span><br><span class="line">covariance = <span class="number">1.0</span> / len(visualizeIdx) * temp.T.dot(temp)</span><br><span class="line">U,S,V = np.linalg.svd(covariance)</span><br><span class="line">coord = temp.dot(U[:,<span class="number">0</span>:<span class="number">2</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(visualizeWords)):</span><br><span class="line">    plt.text(coord[i,<span class="number">0</span>], coord[i,<span class="number">1</span>], visualizeWords[i],</span><br><span class="line">        bbox=dict(facecolor=<span class="string">'green'</span>, alpha=<span class="number">0.1</span>))</span><br><span class="line"></span><br><span class="line">plt.xlim((np.min(coord[:,<span class="number">0</span>]), np.max(coord[:,<span class="number">0</span>])))</span><br><span class="line">plt.ylim((np.min(coord[:,<span class="number">1</span>]), np.max(coord[:,<span class="number">1</span>])))</span><br><span class="line"></span><br><span class="line">plt.savefig(<span class="string">'word_vectors.png'</span>)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p><img src="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png" alt="word_vectors"></p>
+<p><img src="/images/word_vectors.png" alt="word_vectors"></p>
 
       
 
@@ -421,7 +418,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 moverzp
+    		&copy; 2021 moverzp
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten

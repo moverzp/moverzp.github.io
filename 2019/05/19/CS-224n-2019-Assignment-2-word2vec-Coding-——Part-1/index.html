@@ -16,14 +16,14 @@
 <meta property="og:site_name" content="moverzp的博客">
 <meta property="og:description" content="原始题目以及完整的答案已经上传到GitHub仓库中：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019) 本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见CS 224n(2019) Assignment 2: word2vec[Written]。 题">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/img1.png">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/img2.jpg">
-<meta property="og:image" content="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png">
-<meta property="og:updated_time" content="2019-05-19T17:32:54.804Z">
+<meta property="og:image" content="http://yoursite.com/images/20190519-question.png">
+<meta property="og:image" content="http://yoursite.com/images/20190519-training.jpg">
+<meta property="og:image" content="http://yoursite.com/images/word_vectors.png">
+<meta property="og:updated_time" content="2021-03-17T16:27:12.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CS 224n(2019) Assignment 2: word2vec[Coding]——Part 1">
 <meta name="twitter:description" content="原始题目以及完整的答案已经上传到GitHub仓库中：https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019) 本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见CS 224n(2019) Assignment 2: word2vec[Written]。 题">
-<meta name="twitter:image" content="http://markdown.moverzp.com/2019-05-19/2/img1.png">
+<meta name="twitter:image" content="http://yoursite.com/images/20190519-question.png">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -60,9 +60,6 @@
 		
 		<p class="header-subtitle">Inner Peace, Keep Moving</p>
 		
-
-		<p class="header-subtitle">访问次数</p>
-		<a href="http://www.reliablecounter.com" target="_blank"><img src="https://www.reliablecounter.com/count.php?page=moverzp.com&digit=style/plain/31/&reloads=0" alt="reliablecounter.com" title="reliablecounter.com" border="0"></a><br><a href="http://https://www.reliablecounter.com/blog" target="_blank" style="font-family: Geneva, Arial; font-size: 9px; color: #330010; text-decoration: none;">reliablecounter.com</a>
 
 		<nav class="header-menu">
 			<ul>
@@ -177,7 +174,7 @@
         <p>原始题目以及完整的答案已经上传到GitHub仓库中：<code>https://github.com/moverzp/LearningProject/tree/master/CS%20224n%20(Winter%202019)</code></p>
 <p>本文主要完成Assignment 2需要编码的部分，中间实现了好几个公式，推导过程详见<a href="http://moverzp.com/2019/05/19/CS-224n-2019-Assignment-2-word2vec-Written/" target="_blank" rel="noopener">CS 224n(2019) Assignment 2: word2vec[Written]</a>。</p>
 <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><a id="more"></a>
-<p><img src="http://markdown.moverzp.com/2019-05-19/2/img1.png" alt="img1"></p>
+<p><img src="/images/20190519-question.png" alt="img1"></p>
 <p>先看一下<code>env.yml</code>中配置的package，需要的package有<code>jupyter</code>, <code>matplotlib</code>, <code>numpy</code>, <code>python37</code>, <code>sklearn</code>，如果我们的环境已经安装了这些package，就不需要创建新的环境并下载，否则使用<code>conda env create -f env.yml</code>命令创建新的环境并安装这些package，使用<code>conda activate a2</code>激活该环境。</p>
 <p>有一点需要注意，公式推导的时候，词向量是<strong>列向量</strong>，矩阵也是一个个列向量组成的，但是在程序实现的时候，词向量是<strong>行向量</strong>，矩阵也是一个个行向量组成的，因此编码实现的公式其实是Written部分推导的公式的转置。</p>
 <p>下面我们来填充<code>.py</code>文件需要填充的部分。</p>
@@ -263,9 +260,9 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### YOUR CODE HERE</span></span><br><span class="line">loss, grad = f(x)</span><br><span class="line">x -= step * grad</span><br><span class="line"><span class="comment">### END YOUR CODE</span></span><br></pre></td></tr></table></figure>
 <h2 id="c"><a href="#c" class="headerlink" title="(c)"></a>(c)</h2><ul>
 <li>在终端输入<code>sh get_datasets.sh</code>下载数据集，输入<code>python run.py</code>训练模型，并查看词向量训练的结果</li>
-<li>博主的电脑是Ubuntu 18.04，CPU是i7 8700，内存16G，SSD<br><img src="http://markdown.moverzp.com/2019-05-19/2/img2.jpg" alt="img2"></li>
+<li>博主的电脑是Ubuntu 18.04，CPU是i7 8700，内存16G，SSD<br><img src="/images/20190519-training.jpg" alt="img2"></li>
 </ul>
-<p>训练结果<br><img src="http://markdown.moverzp.com/2019-05-19/2/word_vectors.png" alt="word_vectors"></p>
+<p>训练结果<br><img src="/images/word_vectors.png" alt="word_vectors"></p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
 <li>coding部分最主要的就是计算loss和grad，通常情况下，计算loss和grad也是训练模型的关键<ul>
 <li>能计算出loss，需要确定模型结构，根据具体的目标设计损失函数；能计算出grad，说明loss function可导，而且可以使用SGD求极小值</li>
@@ -444,7 +441,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 moverzp
+    		&copy; 2021 moverzp
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
