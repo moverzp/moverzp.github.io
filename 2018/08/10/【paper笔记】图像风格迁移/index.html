@@ -16,14 +16,14 @@
 <meta property="og:site_name" content="moverzp的博客">
 <meta property="og:description" content="图像风格迁移是深度学习一个较为简单的应用，有一款名为Prisma的APP，就可以对用户的选择的图像进行风格转换。图像风格迁移一般是学习CNN人员都会了解的一个项目。图像风格迁移方面的基础知识看下面2篇paper就够了： [1] Gatys L A, Ecker A S, Bethge M. A Neural Algorithm of Artistic Style[J]. Computer Scie">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://markdown.moverzp.com/18-8-5/44378925.jpg">
-<meta property="og:image" content="http://markdown.moverzp.com/18-8-5/79535590.jpg">
-<meta property="og:image" content="http://markdown.moverzp.com/18-8-9/59327236.jpg">
-<meta property="og:updated_time" content="2019-05-19T17:37:26.053Z">
+<meta property="og:image" content="http://yoursite.com/images/20180810-img1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/20180810-img2.jpg">
+<meta property="og:image" content="http://yoursite.com/images/20180810-img3.jpg">
+<meta property="og:updated_time" content="2021-03-21T10:39:53.673Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【paper笔记】图像风格迁移">
 <meta name="twitter:description" content="图像风格迁移是深度学习一个较为简单的应用，有一款名为Prisma的APP，就可以对用户的选择的图像进行风格转换。图像风格迁移一般是学习CNN人员都会了解的一个项目。图像风格迁移方面的基础知识看下面2篇paper就够了： [1] Gatys L A, Ecker A S, Bethge M. A Neural Algorithm of Artistic Style[J]. Computer Scie">
-<meta name="twitter:image" content="http://markdown.moverzp.com/18-8-5/44378925.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/20180810-img1.jpg">
   
     <link rel="alternative" href="/atom.xml" title="moverzp的博客" type="application/atom+xml">
   
@@ -174,7 +174,7 @@
         <p>图像风格迁移是深度学习一个较为简单的应用，有一款名为Prisma的APP，就可以对用户的选择的图像进行风格转换。图像风格迁移一般是学习CNN人员都会了解的一个项目。图像风格迁移方面的基础知识看下面2篇paper就够了：</p>
 <p>[1] Gatys L A, Ecker A S, Bethge M. A Neural Algorithm of Artistic Style[J]. Computer Science, 2016.<br>[2] Johnson J, Alahi A, Li F F. Perceptual Losses for Real-Time Style Transfer and Super-Resolution[C]// European Conference on Computer Vision. Springer, Cham, 2016:694-711.</p>
 <a id="more"></a>
-<p><img src="http://markdown.moverzp.com/18-8-5/44378925.jpg" alt></p>
+<p><img src="/images/20180810-img1.jpg" alt></p>
 <h2 id="A-Neural-Algorithm-of-Artistic-Style"><a href="#A-Neural-Algorithm-of-Artistic-Style" class="headerlink" title="A Neural Algorithm of Artistic Style"></a>A Neural Algorithm of Artistic Style</h2><p>该paper首次提出了图像风格迁移的相关理论，要点记录如下</p>
 <ul>
 <li>CNN一般的结构是前面若干个卷积层，后面1~3个全连接层，因此可以把这些卷积层看做特征抽取的器，卷积层抽取出特征后，全连接层进行分类</li>
@@ -183,7 +183,7 @@
 <li>将CNN深层的特征称为<strong>content representation</strong></li>
 <li>将CNN的特征映射到风格空间中，可以得到style features，根据style features重建的图像更能表达出图像的风格，即<strong>style representation</strong></li>
 <li><strong>一个图像的content representation和style representation是可以分离的，因此可以使用A图像content representation和B图像的style representation混合成一个新图像AB</strong>【风格迁移最关键的理论点】</li>
-<li><p>事实上，content representation和style representation又不是完全分离的，因此在损失函数中有两项及其权重，一项表示content representation，一项表示style representation，如果content项的权重过大，生成的图像会明显偏向于提供content的图像，而没有提供style的图像的风格；如果style项的权重过大，生成的图像会明显偏向于提供style的图像，而没有提供content图像的内容<br><img src="http://markdown.moverzp.com/18-8-5/79535590.jpg" alt><br>(<em>每一列最上面的数字表示content项的权重和style项的权重的比值</em>)</p>
+<li><p>事实上，content representation和style representation又不是完全分离的，因此在损失函数中有两项及其权重，一项表示content representation，一项表示style representation，如果content项的权重过大，生成的图像会明显偏向于提供content的图像，而没有提供style的图像的风格；如果style项的权重过大，生成的图像会明显偏向于提供style的图像，而没有提供content图像的内容<br><img src="/images/20180810-img2.jpg" alt><br>(<em>每一列最上面的数字表示content项的权重和style项的权重的比值</em>)</p>
 </li>
 <li><p>该论文以VGG19作为基准模型</p>
 </li>
@@ -221,7 +221,7 @@ L_{total}(\vec p, \vec a, \vec x) = \alpha L_{content} + \beta L_{style}</script
 </li>
 </ul>
 <h2 id="Perceptual-Losses-for-Real-Time-Style-Transfer-and-Super-Resolution"><a href="#Perceptual-Losses-for-Real-Time-Style-Transfer-and-Super-Resolution" class="headerlink" title="Perceptual Losses for Real-Time Style Transfer and Super-Resolution"></a>Perceptual Losses for Real-Time Style Transfer and Super-Resolution</h2><p>该论文解决了上篇论文中无法实时风格迁移的问题，而这个解决方法很简单，即使用一个神经网络去进行图像风格迁移，该网络被称为生成网络。生成网络会学习某张图像image1的风格，然后输入一张图像image2，输出一张带有图像image1风格，image2内容的图像。对于已经训练好的生成网络，获得风格迁移的图像只需要进行一次前馈计算，因此可以做到实时风格迁移。</p>
-<p>实时风格迁移的网络结构如下图所示：<br><img src="http://markdown.moverzp.com/18-8-9/59327236.jpg" alt></p>
+<p>实时风格迁移的网络结构如下图所示：<br><img src="/images/20180810-img3.jpg" alt></p>
 <ul>
 <li>上图有两个神经网络，一个是图像生成网络，一个是损失网络</li>
 <li>损失网络就是VGG网络，主要用来提取图像的特征，不过上一篇paper的VGG是VGG19，本篇paper的VGG是VGG16</li>
