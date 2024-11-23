@@ -144,6 +144,84 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-快速图像风格迁移（一）——图像生成网络" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/19/快速图像风格迁移（一）——图像生成网络/">快速图像风格迁移（一）——图像生成网络</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/19/快速图像风格迁移（一）——图像生成网络/" class="archive-article-date">
+  	<time datetime="2018-08-18T18:12:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>之前在<a href="http://moverzp.com/2018/08/10/%E3%80%90paper%E7%AC%94%E8%AE%B0%E3%80%91%E5%9B%BE%E5%83%8F%E9%A3%8E%E6%A0%BC%E8%BF%81%E7%A7%BB/" target="_blank" rel="noopener">【paper笔记】图像风格迁移</a>博文中大概介绍了图像风格迁移的原理。博主准备使用一个系列来讲解复现的过程，使用的深度学习框架是TensorFlow，首先实现的是图像生成网络模块。</p>
+<h2 id="1-TensorFlow预备知识"><a href="#1-TensorFlow预备知识" class="headerlink" title="1.TensorFlow预备知识"></a>1.TensorFlow预备知识</h2><h4 id="1-1tf-pad-tensor-paddings-mode-39-CONSTANT-39-constant-values-0"><a href="#1-1tf-pad-tensor-paddings-mode-39-CONSTANT-39-constant-values-0" class="headerlink" title="1.1tf.pad(tensor, paddings, mode=&#39;CONSTANT&#39;, constant_values=0)"></a>1.1<code>tf.pad(tensor, paddings, mode=&#39;CONSTANT&#39;, constant_values=0)</code></h4><p>按照某种方式填充张量。我们以2维张量为例，在维度0前添加0个维度，维度0后添加1个维度；维度1前添加1个维度，维度1后添加2个维度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x = tf.ones(shape=[<span class="number">3</span>, <span class="number">2</span>])</span><br><span class="line"><span class="comment"># [[1. 1.]</span></span><br><span class="line"><span class="comment">#  [1. 1.]</span></span><br><span class="line"><span class="comment">#  [1. 1.]]</span></span><br><span class="line">x_padded = tf.pad(x, [[<span class="number">0</span>, <span class="number">1</span>], [<span class="number">1</span>, <span class="number">2</span>]])</span><br><span class="line"><span class="comment"># [[0. 1. 1. 0. 0.]</span></span><br><span class="line"><span class="comment">#  [0. 1. 1. 0. 0.]</span></span><br><span class="line"><span class="comment">#  [0. 1. 1. 0. 0.]</span></span><br><span class="line"><span class="comment">#  [0. 0. 0. 0. 0.]]</span></span><br></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2018/08/19/快速图像风格迁移（一）——图像生成网络/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">机器学习</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/19/快速图像风格迁移（一）——图像生成网络/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-【paper笔记】图像风格迁移" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1482,7 +1560,7 @@ Gain = \frac {1}{2} [\frac {G_L^2}{H_L + \lambda} + \frac {G_R^2}{H_L + \lambda}
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2022 moverzp
+    		&copy; 2024 moverzp
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
