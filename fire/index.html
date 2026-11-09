@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="调整年利率，比较100万至1000万元资产在不同支出下能维持多久。离线可用的FIRE计算器。">
+<title>Fire计算器 · 自由有多少年</title>
+<style>
+:root{--bg:#f5f5ee;--paper:#fffef8;--ink:#263b31;--muted:#747c70;--line:#dedfd3;--green:#45694c;--lime:#e0edba}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #829d4a;outline-offset:3px}main{max-width:1320px;margin:auto;padding:30px 40px 45px}.top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:19px}.brand{font-weight:750;letter-spacing:2px}.mark{display:inline-grid;place-items:center;background:var(--ink);color:var(--lime);border-radius:9px;width:30px;height:30px;margin-right:10px;font-size:17px}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--muted)}.status{font-size:12px;color:var(--muted)}.dot{display:inline-block;width:6px;height:6px;background:#769548;border-radius:50%;margin-right:6px}.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin:38px 0 28px}h1{font-size:clamp(28px,3.1vw,43px);line-height:1.25;letter-spacing:-1px;margin:8px 0 13px}h1 span{font-weight:400;color:#71815c}.hero p{margin:0;color:var(--muted);font-size:14px}.hero-note{text-align:right;min-width:180px;color:var(--muted);font-size:12px}.hero-note b{display:block;font:italic 25px Georgia,serif;color:var(--green);margin-bottom:5px}.settings{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:24px 28px}.field+.field{border-left:1px solid var(--line);padding-left:28px}label,.label{display:block;font-size:12px;color:var(--muted);margin-bottom:9px}.value-input{display:flex;align-items:center;gap:8px}.value-input input{width:112px;font-size:27px;line-height:1.3;font-weight:650;color:var(--ink);border:0;border-bottom:1px solid var(--line);background:transparent;border-radius:0;outline-offset:2px}.unit{font-size:13px;color:var(--muted)}input[type=range]{width:100%;accent-color:var(--green);margin:13px 0 0}.hint{font-size:11px;color:var(--muted);margin:7px 0 0}.presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.presets button,.reset{border:1px solid var(--line);border-radius:6px;padding:3px 10px;background:transparent;color:var(--muted);font-size:12px}.presets button:hover,.reset:hover{background:var(--lime);color:var(--ink)}#error{color:#a04735;margin:8px 0 0;min-height:20px;font-size:12px}.result{display:grid;grid-template-columns:.9fr 1.4fr;gap:26px;padding:25px 28px;border-radius:16px;background:var(--ink);color:#fafbf4;margin:14px 0 32px}.result .eyebrow{color:#b4c1ae}.result h2{font-size:15px;font-weight:400;margin:3px 0 0;color:#d8dfd1}.big{font-size:48px;letter-spacing:-2px;line-height:1.3;font-weight:650;margin:8px 0 3px;color:var(--lime)}.big small{font-size:17px;letter-spacing:0;margin-left:7px;font-weight:400}.result p{font-size:12px;margin:3px 0;color:#c1cdbd}.chartbox{display:flex;flex-direction:column;justify-content:center;min-width:0}.charttitle{display:flex;justify-content:space-between;font-size:11px;color:#c1cdbd}.chart{width:100%;height:102px;display:block;margin-top:8px}.axis{display:flex;justify-content:space-between;font-size:10px;color:#b1bfaa}.section-heading{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:16px}.section-heading h2{font-size:21px;margin:0 0 3px}.section-heading p{color:var(--muted);font-size:12px;margin:0}.legend{display:flex;gap:13px;align-items:center;font-size:11px;color:var(--muted);flex-wrap:wrap}.legend i{width:9px;height:9px;display:inline-block;border-radius:3px;margin-right:4px}.table-shell{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--paper)}.scroll{overflow:auto}table{border-collapse:separate;border-spacing:0;width:100%;min-width:880px;text-align:center;font-variant-numeric:tabular-nums}th{font-size:12px;font-weight:500;color:var(--muted);background:#efefe5;height:55px}th:first-child{width:158px;position:sticky;left:0;z-index:2}tbody th{background:var(--paper);text-align:left;padding:11px 18px;border-top:1px solid #e9e9de;height:62px;color:var(--ink)}tbody th span{display:block;font-size:10px;color:var(--muted);font-weight:400}td{padding:5px;border-top:1px solid #e9e9de}td button{width:100%;min-height:42px;border:1px solid transparent;border-radius:7px;background:var(--tone);color:var(--text);font-size:13px;font-weight:550;transition:transform .12s}td button:hover{transform:translateY(-2px);border-color:#8b9e69}td button[aria-pressed=true]{border:2px solid var(--ink);box-shadow:0 0 0 2px var(--paper)}.table-footer{padding:11px 18px;color:var(--muted);font-size:11px;border-top:1px solid var(--line)}.notes{display:grid;grid-template-columns:1fr 1fr;gap:35px;margin:25px 0 28px}.notes h3{font-size:12px;margin:0 0 7px}.notes p{font-size:12px;line-height:1.9;color:var(--muted);margin:0}.notes a{color:var(--green);text-underline-offset:3px}footer{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:17px;font-size:11px;color:var(--muted)}@media(max-width:750px){main{padding:20px 18px}.hero{margin:28px 0 22px}.hero-note{display:none}.settings{grid-template-columns:1fr 1fr;padding:20px;gap:20px}.field:first-child{grid-column:1/-1}.field+.field{padding:0;border:0}.field:first-child .value-input input{width:100px}.result{grid-template-columns:1fr;padding:22px;gap:18px}.big{font-size:43px}.section-heading{display:block}.legend{margin-top:12px}.notes{grid-template-columns:1fr;gap:18px}.status{font-size:10px}footer{gap:15px}.value-input input{width:90px;font-size:23px}}
+/* Compact numeric fields grow only when their value needs more room. */
+.field{min-width:0}.value-input{flex-wrap:wrap}.value-input input{width:var(--input-width,5ch);max-width:100%;min-width:0;flex:0 1 var(--input-width,5ch);font-variant-numeric:tabular-nums}.unit{white-space:nowrap;flex-shrink:0}
+@media(max-width:750px){.value-input input,.field:first-child .value-input input{width:var(--input-width,5ch);flex-basis:var(--input-width,5ch)}}
+@media(max-width:420px){.settings{grid-template-columns:1fr}.field:first-child{grid-column:auto}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div class="brand"><span class="mark" aria-hidden="true">↗</span>FIRE 计算器</div><div class="status"><span class="dot"></span>本地计算 · 离线可用</div></header>
+<section class="hero"><div><div class="eyebrow">FINANCIAL INDEPENDENCE / RETIRE EARLY</div><h1>让资产，<span>为自由计时。</span></h1><p>有多少积蓄，每年花多少，能自在生活多久？</p></div><div class="hero-note"><b>Make time your own.</b>用一张表，看清自己的选择。</div></section>
+<section class="settings" aria-label="计算参数">
+<div class="field"><label for="rate">预设年利率</label><div class="value-input"><input id="rate" type="number" min="-20" max="30" step="0.1" value="3"><span class="unit">% / 年</span></div><input id="rateRange" aria-label="年利率滑块" type="range" min="-5" max="15" step="0.1" value="3"><div class="hint">可输入 −20% 至 30%；全表随利率即时更新</div></div>
+<div class="field"><label for="assets">我的可投资资产</label><div class="value-input"><input id="assets" type="number" min="0.01" max="1000000" step="any" value="300"><span class="unit">万元</span></div><div class="presets"><button type="button" data-assets="100">100万</button><button type="button" data-assets="300">300万</button><button type="button" data-assets="500">500万</button><button type="button" data-assets="700">700万</button><button type="button" data-assets="1000">1000万</button></div></div>
+<div class="field"><label for="spend">我的每年总支出</label><div class="value-input"><input id="spend" type="number" min="0.0001" max="100000" step="any" value="10"><span class="unit">万元 / 年</span></div><p id="monthly" class="hint"></p><div class="presets"><button type="button" data-spend="6">简单</button><button type="button" data-spend="15">舒适</button><button type="button" data-spend="50">奢侈</button></div></div>
+</section><p id="error" role="alert"></p>
+<section class="result" aria-label="我的计算结果"><div aria-live="polite"><div class="eyebrow">YOUR FREEDOM HORIZON</div><h2 id="scenario"></h2><div class="big" id="duration"></div><p id="explain"></p><p id="income"></p></div><div class="chartbox"><div class="charttitle"><span>预计剩余资产</span><span id="chartTop"></span></div><svg class="chart" id="chart" viewBox="0 0 540 105" role="img" aria-label="剩余资产随时间变化趋势" preserveAspectRatio="none"></svg><div class="axis"><span>现在</span><span id="chartMid"></span><span id="chartEnd"></span></div></div></section>
+<section aria-labelledby="matrix-title"><div class="section-heading"><div><h2 id="matrix-title">你的资产，能覆盖哪种生活？</h2><p>资产 100万—1000万元，每 100万元一档；点击任意结果，查看对应测算。</p></div><div class="legend"><span><i style="background:#e2eec9"></i>花不完</span><span><i style="background:#edf0df"></i>≥ 30年</span><span><i style="background:#f3e9d3"></i>10–30年</span><span><i style="background:#f1dcd2"></i>＜10年</span></div></div><div class="table-shell"><div class="scroll"><table aria-label="不同资产与年支出的可维持年数"><thead><tr id="table-head"><th scope="col">年支出 ↓ / 资产 →</th></tr></thead><tbody id="matrix"></tbody></table></div><div class="table-footer">数字单位：年，约数保留一位小数。「花不完」表示在当前固定利率和固定支出假设下，收益足以覆盖支出。</div></div></section>
+<section class="notes"><div><h3>01 / 支出档位怎么选的？</h3><p>简朴 3.6万、简单 6万、普通 10万、舒适 15万、宽裕 20万、品质 30万、奢侈 50万、高消费 100万元 / 年。档位是便于比较的预算场景，并非官方分级；默认按一个支出单位计算，可以是个人，也可以是整个家庭。</p><p>参考：<a href="https://www.stats.gov.cn/sj/zxfb/202601/t20260119_1962321.html" target="_blank" rel="noopener noreferrer">国家统计局《2025年居民收入和消费支出情况》</a>，城镇居民人均年消费支出 35,869元。家庭人数、城市、住房与育儿会显著影响预算。</p></div><div><h3>02 / 计算口径</h3><p>年利率按有效年收益率处理，换算月利率 i = (1 + r)^(1/12) − 1，每月末支出年预算的 1/12。资产逐月计息；不足一个月按近似比例显示。无其他收入、支出不增长，未单独计入通胀、税费和市场波动。可输入扣除税费后的预期利率；如希望按购买力估算，可输入实际收益率。</p><p>「花不完」仅是固定模型的数学结果，不代表现实中的保本或永久安全；3% 是可调整的初始假设。</p></div></section>
+<footer><span>FIRE / 为生活留出选择的余地</span><button class="reset" id="reset" type="button">恢复默认值 ↺</button></footer>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const tiers = [[36000,'简朴'],[60000,'简单'],[100000,'普通'],[150000,'舒适'],[200000,'宽裕'],[300000,'品质'],[500000,'奢侈'],[1000000,'高消费']];
+const money = n => new Intl.NumberFormat('zh-CN',{maximumFractionDigits:0}).format(n);
+function monthlyRate(rate){return Math.expm1(Math.log1p(rate)/12)}
+function yearsToDepletion(principal,annualSpend,rate){
+  const i=monthlyRate(rate), payment=annualSpend/12;
+  if(i>0 && principal*i>=payment-1e-9)return Infinity;
+  if(Math.abs(i)<1e-12)return principal/annualSpend;
+  const months=-Math.log1p(-principal*i/payment)/Math.log1p(i);
+  // Round the mathematical horizon down, then calculate the final partial month.
+  const full=Math.floor(months), growth=Math.expm1(full*Math.log1p(i));
+  const balance=Math.max(0,principal*(1+growth)-payment*growth/i);
+  return (full+Math.min(1,Math.max(0,balance*(1+i)/payment)))/12;
+}
+function balanceAt(principal,annualSpend,rate,months){
+  const i=monthlyRate(rate);
+  if(Math.abs(i)<1e-12)return Math.max(0,principal-annualSpend/12*months);
+  const growth=Math.expm1(months*Math.log1p(i));
+  return Math.max(0,principal*(1+growth)-annualSpend/12*growth/i);
+}
+function formatYears(years){return !Number.isFinite(years)?'花不完':years<0.1?'＜0.1':years.toFixed(1)}
+function tone(years){return !Number.isFinite(years)?['#e2eec9','#49613a']:years>=30?['#edf0df','#64714b']:years>=10?['#f3e9d3','#8a713d']:['#f1dcd2','#9c6550']}
+for(let a=100;a<=1000;a+=100){const th=document.createElement('th');th.scope='col';th.textContent=a+'万';$('table-head').append(th)}
+function renderTable(rate,assets,spend){
+  const tbody=$('matrix');tbody.replaceChildren();
+  tiers.forEach(([cost,label])=>{
+    const row=document.createElement('tr'),head=document.createElement('th');head.scope='row';head.innerHTML=`${cost/10000}万元<span>${label} · 月均 ${money(cost/12)}元</span>`;row.append(head);
+    for(let a=100;a<=1000;a+=100){
+      const years=yearsToDepletion(a*10000,cost,rate),td=document.createElement('td'),button=document.createElement('button'),colors=tone(years);
+      button.type='button';button.textContent=formatYears(years);button.style.setProperty('--tone',colors[0]);button.style.setProperty('--text',colors[1]);button.setAttribute('aria-pressed',String(a===assets&&cost===spend));button.setAttribute('aria-label',`${a}万元资产，每年支出${cost/10000}万元，${Number.isFinite(years)?'约可维持'+formatYears(years)+'年':'在固定模型下花不完'}`);
+      button.addEventListener('click',()=>{$('assets').value=a;$('spend').value=cost/10000;update()});td.append(button);row.append(td);
+    }tbody.append(row);
+  });
+}
+function draw(principal,spend,rate,years){
+  const horizon=Number.isFinite(years)?Math.min(100,Math.max(1,Math.ceil(years))):50;
+  const values=Array.from({length:121},(_,k)=>balanceAt(principal,spend,rate,horizon*12*k/120));
+  const max=Math.max(principal,...values)*1.06;
+  const points=values.map((v,k)=>`${(k*4.5).toFixed(2)},${(100-v/max*94).toFixed(2)}`);
+  $('chart').innerHTML=`<defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d5e8a6" stop-opacity=".22"/><stop offset="1" stop-color="#d5e8a6" stop-opacity="0"/></linearGradient></defs><path d="M0 100H540 M0 50H540" stroke="#ffffff" stroke-opacity=".12" stroke-dasharray="3 5"/><path d="M${points.join(' L')} L540 105 L0 105Z" fill="url(#fill)"/><path d="M${points.join(' L')}" fill="none" stroke="#d5e8a6" stroke-width="2.5" vector-effect="non-scaling-stroke"/>`;
+  $('chartTop').textContent='起始 '+money(principal/10000)+'万元';$('chartMid').textContent=horizon/2+'年';$('chartEnd').textContent=horizon+'年';
+  $('chart').setAttribute('aria-label',`${horizon}年内剩余资产变化，期末约${money(values[120])}元`);
+}
+function update(){
+  ['rate','assets','spend'].forEach(id=>{const input=$(id);input.style.setProperty('--input-width',Math.max(4,String(input.value).length+1.5)+'ch')});
+  const rateInput=$('rate'),assetInput=$('assets'),spendInput=$('spend');
+  if([rateInput,assetInput,spendInput].some(input=>input.value===''||!input.validity.valid)){
+    $('error').textContent='请输入有效数值：年利率 −20%～30%，资产 0.01～1,000,000万元，年支出 0.0001～100,000万元。';
+    $('duration').textContent='—';$('scenario').textContent='等待有效参数';$('explain').textContent='';$('income').textContent='';$('chart').replaceChildren();return;
+  }
+  $('error').textContent='';const rate=Number(rateInput.value)/100,assets=Number(assetInput.value),spend=Number(spendInput.value)*10000,principal=assets*10000;
+  $('rateRange').value=Math.max(-5,Math.min(15,rate*100));
+  const years=yearsToDepletion(principal,spend,rate),monthlyIncome=principal*monthlyRate(rate);
+  $('monthly').textContent='月均约 '+money(spend/12)+'元 · 可按个人或家庭填写';
+  $('scenario').textContent=`${money(assets)}万元资产 · 每年花 ${Number((spend/10000).toFixed(8))}万元`;
+  $('duration').innerHTML=Number.isFinite(years)?`${formatYears(years)}<small>年，预计可维持</small>`:'花不完<small>收益覆盖支出</small>';
+  $('explain').textContent=Number.isFinite(years)?'保持当前利率和支出，资产将逐步消耗。':'在固定模型下，本金不会因当前支出而耗尽。';
+  $('income').textContent=`首月预计收益 ${money(monthlyIncome)}元 / 月支出 ${money(spend/12)}元`;
+  draw(principal,spend,rate,years);renderTable(rate,assets,spend);
+}
+['rate','assets','spend'].forEach(id=>$(id).addEventListener('input',update));
+$('rateRange').addEventListener('input',event=>{$('rate').value=event.target.value;update()});
+document.querySelectorAll('[data-assets]').forEach(button=>button.addEventListener('click',()=>{$('assets').value=button.dataset.assets;update()}));
+document.querySelectorAll('[data-spend]').forEach(button=>button.addEventListener('click',()=>{$('spend').value=button.dataset.spend;update()}));
+$('reset').addEventListener('click',()=>{$('rate').value=3;$('assets').value=300;$('spend').value=10;update()});
+update();
+</script>
+</body>
+</html>

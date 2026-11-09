@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="246" viewBox="0 0 420 246">
+  <defs>
+    <pattern id="masked" width="4" height="4" patternUnits="userSpaceOnUse">
+      <path d="M-1 1L1-1M0 4L4 0M3 5L5 3" stroke="#ddd4c6" stroke-width=".65"/>
+    </pattern>
+    <linearGradient id="scale">
+      <stop stop-color="#f3e5dc"/><stop offset="1" stop-color="#963d2e"/>
+    </linearGradient>
+  </defs>
+  <g font-family="ui-monospace, monospace" fill="#746a5d" font-size="9" letter-spacing="1.2">
+    <text x="113" y="25" text-anchor="middle">KEY POSITION →</text>
+    <text x="13" y="119" text-anchor="middle" transform="rotate(-90 13 119)">QUERY POSITION →</text>
+  </g>
+  <rect x="34" y="38" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="1.00"/>
+  <rect x="54" y="38" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="74" y="38" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="94" y="38" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="114" y="38" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="134" y="38" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="154" y="38" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="174" y="38" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="34" y="58" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.49"/>
+  <rect x="54" y="58" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.78"/>
+  <rect x="74" y="58" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="94" y="58" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="114" y="58" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="134" y="58" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="154" y="58" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="174" y="58" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="34" y="78" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.30"/>
+  <rect x="54" y="78" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.56"/>
+  <rect x="74" y="78" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.63"/>
+  <rect x="94" y="78" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="114" y="78" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="134" y="78" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="154" y="78" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="174" y="78" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="34" y="98" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.25"/>
+  <rect x="54" y="98" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.71"/>
+  <rect x="74" y="98" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.34"/>
+  <rect x="94" y="98" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.35"/>
+  <rect x="114" y="98" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="134" y="98" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="154" y="98" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="174" y="98" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="34" y="118" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.29"/>
+  <rect x="54" y="118" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.29"/>
+  <rect x="74" y="118" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.34"/>
+  <rect x="94" y="118" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.61"/>
+  <rect x="114" y="118" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.32"/>
+  <rect x="134" y="118" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="154" y="118" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="174" y="118" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="34" y="138" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.24"/>
+  <rect x="54" y="138" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.26"/>
+  <rect x="74" y="138" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.59"/>
+  <rect x="94" y="138" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.31"/>
+  <rect x="114" y="138" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.29"/>
+  <rect x="134" y="138" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.30"/>
+  <rect x="154" y="138" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="174" y="138" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="34" y="158" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.21"/>
+  <rect x="54" y="158" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.26"/>
+  <rect x="74" y="158" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.32"/>
+  <rect x="94" y="158" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.39"/>
+  <rect x="114" y="158" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.26"/>
+  <rect x="134" y="158" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.44"/>
+  <rect x="154" y="158" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.29"/>
+  <rect x="174" y="158" width="17" height="17" rx="2" fill="url(#masked)"/>
+  <rect x="34" y="178" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.19"/>
+  <rect x="54" y="178" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.24"/>
+  <rect x="74" y="178" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.29"/>
+  <rect x="94" y="178" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.28"/>
+  <rect x="114" y="178" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.52"/>
+  <rect x="134" y="178" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.29"/>
+  <rect x="154" y="178" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.26"/>
+  <rect x="174" y="178" width="17" height="17" rx="2" fill="#963d2e" fill-opacity="0.22"/>
+  <path d="M34 206v4h157v-4M219 38v157" stroke="#dcd5c8" fill="none"/>
+  <g fill="#746a5d" font-family="ui-monospace, monospace" font-size="9" letter-spacing="1.1">
+    <text x="112" y="226" text-anchor="middle">TOKEN 01–08</text>
+    <text x="247" y="54" fill="#963d2e">TRANSFORMER / 01</text>
+    <text x="247" y="164">ATTENTION WEIGHT</text>
+    <text x="247" y="194">LOW</text><text x="389" y="194" text-anchor="end">HIGH</text>
+  </g>
+  <g fill="#26231f" font-family="Georgia, serif" font-size="32" letter-spacing="-.7">
+    <text x="245" y="94">Causal</text>
+    <text x="245" y="128">attention</text>
+  </g>
+  <rect x="247" y="174" width="142" height="5" rx="2.5" fill="url(#scale)"/>
+</svg>
